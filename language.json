@@ -1,11 +1,19 @@
 {
-  "test": {
-    "en":"test",
-    "se":"testar"
+  "project-name": {
+    "en":"Lifeganizer",
+    "se":"Lifeganizer"
   },
-  "key": {
-    "en":"bla",
-    "se":"bla"
+  "about": {
+    "en":"About",
+    "se":"Om oss"
+  },
+  "login": {
+    "en":"Login",
+    "se":"Logga in"
+  },
+  "pop-up-button": {
+    "en":"Login",
+    "se":"Logga in"
   }
 
 }
