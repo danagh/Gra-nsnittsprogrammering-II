@@ -3,5 +3,9 @@
     "en":"test",
     "se":"testar"
   },
+  "key": {
+    "en":"bla",
+    "se":"bla"
+  }
 
 }
