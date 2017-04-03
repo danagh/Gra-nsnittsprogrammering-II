@@ -13,8 +13,9 @@ body {
 
 .header {
     background: #FFF;
-    height: 500px;
-    line-height:50px;
+    height: 100px;
+    width: 100%;
+    line-height:90px;
     /* Cancel out unneeded .card properties */
     border-width: 0 0 2px 0;
     border-radius: 0;
@@ -22,8 +23,14 @@ body {
     font-weight: 300;
     color: #333;
     overflow: visible;
-    /*position: fixed;*/
-    transition: top 0.2s ease-in-out;
+    position: fixed;
+    z-index: 999;
+    transition: height 0.3s;
+}
+
+.header.smaller {
+    height: 50px;
+    line-height: 40px;
 }
 
 .nav-up {
@@ -34,9 +41,21 @@ body {
     display:inline-block;
     margin-top:0;
     margin-left:5px;
-    /*font-family: 'Lobster', sans-serif;*/
+    font-family: 'Lobster', sans-serif;
     margin-bottom: 0;
+    font-size: 50px;
+    transition: font-size 0.6s;
 }
+
+.header-text.smaller {
+    display:inline-block;
+    margin-top:0;
+    margin-left:5px;
+    font-family: 'Lobster', sans-serif;
+    margin-bottom: 0;
+    font-size: 30px;
+}
+
 .header-text a {
     text-decoration: none;
     color: brown;
@@ -47,27 +66,36 @@ body {
 }
 
 .about {
-    font-size: 16px;
+    font-size: 20px;
     text-decoration: underline;
     /*vertical-align: top;*/
     position:relative;
-    height:40px;
+    /*height:40px;*/
     margin: 5px 200px 0 0;
     overflow: hidden;
     display:inline-block;
+    transition: all 0.3s;
+}
+
+.about.smaller {
+    font-size: 16px;
 }
 
 .login {
-    font-size: 16px;
+    font-size: 20px;
     text-decoration: underline;
     /*vertical-align: top;*/
     position:relative;
-    height:40px;
+    /*height:40px;*/
     margin: 5px 100px 0 0;
     overflow: hidden;
     display:inline-block;
+    transition: all 0.3s;
 }
 
+.login.smaller {
+    font-size: 16px;
+}
 
 
 .first-main-div {
@@ -76,6 +104,7 @@ body {
 }
 
 .main-picture {
+    margin-top:100px;
     opacity: 1;
     display: block;
     width:100%;
