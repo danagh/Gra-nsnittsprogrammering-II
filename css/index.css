@@ -22,13 +22,19 @@ body {
     font-weight: 300;
     color: #333;
     overflow: visible;
+    /*position: fixed;*/
+    transition: top 0.2s ease-in-out;
+}
+
+.nav-up {
+    top: -500px;
 }
 
 .header-text {
     display:inline-block;
     margin-top:0;
     margin-left:5px;
-    font-family: 'Lobster', sans-serif;
+    /*font-family: 'Lobster', sans-serif;*/
     margin-bottom: 0;
 }
 .header-text a {
