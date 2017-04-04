@@ -103,6 +103,15 @@ body {
     width:100%;
 }
 
+.about-text{
+    margin-top: 0px;
+}
+
+.text-area{
+    margin: 100px auto;
+    width: 70%;
+}
+
 .main-picture {
     margin-top:100px;
     opacity: 1;
