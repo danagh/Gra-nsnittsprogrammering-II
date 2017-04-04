@@ -16,6 +16,12 @@ function createEventHandlers() {
         });
     });
 
+    $(document).on('click', '.header-text', function() {
+        document.querySelector('#top').scrollIntoView({
+            behavior: 'smooth'
+        });
+    });
+
     $(document).on('click', '.pop-up-button', function () {
        $('.pop-up-button').animate({'width':'388px','height':'315px'}, 200);
        $('.pop-up-button-text').animate({'height':'200px'}, 500);

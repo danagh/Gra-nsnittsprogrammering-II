@@ -69,6 +69,7 @@ body {
 }
 
 .header-text {
+    color:brown;
     display:inline-block;
     margin-top:0;
     margin-left:5px;
@@ -79,6 +80,7 @@ body {
 }
 
 .header-text.smaller {
+    color:brown;
     display:inline-block;
     margin-top:0;
     margin-left:5px;
@@ -251,6 +253,10 @@ input[type=text], [type=password]{
     display: none;
     color: red;
     padding: 2px 27px;
+}
+
+.login-div-body{
+    margin-top: 100px;
 }
 
 .login-button {
