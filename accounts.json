@@ -1,0 +1,10 @@
+{
+  "account1": {
+    "email":"martin@magto.se",
+    "password":"martin"
+  },
+  "account2": {
+    "email": "dana.ghrabeti@gmail.com",
+    "password": "dana"
+  }
+}

@@ -23,11 +23,26 @@ function createEventHandlers() {
     });
 
     $(document).on('click', '.pop-up-button', function () {
-       $('.pop-up-button').animate({'width':'388px','height':'315px'}, 200);
+       $('.pop-up-button').animate({'width':'388px','height':'350px'}, 200);
+       $('.pop-up-button').addClass('clicked');
        // $('.pop-up-button-text').animate({'height':'300px'}, 500);
        var hiddenDiv = document.getElementsByClassName('pop-up-register')[0];
        hiddenDiv.style.display = 'inline-block';
+    });
 
+    $(document).on('click', '.main-picture', function() {
+        if($('.pop-up-button').hasClass('clicked')) {
+            $('.pop-up-button').animate({'width':'316.8px','height':'21.9px'}, 200);
+            var hiddenDiv = document.getElementsByClassName('pop-up-register')[0];
+            hiddenDiv.style.display = 'none';
+            $('.pop-up-button').removeClass('clicked');
+        }
+    });
+
+    $(document).on('click', '.login-button', function () {
+        var enteredEmail = document.getElementsByClassName('username-field')[0].value;
+        var enteredPassword = document.getElementsByClassName('password-field')[0].value;
+        verifyEmailAndPassword(enteredEmail, enteredPassword);
     });
 }
 
@@ -54,13 +69,24 @@ function changeHeaderSize() {
     });
 }
 
-function showLoginOverlay() {
-    //show the overlay that greys everything out
-    var overlay = document.getElementsByClassName("overlay")[0];
-    overlay.style.display = "block";
+function verifyEmailAndPassword(enteredEmail, enteredPassword) {
+    $.getJSON("./accounts.json", function(data) {
+       var accounts = data;
+       if (enteredEmail == accounts.account1.email && enteredPassword == accounts.account1.password) {
+           window.location.href = 'Creator_hub.html';
+       }
+       else if (enteredEmail == accounts.account2.email && enteredPassword == accounts.account2.password) {
+           window.location.href = 'Creator_hub.html';
+       }
+       else {
+           document.getElementsByClassName("username-field")[0].value= ""; //update username and password fields
+           document.getElementsByClassName("password-field")[0].value= "";
+           var errorMsg = getText("error-login");
+           console.log(errorMsg);
+           document.getElementsByClassName("error-login")[0].innerHTML =errorMsg;
 
-
-
+       }
+    });
 }
 
 

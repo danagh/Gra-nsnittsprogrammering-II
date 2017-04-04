@@ -194,12 +194,13 @@ body {
     /*max-height: 500px;*/
     opacity: 0;
     position: absolute;
-    top: 50%;
+    top: 40%;
     left: 50%;
     /*font-size: 16px;*/
     padding: 16px 32px;
     color:white;
     transform: translate(-50%, -50%);
+    width: 20%;
     -ms-transform: translate(-50%, -50%);
 }
 
@@ -259,9 +260,10 @@ body {
 
 .get-started {
     color: white;
-    font-size: 14px;
+    font-size: 20px;
+    margin-bottom: 0px;
+    margin-top: 1px;
     /*padding: 16px 32px;*/
-
 }
 
 .sign-up-box {
@@ -290,7 +292,7 @@ body {
     content: '';
     /*display: none;*/
     height: 2px;
-    margin: 0.75em auto 0 auto;
+    margin: 0.75em auto 0.75em auto;
     position: relative;
     width: 10em;
 }
@@ -317,21 +319,32 @@ input[type=text], [type=password]{
 }
 
 .error-login {
-    display: none;
+    display: block;
+    height: 20px;
+    /*font-size: 16px;*/
     color: red;
+    margin-top:5px;
+    /*margin-bottom:30px;*/
+    /*margin-bottom:0px;*/
     padding: 2px 27px;
+    text-align: center;
 }
 
 .login-div-body{
     margin-top: 100px;
+    text-align:center;
 }
 
 .login-button {
-    margin-left:35%;
+    /*position: relative;*/
+    margin-left:0;
     background-color: #4CAF50;
     color: white;
+    /*padding: 12px 20px;*/
     padding: 12px 20px;
-    margin-top:20px;
+    /*margin: 8px 30px;*/
+    margin-top: 30px;
+    margin-bottom: 5px;
     /*margin: 8px 30px;*/
     border: none;
     cursor: pointer;
