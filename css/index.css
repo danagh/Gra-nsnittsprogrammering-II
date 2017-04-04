@@ -156,6 +156,8 @@ body {
 }
 
 .pop-up-button {
+    overflow:hidden;
+    background-color:#4CAF50;
     text-align:center;
     transition: 0.5s ease;
     /*max-height: 500px;*/
@@ -163,17 +165,50 @@ body {
     position: absolute;
     top: 50%;
     left: 50%;
+    /*font-size: 16px;*/
+    padding: 16px 32px;
+    color:white;
     transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%)
+    -ms-transform: translate(-50%, -50%);
 }
 
 .pop-up-register {
     display:none;
-    position: relative;
-    margin: 0 auto;
 }
 
-.create-email-field {
+.create-email-field, .create-password-field {
+    width: 75%;
+    margin-top:10px;
+    margin-bottom: 10px;
+    margin-right:10%;
+    margin-left:10%;
+    padding: 13px 20px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    background-color: white;
+    box-sizing: border-box;
+    color: black;
+    font-size:14px
+}
+
+.register-button {
+    width: 75%;
+    margin-left:10%;
+    margin-right:10%;
+    background-color: white;
+    color: #4CAF50;
+    padding: 12px 20px;
+    margin-top:20px;
+    /*margin: 8px 30px;*/
+    border: 1px white;
+    cursor: pointer;
+    /*height: 10%;*/
+    font-weight: bold;
+    font-size: medium;
+}
+
+.error-login, .error-login2 {
+    color: red;
     display:none;
 }
 
@@ -191,11 +226,11 @@ body {
 
 }
 
-.pop-up-button-text {
-    background-color: #4CAF50;
+.get-started {
     color: white;
-    font-size: 16px;
-    padding: 16px 32px;
+    font-size: 14px;
+    /*padding: 16px 32px;*/
+
 }
 
 .sign-up-box {
@@ -222,7 +257,7 @@ body {
 .register-vertical-line {
     background: black;
     content: '';
-    display: none;
+    /*display: none;*/
     height: 2px;
     margin: 0.75em auto 0 auto;
     position: relative;
@@ -233,10 +268,7 @@ body {
 
     margin: 20px 30px 0 30px;
     /*padding: 10px;*/
-    width: 50%;
-}
-
-input[type=text], [type=password]{
+    /*width: 50%;*/
     width: 30%;
     margin-right:50%;
     margin-left:35%;
@@ -247,6 +279,10 @@ input[type=text], [type=password]{
     box-sizing: border-box;
     color: black;
     font-size:14px
+}
+
+input[type=text], [type=password]{
+
 }
 
 .error-login {

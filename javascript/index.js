@@ -24,7 +24,7 @@ function createEventHandlers() {
 
     $(document).on('click', '.pop-up-button', function () {
        $('.pop-up-button').animate({'width':'388px','height':'315px'}, 200);
-       $('.pop-up-button-text').animate({'height':'200px'}, 500);
+       // $('.pop-up-button-text').animate({'height':'300px'}, 500);
        var hiddenDiv = document.getElementsByClassName('pop-up-register')[0];
        hiddenDiv.style.display = 'inline-block';
 
