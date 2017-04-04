@@ -1,15 +1,46 @@
+/* =============================================================================
+  VIDEO
+============================================================================= */
+
+.video {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 1;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+
+/* =============================================================================
+  HTML, BODY
+============================================================================= */
+
 html,
 body {
     height: 100%;
     min-width: 800px;
 }
 
+@font-face {
+    font-family: "FontAwesome";
+    src: url("../fonts/fontawesome-webfont.ttf");
+}
+
+
 body {
     display: flex;
     flex-direction: column;
     margin: 0;
     background: #EEE;
+    font-family:"FontAwesome";
 }
+
 
 .overlay{
     display: none;
