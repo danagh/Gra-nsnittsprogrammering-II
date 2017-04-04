@@ -12,12 +12,36 @@
     "se":"Logga in"
   },
   "pop-up-button": {
-    "en":"Login",
-    "se":"Logga in"
+    "en":"Get started",
+    "se":"Starta här"
   },
   "about-text": {
     "en":"Balbalblablalb",
     "se":"blablalblabl"
+  },
+  "sign-in": {
+    "en":"Sign in",
+    "se":"Logga in"
+  },
+  "login-button": {
+    "en":"Log in",
+    "se":"Logga in"
+  },
+  "error-login": {
+    "en":"Wrong username or password",
+    "se":"Fel användarnamn eller lösenord"
+  },
+  "register-button": {
+    "en":"Register",
+    "se":"Registrera dig"
+  },
+  "error-register": {
+    "en":"The entered email address is already taken",
+    "se":"Email-adressen är redan upptagen"
+  },
+  "error-register2": {
+    "en":"The entered passwords did not match",
+    "se":"De ifyllda lösenorden matchade inte varandra"
   }
 
 }

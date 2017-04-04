@@ -11,6 +11,37 @@ body {
     background: #EEE;
 }
 
+.overlay{
+    display: none;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    /*brings it on top*/
+    z-index: 1000;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+}
+
+.login-box {
+    --h: 300px;
+    --w: 500px;
+    background: transparent;
+    /*border: 1px solid #888;*/
+    width: var(--w);
+    height: var(--h);
+    /*center box*/
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    /*-half of height and width to place in actual center*/
+    margin-left: calc(var(--w) / -2);
+    margin-top: calc(var(--h) / -2);
+}
+
+
+
 .header {
     background: #FFF;
     height: 100px;
@@ -108,7 +139,7 @@ body {
 }
 
 .text-area{
-    margin: 100px auto;
+    margin: 50px auto;
     width: 70%;
 }
 
@@ -123,13 +154,25 @@ body {
 }
 
 .pop-up-button {
+    text-align:center;
     transition: 0.5s ease;
+    /*max-height: 500px;*/
     opacity: 0;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     -ms-transform: translate(-50%, -50%)
+}
+
+.pop-up-register {
+    display:none;
+    position: relative;
+    margin: 0 auto;
+}
+
+.create-email-field {
+    display:none;
 }
 
 .login,.about,.pop-up-button:hover {
@@ -151,4 +194,80 @@ body {
     color: white;
     font-size: 16px;
     padding: 16px 32px;
+}
+
+.sign-up-box {
+    background-color: #4CAF50;
+    color: white;
+    display: none;
+}
+
+.sign-in, .about-text {
+    margin-top:50px;
+    text-align:center;
+}
+
+.vertical-line {
+    background: black;
+    content: '';
+    display: block;
+    height: 2px;
+    margin: 0.75em auto 0 auto;
+    position: relative;
+    width: 10em;
+}
+
+.register-vertical-line {
+    background: black;
+    content: '';
+    display: none;
+    height: 2px;
+    margin: 0.75em auto 0 auto;
+    position: relative;
+    width: 10em;
+}
+
+.username-field, .password-field {
+
+    margin: 20px 30px 0 30px;
+    /*padding: 10px;*/
+    width: 50%;
+}
+
+input[type=text], [type=password]{
+    width: 30%;
+    margin-right:50%;
+    margin-left:35%;
+    padding: 13px 20px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    background-color: white;
+    box-sizing: border-box;
+    color: black;
+    font-size:14px
+}
+
+.error-login {
+    display: none;
+    color: red;
+    padding: 2px 27px;
+}
+
+.login-button {
+    margin-left:35%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 20px;
+    margin-top:20px;
+    /*margin: 8px 30px;*/
+    border: none;
+    cursor: pointer;
+    width: 30%;
+    /*height: 10%;*/
+    font-weight: bold;
+    font-size: medium;
+}
+
+.about-text {
+
 }
