@@ -6,8 +6,8 @@ $(document).ready(function() {
 function createEventHandlers() {
     $(document).on('click', '.about', function(){
         document.querySelector('#about-id').scrollIntoView({
-            behavior: 'smooth'
-        });
+                behavior: 'smooth'
+            });
     });
 }
 
