@@ -14,6 +14,7 @@ body {
     margin-right: 2vh;
     display: flex;
     flex-grow: 1;
+    height: 95vh;
 }
 
 @font-face {
@@ -26,16 +27,21 @@ body {
 ============================================================================= */
 
 .left-side {
-    /*marign-top: 50px;*/
+    marign-top: 50px;
     display: flex;
     flex-grow: 1;
     flex-direction: column;
     flex-shrink: 0;
     width:25%;
-    height: 99vh;
     background-color: green;
     overflow-y: scroll;
     overflow-x: hidden;
+}
+
+.drag-window {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 99vh;
 }
 
 .middle-side {
@@ -60,6 +66,7 @@ body {
 .user-categories {
     overflow: hidden;
     width: 100%;
+    z-index: 1;
 }
 
 .user-categories, .dropbtn {
