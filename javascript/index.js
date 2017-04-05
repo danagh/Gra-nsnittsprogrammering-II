@@ -44,6 +44,12 @@ function createEventHandlers() {
         var enteredPassword = document.getElementsByClassName('password-field')[0].value;
         verifyEmailAndPassword(enteredEmail, enteredPassword);
     });
+
+    $(document).keydown(function(event) { //if the return-button is pressed instead
+        if(event.keyCode == 13) {
+            $('.login-button').click();
+        }
+    });
 }
 
 function changeHeaderSize() {

@@ -26,6 +26,7 @@ body {
 ============================================================================= */
 
 .left-side {
+    /*marign-top: 50px;*/
     display: flex;
     flex-grow: 1;
     flex-direction: column;
@@ -37,14 +38,23 @@ body {
     overflow-x: hidden;
 }
 
-.right-side {
-    width: 75%;
+.middle-side {
+    width: 50%;
     background-color: blue;
     display: flex;
     /*flex-grow:0;*/
     position: relative;
     overflow: auto;
     overflow-y:hidden;
+}
+
+.right-side {
+    display: flex;
+    flex-grow: 0;
+    width: 25%;
+    overflow: auto;
+    position: relative;
+    background-color: brown;
 }
 
 .user-categories {
@@ -79,6 +89,7 @@ body {
 }
 
 .dropbtn {
+    justify-content: center;
     width: 100%;
     padding: 12px 20px;
 }
@@ -96,11 +107,12 @@ body {
 }
 
 .weather-option {
-    width: 180px;
+    width: 90%;
+    height: 10%;
     margin: 10px 10px 10px;
     position: relative; /* So .drink-quantity can have position: absolute */
     background: red;
-    border: 2px solid #BBB;
+    border: 1px solid #BBB;
 }
 /* =============================================================================
   Header
