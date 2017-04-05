@@ -54,6 +54,36 @@ html *:after { box-sizing: inherit; }
 }
 .cloud:nth-child(2):after { background: #fff; }
 
+.cloud-still {
+    position: absolute;
+    z-index: 1;
+    top: 40%;
+    left: 100%;
+    width: 3.6875em;
+    height: 3.6875em;
+    margin: -1.84375em;
+    background: currentColor;
+    border-radius: 50%;
+    box-shadow:
+            -2.1875em 0.6875em 0 -0.6875em #fff,
+            2.0625em 0.9375em 0 -0.9375em #fff,
+            0 0 0 0.375em #fff,
+            -2.1875em 0.6875em 0 -0.3125em #fff,
+            2.0625em 0.9375em 0 -0.5625em #fff;
+}
+
+.cloud-still:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: -0.5em;
+    display: block;
+    width: 4.5625em;
+    height: 1em;
+    background: currentColor;
+    box-shadow: 0 0.4375em 0 -0.0625em #fff;
+}
+
 .sun {
     position: absolute;
     top: 50%;
@@ -69,8 +99,8 @@ html *:after { box-sizing: inherit; }
 
 .sun-still {
     position: absolute;
-    top: 50%;
-    left: 50%;
+    top: 40%;
+    left: 40%;
     width: 2.5em;
     height: 2.5em;
     margin: -1.25em;
@@ -109,7 +139,7 @@ html *:after { box-sizing: inherit; }
 .rays:before {
     transform: rotate(120deg);
 }
-.cloud + .sun {
+.cloud + .sun + .cloud-still {
     margin: -2em 1em;
 }
 

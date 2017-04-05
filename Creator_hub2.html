@@ -38,15 +38,14 @@
         <!--more here-->
         <div class="drag-window" id="scroll">
             <div class="weather-options">
-                <div class="weather-option">
+                <div class="weather-option"  draggable="true" ondragstart="drag(event)">
                     <div class="icon sunny">
                         <div class="sun-still">
                             <div class="rays"></div>
                         </div>
                     </div>
-                    <div class="icon rainy">
-                        <div class="cloud"></div>
-                        <div class="rain"></div>
+                    <div class="icon cloudy">
+                        <div class="cloud-still"></div>
                     </div>
                 </div>
                 <div class="weather-option">Option</div>
@@ -81,7 +80,7 @@
             </div>
         </div>
     </div>
-    <div class="middle-side">
+    <div class="middle-side" ondrop = "drop(event)" ondragover = "allowDrop(event)">
 
     </div>
 
