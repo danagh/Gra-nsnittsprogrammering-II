@@ -11,7 +11,6 @@ function createEventHandlers() {
             $('.dropdown-content').addClass('show');
         }
     });
-
     window.onclick = function(e) {
         if (!e.target.matches('.dropbtn')) {
             var myDropdown = $(".dropdown-content");
@@ -20,4 +19,5 @@ function createEventHandlers() {
             }
         }
     }
+
 }

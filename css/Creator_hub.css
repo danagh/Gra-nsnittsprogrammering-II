@@ -31,9 +31,10 @@ body {
     flex-direction: column;
     flex-shrink: 0;
     width:25%;
+    height: 99vh;
     background-color: green;
-    overflow: auto;
     overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 .right-side {
