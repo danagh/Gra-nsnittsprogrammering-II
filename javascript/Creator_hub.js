@@ -23,12 +23,7 @@ function createEventHandlers() {
 
 }
 
-// $(function(){
-//     // Find selected div
-//     var selected = $('#scroll .selected');
-//     // Scroll container to offset of the selected div
-//     selected.parent().parent().scrollTop(selected[0].offsetTop);
-// });
+
 
 
 function addAttributesToWeatherOptionDiv() {
@@ -72,3 +67,4 @@ function drop(ev) {
 
 
 }
+

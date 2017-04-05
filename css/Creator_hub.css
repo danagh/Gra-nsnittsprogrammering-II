@@ -27,7 +27,7 @@ body {
 ============================================================================= */
 
 .left-side {
-    marign-top: 50px;
+    marign-top: 5vh;
     display: flex;
     flex-grow: 1;
     flex-direction: column;
@@ -127,7 +127,8 @@ body {
 
 .header {
     background: #FFF;
-    height: 50px;
+    min-height: 50px;
+    height: 5vh;
     width: 100%;
     line-height:40px;
     /* Cancel out unneeded .card properties */
