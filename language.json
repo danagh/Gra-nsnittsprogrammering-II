@@ -46,6 +46,10 @@
   "dropdown-button": {
     "en":"Select",
     "se":"Välj"
+  },
+  "logout": {
+    "en":"Logout",
+    "se":"Logga ut"
   }
 
 }

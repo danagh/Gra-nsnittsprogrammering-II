@@ -2,11 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d0310a70-599f-4173-84ca-a002e6e360f6" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/javascript/hub.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Creator_hub.html" afterPath="$PROJECT_DIR$/Creator_hub.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/css/index.css" afterPath="$PROJECT_DIR$/css/index.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Creator_hub2.html" afterPath="$PROJECT_DIR$/Creator_hub2.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/css/Creator_hub.css" afterPath="$PROJECT_DIR$/css/Creator_hub.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/language.json" afterPath="$PROJECT_DIR$/language.json" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -26,8 +25,8 @@
           <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/index.html">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="240">
-                  <caret line="16" column="6" lean-forward="false" selection-start-line="16" selection-start-column="6" selection-end-line="16" selection-end-column="6" />
+                <state relative-caret-position="294">
+                  <caret line="21" column="30" lean-forward="false" selection-start-line="21" selection-start-column="21" selection-end-line="21" selection-end-column="30" />
                   <folding />
                 </state>
               </provider>
@@ -47,7 +46,7 @@
             <entry file="file://$PROJECT_DIR$/css/hub.css">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="1080">
-                  <caret line="72" column="80" lean-forward="true" selection-start-line="72" selection-start-column="80" selection-end-line="72" selection-end-column="80" />
+                  <caret line="72" column="80" lean-forward="false" selection-start-line="72" selection-start-column="80" selection-end-line="72" selection-end-column="80" />
                   <folding />
                 </state>
               </provider>
@@ -56,8 +55,8 @@
           <file leaf-file-name="index.css" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/css/index.css">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="135">
-                  <caret line="9" column="5" lean-forward="true" selection-start-line="9" selection-start-column="5" selection-end-line="9" selection-end-column="5" />
+                <state relative-caret-position="469">
+                  <caret line="127" column="0" lean-forward="false" selection-start-line="127" selection-start-column="0" selection-end-line="129" selection-end-column="1" />
                   <folding />
                 </state>
               </provider>
@@ -66,8 +65,20 @@
           <file leaf-file-name="language.json" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/language.json">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="15">
-                  <caret line="1" column="3" lean-forward="false" selection-start-line="1" selection-start-column="3" selection-end-line="1" selection-end-column="15" />
+                <state relative-caret-position="733">
+                  <caret line="49" column="13" lean-forward="true" selection-start-line="49" selection-start-column="13" selection-end-line="49" selection-end-column="13" />
+                  <folding>
+                    <marker date="1491389557000" expanded="true" signature="782:954" ph="{&quot;en&quot;: &quot;The entered passwords did not match&quot;...}" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="Creator_hub2.html" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/Creator_hub2.html">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="450">
+                  <caret line="30" column="42" lean-forward="true" selection-start-line="30" selection-start-column="42" selection-end-line="30" selection-end-column="42" />
                   <folding />
                 </state>
               </provider>
@@ -76,12 +87,22 @@
         </leaf>
       </split-first>
       <split-second>
-        <leaf>
-          <file leaf-file-name="index.html" pinned="false" current-in-tab="true">
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+          <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/index.html">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="159">
-                  <caret line="48" column="0" lean-forward="true" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
+                <state relative-caret-position="324">
+                  <caret line="29" column="6" lean-forward="true" selection-start-line="29" selection-start-column="6" selection-end-line="29" selection-end-column="6" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="Creator_hub.css" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/css/Creator_hub.css">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="700">
+                  <caret line="106" column="16" lean-forward="false" selection-start-line="106" selection-start-column="16" selection-end-line="106" selection-end-column="16" />
                   <folding />
                 </state>
               </provider>
@@ -90,7 +111,7 @@
           <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/javascript/index.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="302">
+                <state relative-caret-position="5">
                   <caret line="24" column="43" lean-forward="false" selection-start-line="24" selection-start-column="43" selection-end-line="24" selection-end-column="43" />
                   <folding />
                 </state>
@@ -131,6 +152,7 @@
       <find>username-</find>
       <find>error-</find>
       <find>nav-up</find>
+      <find>header-te</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -139,13 +161,15 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/language.json" />
         <option value="$PROJECT_DIR$/javascript/index.js" />
         <option value="$PROJECT_DIR$/css/hub.css" />
         <option value="$PROJECT_DIR$/javascript/hub.js" />
         <option value="$PROJECT_DIR$/Creator_hub.html" />
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/css/index.css" />
+        <option value="$PROJECT_DIR$/language.json" />
+        <option value="$PROJECT_DIR$/Creator_hub2.html" />
+        <option value="$PROJECT_DIR$/css/Creator_hub.css" />
       </list>
     </option>
   </component>
@@ -176,8 +200,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -275,11 +299,14 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JavaScript Debug.index.html">
+  <component name="RunManager" selected="JavaScript Debug.Creator_hub2.html">
     <configuration default="false" name="index.html" type="JavascriptDebugType" factoryName="JavaScript Debug" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/Gra-nsnittsprogrammering-II/index.html">
       <method />
     </configuration>
     <configuration default="false" name="Creator_hub.html" type="JavascriptDebugType" factoryName="JavaScript Debug" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/Gra-nsnittsprogrammering-II/Creator_hub.html">
+      <method />
+    </configuration>
+    <configuration default="false" name="Creator_hub2.html" type="JavascriptDebugType" factoryName="JavaScript Debug" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/Gra-nsnittsprogrammering-II/Creator_hub2.html">
       <method />
     </configuration>
     <configuration default="true" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application">
@@ -348,14 +375,16 @@
       <recursive>false</recursive>
       <method />
     </configuration>
-    <list size="2">
+    <list size="3">
       <item index="0" class="java.lang.String" itemvalue="JavaScript Debug.index.html" />
       <item index="1" class="java.lang.String" itemvalue="JavaScript Debug.Creator_hub.html" />
+      <item index="2" class="java.lang.String" itemvalue="JavaScript Debug.Creator_hub2.html" />
     </list>
     <recent_temporary>
-      <list size="2">
-        <item index="0" class="java.lang.String" itemvalue="JavaScript Debug.index.html" />
-        <item index="1" class="java.lang.String" itemvalue="JavaScript Debug.Creator_hub.html" />
+      <list size="3">
+        <item index="0" class="java.lang.String" itemvalue="JavaScript Debug.Creator_hub2.html" />
+        <item index="1" class="java.lang.String" itemvalue="JavaScript Debug.index.html" />
+        <item index="2" class="java.lang.String" itemvalue="JavaScript Debug.Creator_hub.html" />
       </list>
     </recent_temporary>
   </component>
@@ -372,12 +401,13 @@
       <workItem from="1491291397011" duration="4278000" />
       <workItem from="1491296807563" duration="3389000" />
       <workItem from="1491302932506" duration="5859000" />
-      <workItem from="1491385768551" duration="2864000" />
+      <workItem from="1491385768551" duration="3302000" />
+      <workItem from="1491389313012" duration="1202000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="16390000" />
+    <option name="totallyTimeSpent" value="18030000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="4" y="22" width="1676" height="1028" extended-state="6" />
@@ -437,6 +467,56 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/Creator_hub.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="27" column="103" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="47" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css/hub.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1080">
+          <caret line="72" column="80" lean-forward="true" selection-start-line="72" selection-start-column="80" selection-end-line="72" selection-end-column="80" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/language.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="3" lean-forward="false" selection-start-line="1" selection-start-column="3" selection-end-line="1" selection-end-column="15" />
+          <folding>
+            <marker date="1491389557000" expanded="true" signature="782:954" ph="{&quot;en&quot;: &quot;The entered passwords did not match&quot;...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css/index.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="20" column="15" lean-forward="true" selection-start-line="20" selection-start-column="15" selection-end-line="20" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="16" column="6" lean-forward="false" selection-start-line="16" selection-start-column="6" selection-end-line="16" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/javascript/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="24" column="43" lean-forward="false" selection-start-line="24" selection-start-column="43" selection-end-line="24" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
@@ -473,7 +553,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
           <caret line="1" column="3" lean-forward="false" selection-start-line="1" selection-start-column="3" selection-end-line="1" selection-end-column="15" />
-          <folding />
+          <folding>
+            <marker date="1491389557000" expanded="true" signature="782:954" ph="{&quot;en&quot;: &quot;The entered passwords did not match&quot;...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -513,9 +595,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -523,7 +602,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <marker date="1491389557000" expanded="true" signature="782:954" ph="{&quot;en&quot;: &quot;The entered passwords did not match&quot;...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -563,9 +644,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -573,7 +651,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <marker date="1491389557000" expanded="true" signature="782:954" ph="{&quot;en&quot;: &quot;The entered passwords did not match&quot;...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -581,9 +661,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -591,7 +668,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
           <caret line="3" column="0" lean-forward="true" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -606,39 +682,57 @@
     <entry file="file://$PROJECT_DIR$/css/hub.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1080">
-          <caret line="72" column="80" lean-forward="true" selection-start-line="72" selection-start-column="80" selection-end-line="72" selection-end-column="80" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/language.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" column="3" lean-forward="false" selection-start-line="1" selection-start-column="3" selection-end-line="1" selection-end-column="15" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/css/index.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="5" lean-forward="true" selection-start-line="9" selection-start-column="5" selection-end-line="9" selection-end-column="5" />
+          <caret line="72" column="80" lean-forward="false" selection-start-line="72" selection-start-column="80" selection-end-line="72" selection-end-column="80" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/javascript/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="302">
+        <state relative-caret-position="5">
           <caret line="24" column="43" lean-forward="false" selection-start-line="24" selection-start-column="43" selection-end-line="24" selection-end-column="43" />
           <folding />
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/language.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="733">
+          <caret line="49" column="13" lean-forward="true" selection-start-line="49" selection-start-column="13" selection-end-line="49" selection-end-column="13" />
+          <folding>
+            <marker date="1491389557000" expanded="true" signature="782:954" ph="{&quot;en&quot;: &quot;The entered passwords did not match&quot;...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="159">
-          <caret line="48" column="0" lean-forward="true" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
+        <state relative-caret-position="324">
+          <caret line="29" column="6" lean-forward="true" selection-start-line="29" selection-start-column="6" selection-end-line="29" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Creator_hub2.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="30" column="42" lean-forward="true" selection-start-line="30" selection-start-column="42" selection-end-line="30" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css/index.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="469">
+          <caret line="127" column="0" lean-forward="false" selection-start-line="127" selection-start-column="0" selection-end-line="129" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css/Creator_hub.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="700">
+          <caret line="106" column="16" lean-forward="false" selection-start-line="106" selection-start-column="16" selection-end-line="106" selection-end-column="16" />
           <folding />
         </state>
       </provider>
