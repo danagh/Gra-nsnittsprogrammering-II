@@ -2,26 +2,31 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Full Screen Background Video</title>
-    <meta name="description" content="Full screen background video demo">
-    <meta name="author" description="Call Me Nick">
-    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Oxygen:400,300,700">
-    <link rel="stylesheet" href="css/style.css">
+    <title>Lifeganizer - User Hub</title>
+
+    <link rel="stylesheet" href="css/hub.css">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+            crossorigin="anonymous"></script>
+    <script src="javascript/index.js"></script>
+    <script src="javascript/translator.js"></script>
+
+    <link href="https://fonts.googleapis.com/css?family=Lobster|Open+Sans:400,600" rel="stylesheet">
+
 </head>
 <body>
-<!--
-<div class="content">
-    <h1 class="content__heading">Welcome To My Product</h1>
-    <p class="content__teaser">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit qui voluptatum enim est deserunt assumenda, aspernatur quam aperiam!</p>
-    <a href="#" class="content__cta">Buy It Now!</a>
-</div> /content -->
 
-<video id="my-video" class="video" muted loop>
-    <source src="media/demo.mp4" type="video/mp4">
-    <source src="media/demo.ogv" type="video/ogg">
-    <source src="media/demo.webm" type="video/webm">
-</video><!-- /video -->
+<div class="content">
+    <h1 class="content__heading">Let the power of creativity flow!</h1>
+    <p class="content__teaser">0,00001% of the worlds population are using Lifeganizer, what keeps you from doing it?!?!</p>
+    <a href="#" class="content__cta">Start your design now!</a>
+</div> <!--/content -->
+
+<video poster="media/poster.png" id="my-video" class="video" muted loop>
+    <source src="http://callmenick.com/_development/video/full-screen-background-video/media/demo.mp4" type="video/mp4">
+    <source src="http://callmenick.com/_development/video/full-screen-background-video/media/demo.webm">
+    <source src="http://callmenick.com/_development/video/full-screen-background-video/media/demo.ogg">
+    Your browser doesn't support HTML5 video. Here's a <a target="_blank" href="#">link</a> to download the video.</video><!-- /video -->
 
 <script>
     (function() {

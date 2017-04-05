@@ -2,20 +2,6 @@
   VIDEO
 ============================================================================= */
 
-.video {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    z-index: 1;
-    min-width: 100%;
-    min-height: 100%;
-    width: auto;
-    height: auto;
-    -webkit-transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-}
-
 
 /* =============================================================================
   HTML, BODY
@@ -25,6 +11,21 @@ html,
 body {
     height: 100%;
     min-width: 800px;
+}
+
+.first-main-div {
+    position:relative;
+    width:100%;
+}
+
+.main-picture {
+    margin-top:100px;
+    opacity: 1;
+    display: block;
+    width:100%;
+    height: auto;
+    transition: opacity 0.2s 0s ease;
+    backface-visibility: hidden;
 }
 
 @font-face {
@@ -41,37 +42,36 @@ body {
     font-family:"FontAwesome";
 }
 
-
-.overlay{
-    display: none;
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    /*brings it on top*/
-    z-index: 1000;
-    background-color: rgb(0,0,0);
-    background-color: rgba(0,0,0,0.4);
+.vertical-line {
+    background: black;
+    content: '';
+    display: block;
+    height: 2px;
+    margin: 0.75em auto 0 auto;
+    position: relative;
+    width: 10em;
 }
 
-.login-box {
-    --h: 300px;
-    --w: 500px;
-    background: transparent;
-    /*border: 1px solid #888;*/
-    width: var(--w);
-    height: var(--h);
-    /*center box*/
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    /*-half of height and width to place in actual center*/
-    margin-left: calc(var(--w) / -2);
-    margin-top: calc(var(--h) / -2);
+.sign-in, .about-text {
+    margin-top:50px;
+    text-align:center;
+}
+/* =============================================================================
+  About us
+============================================================================= */
+
+.about-text{
+    margin-top: 0px;
 }
 
+.text-area{
+    margin: 50px auto;
+    width: 70%;
+}
 
+/* =============================================================================
+  Header
+============================================================================= */
 
 .header {
     background: #FFF;
@@ -95,9 +95,9 @@ body {
     line-height: 40px;
 }
 
-.nav-up {
-    top: -500px;
-}
+/*.nav-up {*/
+    /*top: -500px;*/
+/*}*/
 
 .header-text {
     color:brown;
@@ -161,30 +161,66 @@ body {
     font-size: 16px;
 }
 
+/* =============================================================================
+  Log in
+============================================================================= */
 
-.first-main-div {
-    position:relative;
-    width:100%;
+.login-div-body{
+    margin-top: 100px;
+    text-align:center;
 }
 
-.about-text{
-    margin-top: 0px;
+.login-button {
+    /*position: relative;*/
+    margin-left:0;
+    background-color: #4CAF50;
+    color: white;
+    /*padding: 12px 20px;*/
+    padding: 12px 20px;
+    /*margin: 8px 30px;*/
+    margin-top: 30px;
+    margin-bottom: 5px;
+    /*margin: 8px 30px;*/
+    border: none;
+    cursor: pointer;
+    width: 30%;
+    /*height: 10%;*/
+    font-weight: bold;
+    font-size: medium;
 }
 
-.text-area{
-    margin: 50px auto;
-    width: 70%;
+.username-field, .password-field {
+
+    margin: 20px 30px 0 30px;
+    /*padding: 10px;*/
+    /*width: 50%;*/
+    width: 30%;
+    margin-right:50%;
+    margin-left:35%;
+    padding: 13px 20px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    background-color: white;
+    box-sizing: border-box;
+    color: black;
+    font-size:14px
 }
 
-.main-picture {
-    margin-top:100px;
-    opacity: 1;
+.error-login {
     display: block;
-    width:100%;
-    height: auto;
-    transition: opacity 0.2s 0s ease;
-    backface-visibility: hidden;
+    height: 20px;
+    /*font-size: 16px;*/
+    color: red;
+    margin-top:5px;
+    /*margin-bottom:30px;*/
+    /*margin-bottom:0px;*/
+    padding: 2px 27px;
+    text-align: center;
 }
+
+/* =============================================================================
+  Register
+============================================================================= */
 
 .pop-up-button {
     overflow:hidden;
@@ -272,21 +308,6 @@ body {
     display: none;
 }
 
-.sign-in, .about-text {
-    margin-top:50px;
-    text-align:center;
-}
-
-.vertical-line {
-    background: black;
-    content: '';
-    display: block;
-    height: 2px;
-    margin: 0.75em auto 0 auto;
-    position: relative;
-    width: 10em;
-}
-
 .register-vertical-line {
     background: black;
     content: '';
@@ -297,63 +318,6 @@ body {
     width: 10em;
 }
 
-.username-field, .password-field {
-
-    margin: 20px 30px 0 30px;
-    /*padding: 10px;*/
-    /*width: 50%;*/
-    width: 30%;
-    margin-right:50%;
-    margin-left:35%;
-    padding: 13px 20px;
-    display: inline-block;
-    border: 1px solid #ccc;
-    background-color: white;
-    box-sizing: border-box;
-    color: black;
-    font-size:14px
-}
-
 input[type=text], [type=password]{
-
-}
-
-.error-login {
-    display: block;
-    height: 20px;
-    /*font-size: 16px;*/
-    color: red;
-    margin-top:5px;
-    /*margin-bottom:30px;*/
-    /*margin-bottom:0px;*/
-    padding: 2px 27px;
-    text-align: center;
-}
-
-.login-div-body{
-    margin-top: 100px;
-    text-align:center;
-}
-
-.login-button {
-    /*position: relative;*/
-    margin-left:0;
-    background-color: #4CAF50;
-    color: white;
-    /*padding: 12px 20px;*/
-    padding: 12px 20px;
-    /*margin: 8px 30px;*/
-    margin-top: 30px;
-    margin-bottom: 5px;
-    /*margin: 8px 30px;*/
-    border: none;
-    cursor: pointer;
-    width: 30%;
-    /*height: 10%;*/
-    font-weight: bold;
-    font-size: medium;
-}
-
-.about-text {
 
 }
