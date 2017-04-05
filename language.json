@@ -42,6 +42,10 @@
   "error-register2": {
     "en":"The entered passwords did not match",
     "se":"De ifyllda lösenorden matchade inte varandra"
+  },
+  "dropdown-button": {
+    "en":"Select",
+    "se":"Välj"
   }
 
 }
