@@ -120,6 +120,11 @@ body {
     position: relative; /* So .drink-quantity can have position: absolute */
     background: red;
     border: 1px solid #BBB;
+    cursor: pointer;
+}
+
+.hidden-options {
+    display:none;
 }
 /* =============================================================================
   Header
@@ -172,3 +177,4 @@ body {
     display:inline-block;
     transition: all 0.3s;
 }
+

@@ -6,8 +6,16 @@ html *:after { box-sizing: inherit; }
 .icon {
     position: relative;
     display: inline-block;
-    width: 12em;
+    width: 9em;
     height: 10em;
+    font-size: 1em; /* control icon size here */
+}
+
+.icon-middle {
+    position: absolute;
+    display: inline-block;
+    /*width: 9em;*/
+    /*height: 10em;*/
     font-size: 1em; /* control icon size here */
 }
 
@@ -19,7 +27,7 @@ html *:after { box-sizing: inherit; }
     width: 3.6875em;
     height: 3.6875em;
     margin: -1.84375em;
-    background: currentColor;
+    /*background: currentColor;*/
     border-radius: 50%;
     box-shadow:
             -2.1875em 0.6875em 0 -0.6875em #fff,
@@ -36,7 +44,7 @@ html *:after { box-sizing: inherit; }
     display: block;
     width: 4.5625em;
     height: 1em;
-    background: currentColor;
+    /*background: currentColor;*/
     box-shadow: 0 0.4375em 0 -0.0625em #fff;
 }
 .cloud:nth-child(2) {
@@ -91,7 +99,7 @@ html *:after { box-sizing: inherit; }
     width: 2.5em;
     height: 2.5em;
     margin: -1.25em;
-    background: currentColor;
+    /*background: currentColor;*/
     border-radius: 50%;
     box-shadow: 0 0 0 0.375em #fff;
     animation: spin 12s infinite linear;
@@ -104,7 +112,7 @@ html *:after { box-sizing: inherit; }
     width: 2.5em;
     height: 2.5em;
     margin: -1.25em;
-    background: currentColor;
+    /*background: currentColor;*/
     border-radius: 50%;
     box-shadow: 0 0 0 0.375em #fff;
 }
@@ -153,7 +161,20 @@ html *:after { box-sizing: inherit; }
     width: 3.75em;
     height: 3.75em;
     margin: 0.375em 0 0 -2em;
-    background: currentColor;
+    /*background: currentColor;*/
+}
+
+.rain-still,
+.lightning-still,
+.snow-still {
+    position: absolute;
+    z-index: 2;
+    top: 50%;
+    left: 50%;
+    width: 3.75em;
+    height: 3.75em;
+    margin: 0.375em 0 0 -2em;
+    /*background: currentColor;*/
 }
 
 .rain:after {
@@ -175,6 +196,24 @@ html *:after { box-sizing: inherit; }
     animation: rain 3s linear infinite;
 }
 
+.rain-still:after {
+    content: '';
+    position: absolute;
+    z-index: 2;
+    top: 50%;
+    left: 50%;
+    width: 1.125em;
+    height: 1.125em;
+    margin: -1em 0 0 -0.25em;
+    background: #0cf;
+    border-radius: 100% 0 60% 50% / 60% 0 100% 50%;
+    box-shadow:
+            0.625em 0.875em 0 -0.125em rgba(255,255,255,0.2),
+            -0.875em 1.125em 0 -0.125em rgba(255,255,255,0.2),
+            -1.375em -0.125em 0 rgba(255,255,255,0.2);
+    transform: rotate(-28deg);
+}
+
 .bolt {
     position: absolute;
     top: 50%;
@@ -184,6 +223,18 @@ html *:after { box-sizing: inherit; }
     opacity: 0.3;
     animation: lightning 2s linear infinite;
 }
+
+.bolt-still {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -0.25em 0 0 -0.125em;
+    color: #0cf;
+    opacity: 0.8;
+    /*background:#0cf;*/
+
+}
+
 .bolt:nth-child(2) {
     width: 0.5em;
     height: 0.25em;
@@ -191,7 +242,19 @@ html *:after { box-sizing: inherit; }
     transform: translate(2.5em, 2.25em);
     opacity: 0.2;
     animation: lightning 1.5s linear infinite;
+
 }
+
+.bolt-still:nth-child(2) {
+    width: 0.5em;
+    height: 0.25em;
+    margin: -1.75em 0 0 -1.875em;
+    transform: translate(2.5em, 2.25em);
+    opacity: 0.2;
+    background: #0cf;
+}
+
+
 .bolt:before,
 .bolt:after {
     content: '';
@@ -229,6 +292,45 @@ html *:after { box-sizing: inherit; }
     border-left: 0.375em solid;
 }
 
+.bolt-still:before,
+.bolt-still:after {
+    content: '';
+    position: absolute;
+    z-index: 2;
+    top: 50%;
+    left: 50%;
+    margin: -1.625em 0 0 -1.0125em;
+    border-top: 1.25em solid transparent;
+    border-right: 0.75em solid;
+    border-bottom: 0.75em solid;
+    border-left: 0.5em solid transparent;
+    transform: skewX(-10deg);
+
+}
+.bolt-still:after {
+    margin: -0.25em 0 0 -0.25em;
+    border-top: 0.75em solid;
+    border-right: 0.5em solid transparent;
+    border-bottom: 1.25em solid transparent;
+    border-left: 0.75em solid;
+    transform: skewX(-10deg);
+}
+.bolt-still:nth-child(2):before {
+    margin: -0.75em 0 0 -0.5em;
+
+    border-top: 0.625em solid transparent;
+    border-right: 0.375em solid;
+    border-bottom: 0.375em solid;
+    border-left: 0.25em solid transparent;
+}
+.bolt-still:nth-child(2):after {
+    margin: -0.125em 0 0 -0.125em;
+    border-top: 0.375em solid;
+    border-right: 0.25em solid transparent;
+    border-bottom: 0.625em solid transparent;
+    border-left: 0.375em solid;
+}
+
 .flake:before,
 .flake:after {
     content: '\2744';
@@ -258,6 +360,33 @@ html *:after { box-sizing: inherit; }
     font-size: 2em;
     opacity: 0.4;
     animation: spin 16s linear infinite reverse;
+}
+
+.flake-still:before,
+.flake-still:after {
+    content: '\2744';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -1.025em 0 0 -1.0125em;
+    color: #fff;
+    list-height: 1em;
+    opacity: 0.2;
+}
+.flake-still:after {
+    margin: 0.125em 0 0 -1em;
+    font-size: 1.5em;
+    opacity: 0.4;
+}
+.flake-still:nth-child(2):before {
+    margin: -0.5em 0 0 0.25em;
+    font-size: 1.25em;
+    opacity: 0.2;
+}
+.flake-still:nth-child(2):after {
+    margin: 0.375em 0 0 0.125em;
+    font-size: 2em;
+    opacity: 0.4;
 }
 
 

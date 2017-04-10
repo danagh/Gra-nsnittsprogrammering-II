@@ -38,17 +38,61 @@
         <!--more here-->
         <div class="drag-window" id="scroll">
             <div class="weather-options">
-                <div class="weather-option"  draggable="true" ondragstart="drag(event)">
-                    <div class="icon sunny">
-                        <div class="sun-still">
-                            <div class="rays"></div>
+                <div class="weather-option">Option
+                    <div class="hidden-options">
+
+                        <div class="icon sunny">
+                            <div class="sun-still">
+                                <div class="rays"></div>
+                            </div>
+                        </div>
+
+                        <div class="icon cloudy">
+                            <div class="cloud"></div>
+                        </div>
+
+                        <div class="icon sun-shower">
+                            <div class="cloud"></div>
+                            <div class="sun-still">
+                                <div class="rays"></div>
+                            </div>
+                            <div class="rain-still"></div>
+                        </div>
+
+                        <div class="icon thunder-storm">
+                            <div class="cloud"></div>
+                            <div class="lightning-still">
+                                <div class="bolt-still"></div>
+                                <div class="bolt-still"></div>
+                            </div>
+                        </div>
+
+                        <div class="icon flurries">
+                            <div class="cloud"></div>
+                            <div class="snow">
+                                <div class="flake-still"></div>
+                                <div class="flake-still"></div>
+                            </div>
+                        </div>
+
+                        <div class="icon rainy">
+                            <div class="cloud"></div>
+                            <div class="rain-still"></div>
                         </div>
                     </div>
-                    <div class="icon cloudy">
-                        <div class="cloud-still"></div>
+                </div>
+                <div class="weather-option">Option
+                    <div class="hidden-options">
+                        <div class="icon sunny">
+                            <div class="sun-still">
+                                <div class="rays"></div>
+                            </div>
+                        </div>
+                        <!--<div class="icon cloudy">-->
+                        <!--<div class="cloud-still"></div>-->
+                        <!--</div>-->
                     </div>
                 </div>
-                <div class="weather-option">Option</div>
                 <div class="weather-option">Option</div>
                 <div class="weather-option">Option</div>
                 <div class="weather-option">Option</div>
@@ -80,8 +124,20 @@
             </div>
         </div>
     </div>
-    <div class="middle-side" ondrop = "drop(event)" ondragover = "allowDrop(event)">
+    <div class="middle-side" ondrop = "drop(event, this)" ondragover = "dragOver(event)">
+        <!--<div class="icon thunder-storm">-->
+            <!--<div class="cloud"></div>-->
+            <!--<div class="lightning">-->
+                <!--<div class="bolt"></div>-->
+                <!--<div class="bolt"></div>-->
+            <!--</div>-->
+        <!--</div>-->
 
+        <!--<div class="icon sunny">-->
+            <!--<div class="sun">-->
+                <!--<div class="rays"></div>-->
+            <!--</div>-->
+        <!--</div>-->
     </div>
 
     <div class="right-side">
