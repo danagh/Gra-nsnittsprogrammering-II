@@ -50,5 +50,9 @@
   "logout": {
     "en":"Logout",
     "se":"Logga ut"
+  },
+  "delete-button": {
+    "en":"Delete",
+    "se":"Radera"
   }
 }

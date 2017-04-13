@@ -45,13 +45,78 @@ function createEventHandlers() {
         }
     });
 
-    window.onbeforeunload = function() { //before exiting or updating the page all the changes will be saved into local storage.
+    $(document).click(function(e){
+        var clickedObject = e.target.parentNode;
+        highLightObject(clickedObject);
+        // console.log(clickedObject);
 
-    };
+    });
+}
 
+/*
+A function that gives an icon a highlighted effect.
+ */
+function highLightObject(clickedObject) {
 
+    $('.icon-middle').each(function() {
+        // console.log($(this));
+        if ($(this).hasClass('highlighted')) { //remove the previous highlighted object
+            $(this).removeClass('highlighted');
+        }
+        if(clickedObject.classList.contains('icon-middle')) { //only highlight an object if it is a dragged element. This also removes highlight from an object if you press anywhere else on the screen.
+            clickedObject.classList.add('highlighted');
+            showDeleteButton(clickedObject);
+        }
+
+        else if (clickedObject.classList.contains('hidden-options') || clickedObject instanceof HTMLButtonElement || clickedObject.classList.contains('clickable')) {
+            console.log("elseif");
+            return;
+        }
+
+        else {
+            hideDeleteButton();
+        }
+    });
 
 }
+
+function hideDeleteButton() {
+    var deleteButton = document.getElementsByClassName('delete-button')[0];
+    deleteButton.style.display = 'none';
+}
+
+function showDeleteButton(highlightedObject) {
+    // if ($('.delete-button').css('display')=='none') {
+    //     console.log("if");
+    //     $('.delete-button').css('display','block');
+    // }
+    // else {
+    //     $('.delete-button').css('display','none');
+    // }
+
+    var deleteButton = document.getElementsByClassName('delete-button')[0];
+    deleteButton.style.display = 'block';
+
+    deleteButton.addEventListener('click', function() {
+        // console.log(highlightedObject.id);
+        // console.log(objectIdArray);
+        for (var i = 0; i < objectIdArray.length; i++ ) {
+            if (objectIdArray[i] == highlightedObject.id) {
+                // console.log("if " + i);
+                objectIdArray.splice(i,1);
+                objectStyleArray.splice(i,1);
+                topPositionArray.splice(i,1);
+                leftPositionArray.splice(i,1);
+
+                updateLocalStorage();
+            }
+        }
+        highlightedObject.remove();
+
+    });
+
+}
+
 
 function addAttributesToWeatherOptionDiv() {
     var numberOfDivs = document.querySelectorAll('.weather-option').length;
@@ -147,12 +212,6 @@ function drop(ev, target) {
 
     }
     else if (offset[2] == 0) {
-            // var placementDiv = document.createElement('div');
-            // placementDiv.className = 'placement-div';
-            // placementDiv.setAttribute('draggable','true');
-            // placementDiv.addEventListener('dragstart', drag2, false);
-            // console.log('skapar nytt objekt');
-
             var sunny = document.createElement('div');
             sunny.setAttribute('id', dropCallsString); //give an id so that we can choose the correct object to be dragged.
             // objectIdArray.push(dropCallsString);
@@ -249,6 +308,11 @@ function weatherStyleToCss(draggedId, topPosition, leftPosition, objectStyle) {
         objectStyleArray.push(objectStyle);
     }
 
+    updateLocalStorage()
+
+}
+
+function updateLocalStorage() {
     window.localStorage.clear();
 
     localStorage.setItem("top", JSON.stringify(topPositionArray));
@@ -256,7 +320,6 @@ function weatherStyleToCss(draggedId, topPosition, leftPosition, objectStyle) {
     localStorage.setItem("object-style", JSON.stringify(objectStyleArray));
     localStorage.setItem("object-id",JSON.stringify(objectIdArray));
 }
-
 
 function checkIfLocalStorageExists() {
     var objectIds = JSON.parse(localStorage.getItem('object-id'));

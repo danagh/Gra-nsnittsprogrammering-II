@@ -178,3 +178,20 @@ body {
     transition: all 0.3s;
 }
 
+.highlighted {
+    border: 1px solid black;
+}
+
+.delete-button {
+    position:absolute;
+    text-align: center;
+    border: 1px solid black;
+    bottom: 0;
+    left: 50%;
+    width: 20%;
+    display:none;
+}
+
+.delete-button:hover {
+    cursor: pointer;
+}
