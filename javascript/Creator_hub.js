@@ -1,6 +1,15 @@
 var dropCalls = 0;
+var userWidth = window.screen.width;
+var userHeight = window.screen.height;
+var topPositionArray = [];
+var leftPositionArray = [];
+var objectStyleArray = [];
+var objectIdArray = [];
 
 $(document).ready(function() {
+    console.log(JSON.parse(localStorage.getItem('top')));
+    checkIfLocalStorageExists();
+    createSessionStyle();
     addAttributesToWeatherOptionDiv();
     createEventHandlers();
 });
@@ -21,7 +30,7 @@ function createEventHandlers() {
                 myDropdown.removeClass('show');
             }
         }
-    }
+    };
 
     $(document).on('click','.weather-option', function() {
         if ($(this).hasClass('clicked')) {
@@ -34,16 +43,20 @@ function createEventHandlers() {
             $(this).find('.hidden-options').css("display", "block");
             // $('this .hidden-options').css("display", "block");
         }
-
-
     });
+
+    window.onbeforeunload = function() { //before exiting or updating the page all the changes will be saved into local storage.
+
+    };
+
+
 
 }
 
 function addAttributesToWeatherOptionDiv() {
     var numberOfDivs = document.querySelectorAll('.weather-option').length;
     for (var i=0;i<numberOfDivs;i++) {
-        console.log('loop number: ' + i);
+        // console.log('loop number: ' + i);
         var selectedDiv = document.getElementsByClassName('weather-option')[i];
         var iInt = i.toString();
         selectedDiv.setAttribute('weatherId', iInt);
@@ -106,25 +119,45 @@ If it has been dragged from the left side we do not have to create a new element
 If the element is dragged from the left we first check which option it is and then create the correct icon.
  */
 function drop(ev, target) {
+    // console.log('rör på samma objekt');
     target.style.border = 'none';
     dropCalls++; //enumerate the dropcalls so that when a new object is created it gets an unique id.
+
     var dropCallsString = dropCalls.toString(); //change the id into a string so that it can be parsed.
     var offset = ev.dataTransfer.getData("text/plain").split(','); //put the data into an array and split at a comma-sign.
 
     if (offset[2] == 'true') {
         var draggedId = offset[3];
+        console.log("dragged more than once: " + draggedId);
         var draggedDiv = document.getElementById(draggedId);
         draggedDiv.style.left = (event.clientX + parseInt(offset[0],10)) + 'px';
         draggedDiv.style.top = (event.clientY + parseInt(offset[1],10)) + 'px';
+
+        var style = window.getComputedStyle(draggedDiv);
+        var top = style.getPropertyValue('top');
+        draggedDiv.setAttribute('top',top);
+        var left = style.getPropertyValue('left');
+        draggedDiv.setAttribute('left',left);
+
+
+
+        weatherStyleToCss(draggedId, top, left, draggedDiv.getAttribute('object-style'));
+
+        // weatherStyleToCss(top, left, draggedId);
+
     }
     else if (offset[2] == 0) {
             // var placementDiv = document.createElement('div');
             // placementDiv.className = 'placement-div';
             // placementDiv.setAttribute('draggable','true');
             // placementDiv.addEventListener('dragstart', drag2, false);
+            // console.log('skapar nytt objekt');
 
             var sunny = document.createElement('div');
             sunny.setAttribute('id', dropCallsString); //give an id so that we can choose the correct object to be dragged.
+            // objectIdArray.push(dropCallsString);
+            console.log("dragged first time: " + dropCallsString);
+
             sunny.setAttribute('class','icon-middle sunny');
             sunny.setAttribute('draggable','true'); //the object has to be able to be moved later on by the user.
             sunny.setAttribute('fromleft','true');
@@ -143,6 +176,18 @@ function drop(ev, target) {
 
             sunny.style.left = ev.pageX - '367' + 'px' ; //create an offset so that it is placed correctly
             sunny.style.top = ev.pageY - '53'+ 'px' ;
+
+            var style = window.getComputedStyle(sunny);
+            var top = style.getPropertyValue('top');
+            sunny.setAttribute('top',top);
+            var left = style.getPropertyValue('left');
+            sunny.setAttribute('left',left);
+            sunny.setAttribute('object-style', 'weather');
+
+
+
+            weatherStyleToCss(dropCallsString, top, left, sunny.getAttribute('object-style'));
+            // weatherStyleToCss(top, left, sunny.id);
     }
 
     else if (offset[2] == 1) {
@@ -174,5 +219,164 @@ function drop(ev, target) {
 
 }
 
+/*
+This function is called each time something is dropped. It takes the id of the dropped div together with its' position and style and
+saves it into local storage. This way when the user is logged in again we can take the values from local storage and create a session
+that was equal to the one the person exited from.
+ */
+
+function weatherStyleToCss(draggedId, topPosition, leftPosition, objectStyle) {
+    //
+    // var topInt = topPosition.replace(/\D/g,''); //Make the pixel value into an integer
+    // var leftInt = leftPosition.replace(/\D/g,'');
+    // var topPercent = (topInt - userHeight)/userHeight;
+    // topPercent.toString(); //Change it back to a string and add a percent-sign.
+    // topPercent += '%';
+    // var leftPercent = (leftInt - userWidth)/userWidth;
+    // leftPercent.toString();
+    // leftPercent += '%';
+
+    var index = objectIdArray.indexOf(draggedId);
+    if (index !== -1) { //if the id is not found in the id-array
+        leftPositionArray[index] = leftPosition;
+        topPositionArray[index] = topPosition;
+    }
+
+    else {
+        objectIdArray.push(draggedId);
+        leftPositionArray.push(leftPosition);
+        topPositionArray.push(topPosition);
+        objectStyleArray.push(objectStyle);
+    }
+
+    window.localStorage.clear();
+
+    localStorage.setItem("top", JSON.stringify(topPositionArray));
+    localStorage.setItem("left", JSON.stringify(leftPositionArray));
+    localStorage.setItem("object-style", JSON.stringify(objectStyleArray));
+    localStorage.setItem("object-id",JSON.stringify(objectIdArray));
+}
+
+
+function checkIfLocalStorageExists() {
+    var objectIds = JSON.parse(localStorage.getItem('object-id'));
+    var objectStyles = JSON.parse(localStorage.getItem('object-style'));
+    var objectTopPositions = JSON.parse(localStorage.getItem('top'));
+    var objectLeftPositions = JSON.parse(localStorage.getItem('left'));
+
+    if (objectIds !== null) { //if there is something in the local storage
+
+        for (var i = 0; i < objectIds.length; i++) { //go through the whole local storage
+            if (objectStyles[i] == "weather") { //if there is an object-style named weather, create a weather icon.
+                dropCalls++;
+                var dropCallsString = dropCalls.toString();
+
+                var sunny = document.createElement('div');
+                sunny.setAttribute('id', dropCallsString);
+                sunny.setAttribute('class','icon-middle sunny');
+                sunny.setAttribute('draggable','true');
+                sunny.setAttribute('fromleft','true');
+                sunny.addEventListener('dragstart', drag2, false);
+
+                var sun = document.createElement('div');
+                sun.className ='sun';
+
+                var rays = document.createElement('div');
+                rays.className = 'rays';
+
+                sunny.appendChild(sun);
+                sun.appendChild(rays);
+
+                document.getElementsByClassName('middle-side')[0].appendChild(sunny);
+
+                sunny.style.left = objectLeftPositions[i];
+                sunny.style.top = objectTopPositions[i];
+
+                var style = window.getComputedStyle(sunny);
+                var top = style.getPropertyValue('top');
+                sunny.setAttribute('top',top);
+                var left = style.getPropertyValue('left');
+                sunny.setAttribute('left',left);
+                sunny.setAttribute('object-style', 'weather');
+
+
+                weatherStyleToCss(dropCallsString, top, left, sunny.getAttribute('object-style'));
+            }
+        }
+    }
+    else console.log("else");
+}
+
+// function weatherStyleToCss() {
+//     var style = document.getElementsByClassName('session-style')[0];
+//     style.innerHTML ="";
+//     $('.icon-middle').each(function() { //Go through each created element and for each of them save their top and left value into a style in the header.
+//         var objectId = $(this).attr('id');
+//
+//         var objectStyle = $(this).attr('object-style');
+//         var top = $(this).attr('top');
+//         var topInt = top.replace(/\D/g,''); //Make the pixel value int  o an integer
+//         var left = $(this).attr('left');
+//         var leftInt = left.replace(/\D/g,'');
+//         var topPercent = Math.abs(100*(topInt - userHeight)/userHeight);
+//         topPercent.toString(); //Change it back to a string and add a percent-sign.
+//         topPercent += '%';
+//         var leftPercent = Math.abs(100*(leftInt - userWidth)/userWidth);
+//         leftPercent.toString();
+//         leftPercent += '%';
+//
+//         if (weatherStyleToCssCounter < 2) {
+//             objectIdArray.push(objectId);
+//         }
+//
+//         console.log(objectIdArray + ' ' + objectId);
+//
+//         var fromLeft = $(this).attr('fromleft');
+//
+//         if (fromLeft) {
+//             for (var i = 0; i < objectIdArray.length; i++) {
+//                 console.log("loop number: " + i);
+//                 if (objectId == objectIdArray[i]) {
+//                     console.log("moved same object");
+//                     leftPositionArray[i] = leftPercent;
+//                     topPositionArray[i] = topPercent;
+//                 }
+//             }
+//         }
+//
+//
+//             // else {
+//             //     console.log("moved new object");
+//             //     leftPositionArray.push(leftPercent);
+//             //     topPositionArray.push(topPercent);
+//             //     objectStyleArray.push(objectStyle);
+//             //     objectIdArray.push(objectId);
+//             //     break loop;
+//             //
+//             // }
+//
+//         console.log("after for loop");
+//         weatherStyleToCssCounter++;
+//
+//
+//
+//         // style.innerHTML += " ." + objectStyle + ': {top: ' + topPercent + "; \n" + " left: " + leftPercent + ";} \n ";
+//
+//
+//     });
+//     localStorage.clear();
+//
+//     localStorage.setItem("top", JSON.stringify(topPositionArray));
+//     localStorage.setItem("left", JSON.stringify(leftPositionArray));
+//     localStorage.setItem("object-style", JSON.stringify(objectStyleArray));
+//     console.log(JSON.parse(localStorage.getItem('top')));
+// }
+
+function createSessionStyle(){
+    var style = document.createElement('style');
+    style.type = 'text/css';
+    style.className = 'session-style';
+    document.getElementsByTagName('head')[0].appendChild(style);
+}
 
 
