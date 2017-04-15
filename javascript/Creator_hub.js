@@ -6,8 +6,18 @@ var leftPositionArray = [];
 var objectStyleArray = [];
 var objectIdArray = [];
 
+
 $(document).ready(function() {
-    SMHICall();
+    // localStorage.clear();
+    // for (var k = 0; k < objectIdArray.length; k++) {
+    //     delete topPositionArray[k];
+    //     delete leftPositionArray[k];
+    //     delete  objectStyleArray[k];
+    //     delete  objectIdArray[k];
+    //
+    // }
+    console.log(objectIdArray);
+    // SMHICall();
     checkIfLocalStorageExists();
     addAttributesToWeatherOptionDiv();
     createEventHandlers();
@@ -108,9 +118,19 @@ function showDeleteButton(highlightedObject) {
                 leftPositionArray.splice(i,1);
 
                 updateLocalStorage();
+                console.log(objectIdArray);
             }
         }
         highlightedObject.remove();
+        // for (var j = 0; j < objectIdArray.length; j++) {
+        //     if (document.getElementById("1") == objectIdArray[j] ) {
+        //         objectIdArray.splice(j,1);
+        //         objectStyleArray.splice(j,1);
+        //         topPositionArray.splice(j,1);
+        //         leftPositionArray.splice(j,1);
+        //     }
+        // }
+
 
     });
 
