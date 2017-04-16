@@ -5,6 +5,10 @@ var topPositionArray = [];
 var leftPositionArray = [];
 var objectStyleArray = [];
 var objectIdArray = [];
+var weatherTimeArray = [];
+var userLatitude;
+var userLongitude;
+
 
 
 $(document).ready(function() {
@@ -16,8 +20,8 @@ $(document).ready(function() {
     //     delete  objectIdArray[k];
     //
     // }
-    console.log(objectIdArray);
-    // SMHICall();
+
+    getLocation();
     checkIfLocalStorageExists();
     addAttributesToWeatherOptionDiv();
     createEventHandlers();
@@ -68,12 +72,12 @@ A function that gives an icon a highlighted effect.
 function highLightObject(clickedObject) {
 
     $('.icon-middle').each(function() {
-        // console.log($(this));
-        if ($(this).hasClass('highlighted')) { //remove the previous highlighted object
-            $(this).removeClass('highlighted');
-        }
+        // if ($(this).hasClass('highlighted')) { //remove the previous highlighted object
+        //     $(this).removeClass('highlighted');
+        // }
         if(clickedObject.classList.contains('icon-middle')) { //only highlight an object if it is a dragged element. This also removes highlight from an object if you press anywhere else on the screen.
             clickedObject.classList.add('highlighted');
+            showDropDown(clickedObject);
             showDeleteButton(clickedObject);
         }
 
@@ -84,9 +88,35 @@ function highLightObject(clickedObject) {
 
         else {
             hideDeleteButton();
+            // hideDropDown();
         }
     });
 
+}
+
+function showDropDown(highlightedObject) {
+    $('.weather-choose-time').css('display','block');
+    $('.weather-choose-time').change(function() { //when an option is clicked in the dropdown menu
+        var newWeatherTime = $('.weather-choose-time option:selected').text();
+        highlightedObject.setAttribute('weather-time', newWeatherTime);
+
+        updateWeatherTimeInformation(highlightedObject);
+    });
+}
+
+function updateWeatherTimeInformation(highlightedObject) {
+    for (var i = 0; i < objectIdArray.length; i++) {
+        if (objectIdArray[i] == highlightedObject.id) {
+            weatherTimeArray[i] = highlightedObject.getAttribute('weather-time');
+            // console.log(weatherTimeArray);
+            updateLocalStorage();
+        }
+    }
+}
+
+function hideDropDown() {
+    var dropDown = document.getElementsByClassName('weather-choose-time')[0];
+    dropDown.style.display = "none";
 }
 
 function hideDeleteButton() {
@@ -116,6 +146,7 @@ function showDeleteButton(highlightedObject) {
                 objectStyleArray.splice(i,1);
                 topPositionArray.splice(i,1);
                 leftPositionArray.splice(i,1);
+                weatherTimeArray.splice(i,1);
 
                 updateLocalStorage();
                 console.log(objectIdArray);
@@ -224,8 +255,7 @@ function drop(ev, target) {
         draggedDiv.setAttribute('left',left);
 
 
-
-        weatherStyleToCss(draggedId, top, left, draggedDiv.getAttribute('object-style'));
+        weatherStyleToCss(draggedId, top, left, draggedDiv.getAttribute('object-style'), draggedDiv.getAttribute("weather-time"));
 
         // weatherStyleToCss(top, left, draggedId);
 
@@ -233,44 +263,7 @@ function drop(ev, target) {
     else if (offset[2] == 0) {
         var locationLeft = ev.pageX - '367' + 'px' ;
         var locationTop = ev.pageY - '53'+ 'px' ;
-        SMHICall(locationTop, locationLeft, dropCallsString);
-        /*
-            var sunny = document.createElement('div');
-            sunny.setAttribute('id', dropCallsString); //give an id so that we can choose the correct object to be dragged.
-            // objectIdArray.push(dropCallsString);
-            console.log("dragged first time: " + dropCallsString);
-
-            sunny.setAttribute('class','icon-middle sunny');
-            sunny.setAttribute('draggable','true'); //the object has to be able to be moved later on by the user.
-            sunny.setAttribute('fromleft','true');
-            sunny.addEventListener('dragstart', drag2, false);
-
-            var sun = document.createElement('div');
-            sun.className ='sun';
-
-            var rays = document.createElement('div');
-            rays.className = 'rays';
-
-            sunny.appendChild(sun);
-            sun.appendChild(rays);
-            // placementDiv.appendChild(sunny);
-            document.getElementsByClassName('middle-side')[0].appendChild(sunny);
-
-            sunny.style.left = ev.pageX - '367' + 'px' ; //create an offset so that it is placed correctly
-            sunny.style.top = ev.pageY - '53'+ 'px' ;
-
-            var style = window.getComputedStyle(sunny);
-            var top = style.getPropertyValue('top');
-            sunny.setAttribute('top',top);
-            var left = style.getPropertyValue('left');
-            sunny.setAttribute('left',left);
-            sunny.setAttribute('object-style', 'weather');
-
-
-
-            weatherStyleToCss(dropCallsString, top, left, sunny.getAttribute('object-style'));
-            // weatherStyleToCss(top, left, sunny.id);
-            */
+        SMHICall(locationTop, locationLeft, dropCallsString, "notExist");
     }
 
     else if (offset[2] == 1) {
@@ -295,13 +288,25 @@ function drop(ev, target) {
 
 }
 
-function createWeatherStyle(currentWeather, locationTop, locationLeft, divId) {
-    // var smhi = SMHICall();
-    // console.log(smhi);
+function createWeatherStyle(apiResponse, locationTop, locationLeft, divId, weatherTime) {
     var weatherStyleDiv = document.createElement('div');
     weatherStyleDiv.setAttribute('id', divId); //give an id so that we can choose the correct object to be dragged.
-    // objectIdArray.push(dropCallsString);
-    // console.log("dragged first time: " + divId);
+
+    var dropdown = document.getElementsByClassName('weather-choose-time')[0];
+    // var weatherTime ="notExist";
+    if(weatherTime !== "notExist") {
+        weatherStyleDiv.setAttribute('weather-time',weatherTime);
+        var timeDifference = calculateDateAndTimeDifference(apiResponse, weatherTime);
+    }
+    else {
+        console.log("weathertimenotexist");
+        weatherStyleDiv.setAttribute('weather-time', dropdown.value);
+        var timeDifference = calculateDateAndTimeDifference(apiResponse, dropdown.value);
+    }
+    console.log("timedifference " + timeDifference);
+    var currentWeather = apiResponse.timeSeries[timeDifference].parameters[18].values[0];
+
+
 
     weatherStyleDiv.setAttribute('class','icon-middle sunny');
     weatherStyleDiv.setAttribute('draggable','true'); //the object has to be able to be moved later on by the user.
@@ -414,7 +419,13 @@ function createWeatherStyle(currentWeather, locationTop, locationLeft, divId) {
 
 
 
-    weatherStyleToCss(divId, top, left, weatherStyleDiv.getAttribute('object-style'));
+
+
+    if (weatherTime !== "notExist") {
+        weatherStyleToCss(divId, top, left, weatherStyleDiv.getAttribute('object-style'), weatherTime);
+    }
+    else weatherStyleToCss(divId, top, left, weatherStyleDiv.getAttribute('object-style'), dropdown.value);
+
 }
 
 /*
@@ -423,7 +434,7 @@ saves it into local storage. This way when the user is logged in again we can ta
 that was equal to the one the person exited from.
  */
 
-function weatherStyleToCss(draggedId, topPosition, leftPosition, objectStyle) {
+function weatherStyleToCss(draggedId, topPosition, leftPosition, objectStyle, selectedTime) {
     //
     // var topInt = topPosition.replace(/\D/g,''); //Make the pixel value into an integer
     // var leftInt = leftPosition.replace(/\D/g,'');
@@ -445,6 +456,7 @@ function weatherStyleToCss(draggedId, topPosition, leftPosition, objectStyle) {
         leftPositionArray.push(leftPosition);
         topPositionArray.push(topPosition);
         objectStyleArray.push(objectStyle);
+        weatherTimeArray.push(selectedTime);
     }
 
     updateLocalStorage()
@@ -458,6 +470,8 @@ function updateLocalStorage() {
     localStorage.setItem("left", JSON.stringify(leftPositionArray));
     localStorage.setItem("object-style", JSON.stringify(objectStyleArray));
     localStorage.setItem("object-id",JSON.stringify(objectIdArray));
+    localStorage.setItem("weather-time", JSON.stringify(weatherTimeArray));
+
 }
 
 function checkIfLocalStorageExists() {
@@ -465,6 +479,8 @@ function checkIfLocalStorageExists() {
     var objectStyles = JSON.parse(localStorage.getItem('object-style'));
     var objectTopPositions = JSON.parse(localStorage.getItem('top'));
     var objectLeftPositions = JSON.parse(localStorage.getItem('left'));
+    var weatherTime = JSON.parse(localStorage.getItem('weather-time'));
+    console.log("weathertime :" + weatherTime);
 
     if (objectIds !== null) { //if there is something in the local storage
 
@@ -473,131 +489,116 @@ function checkIfLocalStorageExists() {
                 dropCalls++;
                 var dropCallsString = dropCalls.toString();
 
-                SMHICall(objectTopPositions[i], objectLeftPositions[i], dropCallsString);
-
-                // var sunny = document.createElement('div');
-                // sunny.setAttribute('id', dropCallsString);
-                // sunny.setAttribute('class','icon-middle sunny');
-                // sunny.setAttribute('draggable','true');
-                // sunny.setAttribute('fromleft','true');
-                // sunny.addEventListener('dragstart', drag2, false);
-                //
-                // var sun = document.createElement('div');
-                // sun.className ='sun';
-                //
-                // var rays = document.createElement('div');
-                // rays.className = 'rays';
-                //
-                // sunny.appendChild(sun);
-                // sun.appendChild(rays);
-                //
-                // document.getElementsByClassName('middle-side')[0].appendChild(sunny);
-                //
-                // sunny.style.left = objectLeftPositions[i];
-                // sunny.style.top = objectTopPositions[i];
-                //
-                // var style = window.getComputedStyle(sunny);
-                // var top = style.getPropertyValue('top');
-                // sunny.setAttribute('top',top);
-                // var left = style.getPropertyValue('left');
-                // sunny.setAttribute('left',left);
-                // sunny.setAttribute('object-style', 'weather');
-                //
-                //
-                // weatherStyleToCss(dropCallsString, top, left, sunny.getAttribute('object-style'));
+                SMHICall(objectTopPositions[i], objectLeftPositions[i], dropCallsString, weatherTime[i]);
             }
         }
     }
     else console.log("else");
 }
 
-// function weatherStyleToCss() {
-//     var style = document.getElementsByClassName('session-style')[0];
-//     style.innerHTML ="";
-//     $('.icon-middle').each(function() { //Go through each created element and for each of them save their top and left value into a style in the header.
-//         var objectId = $(this).attr('id');
-//
-//         var objectStyle = $(this).attr('object-style');
-//         var top = $(this).attr('top');
-//         var topInt = top.replace(/\D/g,''); //Make the pixel value int  o an integer
-//         var left = $(this).attr('left');
-//         var leftInt = left.replace(/\D/g,'');
-//         var topPercent = Math.abs(100*(topInt - userHeight)/userHeight);
-//         topPercent.toString(); //Change it back to a string and add a percent-sign.
-//         topPercent += '%';
-//         var leftPercent = Math.abs(100*(leftInt - userWidth)/userWidth);
-//         leftPercent.toString();
-//         leftPercent += '%';
-//
-//         if (weatherStyleToCssCounter < 2) {
-//             objectIdArray.push(objectId);
-//         }
-//
-//         console.log(objectIdArray + ' ' + objectId);
-//
-//         var fromLeft = $(this).attr('fromleft');
-//
-//         if (fromLeft) {
-//             for (var i = 0; i < objectIdArray.length; i++) {
-//                 console.log("loop number: " + i);
-//                 if (objectId == objectIdArray[i]) {
-//                     console.log("moved same object");
-//                     leftPositionArray[i] = leftPercent;
-//                     topPositionArray[i] = topPercent;
-//                 }
-//             }
-//         }
-//
-//
-//             // else {
-//             //     console.log("moved new object");
-//             //     leftPositionArray.push(leftPercent);
-//             //     topPositionArray.push(topPercent);
-//             //     objectStyleArray.push(objectStyle);
-//             //     objectIdArray.push(objectId);
-//             //     break loop;
-//             //
-//             // }
-//
-//         console.log("after for loop");
-//         weatherStyleToCssCounter++;
-//
-//
-//
-//         // style.innerHTML += " ." + objectStyle + ': {top: ' + topPercent + "; \n" + " left: " + leftPercent + ";} \n ";
-//
-//
-//     });
-//     localStorage.clear();
-//
-//     localStorage.setItem("top", JSON.stringify(topPositionArray));
-//     localStorage.setItem("left", JSON.stringify(leftPositionArray));
-//     localStorage.setItem("object-style", JSON.stringify(objectStyleArray));
-//     console.log(JSON.parse(localStorage.getItem('top')));
-// }
-
-// function createSessionStyle(){
-//     var style = document.createElement('style');
-//     style.type = 'text/css';
-//     style.className = 'session-style';
-//     document.getElementsByTagName('head')[0].appendChild(style);
-// }
-
-
-function getDateAndTime(data) {
+function getDateAndTime() {
     var currentTime = new Date();
     var hours = currentTime.getHours();
     var day = currentTime.getDate();
-    // console.log(hours);
-    // console.log(day);
+
     return [hours, day];
-    // calculateDateAndTimeDifference(data, hours, day);
+
 }
 
-function SMHICall(topPosition, leftPosition, divId) {
-    var uppsalaLon = "17.6389";
-    var uppsalaLat = "59.8586";
-    var endPoint = "http://opendata-download-metfcst.smhi.se/api/category/pmp2g/version/2/geotype/point/lon/17.6389/lat/59.8586/data.json";
+function calculateDateAndTimeDifference(apiResponse, selectedWeatherTime) {
+    var approvedDay = apiResponse.approvedTime[8] + apiResponse.approvedTime[9];
+
+    var approvedHour = apiResponse.approvedTime[11] + apiResponse.approvedTime[12];
+
+    var hoursToNextDay = 24 - approvedHour;
+
+    if(selectedWeatherTime =="current-time") {
+        var currentDateAndTime = getDateAndTime();
+        var currentHour = currentDateAndTime[0];
+        var currentDay = currentDateAndTime[1];
+        if (currentDay == approvedDay) {
+            var differenceInHours = 1 + currentHour - approvedHour;
+        }
+        else {
+            var hoursNeeded = approvedHour + hoursToNextDay;
+        }
+        // getCurrentWeather(apiResponse, differenceInHours);
+        return differenceInHours;
+    }
+
+    else if(selectedWeatherTime == "Morning") {
+        if( approvedHour > "08") {
+            var morningHoursNeeded =  hoursToNextDay + 9;
+            return morningHoursNeeded;
+        }
+        else {
+            var morningHoursNeeded = 9 - approvedHour;
+            return morningHoursNeeded
+        }
+    }
+
+    else if(selectedWeatherTime == "Midday") {
+        if(approvedHour > "12") {
+            var middayHoursNeeded = hoursToNextDay + 13;
+            return middayHoursNeeded
+        }
+        else {
+            var middayHoursNeeded = 13 - approvedHour;
+            return middayHoursNeeded;
+        }
+    }
+
+    else if(selectedWeatherTime == "Afternoon") {
+        if (approvedHour > "17") {
+            var afternoonHoursNeeded = hoursToNextDay + 18;
+            return afternoonHoursNeeded;
+        }
+
+        else {
+            var afternoonHoursNeeded = 18 - approvedHour;
+            return afternoonHoursNeeded;
+        }
+    }
+
+    else if(selectedWeatherTime == "Evening") {
+        if (approvedHour > "21") {
+            var eveningHoursNeeded = hoursToNextDay + 22;
+            return eveningHoursNeeded;
+        }
+        else {
+            var eveningHoursNeeded = 22 - approvedHour;
+            return eveningHoursNeeded;
+        }
+    }
+}
+
+function getLocation() {
+    if(navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+
+    }
+    else {
+        alert("geolocation not supported by this browser");
+        // userLongitude = "17.6389";
+        // userLatitude = "59.8586";
+    }
+}
+/*
+The function works but it is very slow in getting the coordinates and the API will therefore give an error message.
+ */
+function showPosition(position) {
+    userLatitude = position.coords.latitude;
+    userLongitude = position.coords.longitude;
+    userLatitude.toString();
+    userLongitude.toString();
+    console.log("showPos");
+}
+
+function SMHICall(topPosition, leftPosition, divId, weatherTime) {
+    userLongitude = "17.6389";
+    userLatitude = "59.8586";
+    // var endPoint = "http://opendata-download-metfcst.smhi.se/api/category/pmp2g/version/2/geotype/point/lon/17.6389/lat/59.8586/data.json";
+    var endPoint = "http://opendata-download-metfcst.smhi.se/api/category/pmp2g/version/2/geotype/point/lon/" + userLongitude + "/lat/" + userLatitude +"/data.json";
 
     /*
      1	Clear sky
@@ -628,37 +629,18 @@ function SMHICall(topPosition, leftPosition, divId) {
 
 
         console.log(data);//.timeSeries[1].parameters[18].values);
-        var localTime = getDateAndTime(data);
-        var currentHour = localTime[0];
-        var currentDate = localTime[1];
-        var timeDifference = calculateDateAndTimeDifference(data, currentHour, currentDate);
-        // console.log("timedifference " + timeDifference);
-        // console.log(data.timeSeries[timeDifference]);
-        // console.log(data.timeSeries[timeDifference].parameters[18].values[0]);
-        createWeatherStyle(data.timeSeries[timeDifference].parameters[18].values[0], topPosition, leftPosition, divId) ;
+        // var localTime = getDateAndTime(data);
+        // var currentHour = localTime[0];
+        // var currentDate = localTime[1];
+        // var timeDifference = calculateDateAndTimeDifference(data, currentHour, currentDate);
+        // console.log(timeDifference);
+
+        // createWeatherStyle(data.timeSeries[timeDifference].parameters[18].values[0], topPosition, leftPosition, divId);
+
+        createWeatherStyle(data, topPosition, leftPosition, divId, weatherTime);
     });
 
 }
 
-function calculateDateAndTimeDifference(apiResponse, currentHours, currentDay) {
-    var approvedDay = apiResponse.approvedTime[8] + apiResponse.approvedTime[9];
-    // console.log(approvedDay);
-    var approvedHour = apiResponse.approvedTime[11] + apiResponse.approvedTime[12];
-    // console.log(approvedHour);
 
-    if (currentDay == approvedDay) {
-        var differenceInHours = 1 + currentHours - approvedHour;
-    }
-    else {
-        var hoursToNextDay = 24-approvedHour;
-        var hoursNeeded = approvedHour + hoursToNextDay;
-    }
-    // getCurrentWeather(apiResponse, differenceInHours);
-    return differenceInHours;
-}
 
-// function getCurrentWeather(apiResponse, differenceInHours) {
-//     console.log(apiResponse.timeSeries[differenceInHours]);
-//     console.log(apiResponse.timeSeries[differenceInHours].parameters[18].values);
-//     return apiResponse.timeSeries[differenceInHours].parameters[18].values;
-// }
