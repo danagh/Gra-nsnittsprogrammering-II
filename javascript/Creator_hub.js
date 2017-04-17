@@ -22,9 +22,9 @@ $(document).ready(function() {
     // }
 
     getLocation();
-    checkIfLocalStorageExists();
-    addAttributesToWeatherOptionDiv();
-    createEventHandlers();
+    setTimeout(checkIfLocalStorageExists(), 5000); //The timeouts are not working correctly and this has to be fixed later on in the project.
+    setTimeout(addAttributesToWeatherOptionDiv(), 5000);
+    setTimeout(createEventHandlers(), 5000);
 });
 
 function createEventHandlers() {
@@ -60,9 +60,27 @@ function createEventHandlers() {
 
     $(document).click(function(e){
         var clickedObject = e.target.parentNode;
-        highLightObject(clickedObject);
-        // console.log(clickedObject);
+        // console.log("clicked object: " + clickedObject);
+        // console.log("real clicked object " + e.target);
+        if (clickedObject.classList.contains("icon-middle")) { //if it is a highlightable object
+            // console.log("contains");
+            $('.weather-choose-time option').remove();
+            highLightObject(clickedObject);
+        }
+        //The icon should not be unhighlighted if you press specific objects on the screen.
+        else if (e.target.classList.contains('hidden-options') || e.target instanceof HTMLButtonElement || e.target instanceof HTMLSelectElement) {
+            // console.log("else if");
+        }
 
+        else { //if anywhere else was pressed on the screen then unhighlight an object if it already is highlighted.
+            $('.icon-middle').each(function() {
+                if ($(this).hasClass('highlighted')) { //remove the previous highlighted object
+                    $(this).removeClass('highlighted');
+                    hideDropDown();
+                    hideDeleteButton();
+                }
+            });
+        }
     });
 }
 
@@ -70,53 +88,86 @@ function createEventHandlers() {
 A function that gives an icon a highlighted effect.
  */
 function highLightObject(clickedObject) {
-
     $('.icon-middle').each(function() {
-        // if ($(this).hasClass('highlighted')) { //remove the previous highlighted object
-        //     $(this).removeClass('highlighted');
-        // }
-        if(clickedObject.classList.contains('icon-middle')) { //only highlight an object if it is a dragged element. This also removes highlight from an object if you press anywhere else on the screen.
-            clickedObject.classList.add('highlighted');
-            showDropDown(clickedObject);
-            showDeleteButton(clickedObject);
-        }
-
-        else if (clickedObject.classList.contains('hidden-options') || clickedObject instanceof HTMLButtonElement || clickedObject.classList.contains('clickable')) {
-            console.log("elseif");
-            return;
-        }
-
-        else {
-            hideDeleteButton();
-            // hideDropDown();
+        if ($(this).hasClass('highlighted')) { //remove the previous highlighted object
+            $(this).removeClass('highlighted');
         }
     });
+    clickedObject.classList.add('highlighted');
+    showDropDown(clickedObject);
+    showDeleteButton(clickedObject);
 
 }
 
 function showDropDown(highlightedObject) {
+    console.log(highlightedObject);
     $('.weather-choose-time').css('display','block');
-    $('.weather-choose-time').change(function() { //when an option is clicked in the dropdown menu
-        var newWeatherTime = $('.weather-choose-time option:selected').text();
+    var currentTimeOption = document.createElement('option');
+    currentTimeOption.value ="current time";
+    currentTimeOption.innerHTML = getText("current-time-option");
+    var morningOption =  document.createElement('option');
+    morningOption.value= "morning";
+    morningOption.innerHTML = getText("morning-option");
+    var middayOption = document.createElement('option');
+    middayOption.value = "midday";
+    middayOption.innerHTML = getText("midday-option");
+    var afternoonOption = document.createElement('option');
+    afternoonOption.value = "afternoon";
+    afternoonOption.innerHTML = getText("afternoon-option");
+    var eveningOption = document.createElement('option');
+    eveningOption.value = "evening";
+    eveningOption.innerHTML = getText('evening-option');
+    // $('.weather-choose-time').append(currentTimeOption);
+    var dropdown = document.getElementsByClassName('weather-choose-time')[0];
+    dropdown.appendChild(currentTimeOption);
+    dropdown.appendChild(morningOption);
+    dropdown.appendChild(middayOption);
+    dropdown.appendChild(afternoonOption);
+    dropdown.appendChild(eveningOption);
+
+    /*
+    check the weatherTime attribute appeneded to the div. Depending on its' value change the selection in the dropdown.
+     */
+    for (var i = 0; i < dropdown.options.length; i++ ) {
+        if (highlightedObject.getAttribute('weather-time') == dropdown.options[i].value) {
+            dropdown.options[i].selected = true;
+            break;
+        }
+    }
+
+    //THIS IS NOT WORKING CORRECTLY.
+    $( ".weather-choose-time" ).change(function() { //when an option is clicked in the dropdown menu
+        // var newWeatherTime = $('.weather-choose-time option:selected').text();
+        var newWeatherTime = (this.value);
+        // console.log("event " + event);
+        console.log(newWeatherTime);
+        console.log(highlightedObject);
         highlightedObject.setAttribute('weather-time', newWeatherTime);
 
         updateWeatherTimeInformation(highlightedObject);
+        // console.log (highlightedObject.style.top + " " + highlightedObject.style.left + " " + highlightedObject.id);
+
+        //BECAUSE THE CHANGE FUNCTION IS NOT WORKING PROPERLY WE CANNOT CHANGE THE WEATHER ICON INSTANTLY.
+
+        // highlightedObject.remove();
+        // SMHICall(highlightedObject.style.top, highlightedObject.style.left, highlightedObject.id, highlightedObject.getAttribute('weather-time'));
+
     });
+
 }
 
 function updateWeatherTimeInformation(highlightedObject) {
     for (var i = 0; i < objectIdArray.length; i++) {
         if (objectIdArray[i] == highlightedObject.id) {
             weatherTimeArray[i] = highlightedObject.getAttribute('weather-time');
-            // console.log(weatherTimeArray);
             updateLocalStorage();
         }
     }
 }
 
 function hideDropDown() {
-    var dropDown = document.getElementsByClassName('weather-choose-time')[0];
-    dropDown.style.display = "none";
+    $('.weather-choose-time').css('display','none');
+    $('.weather-choose-time option').remove(); //remove all options from the dropdown, otherwise the function above will add all options again.
 }
 
 function hideDeleteButton() {
@@ -152,17 +203,8 @@ function showDeleteButton(highlightedObject) {
                 console.log(objectIdArray);
             }
         }
+        hideDeleteButton();
         highlightedObject.remove();
-        // for (var j = 0; j < objectIdArray.length; j++) {
-        //     if (document.getElementById("1") == objectIdArray[j] ) {
-        //         objectIdArray.splice(j,1);
-        //         objectStyleArray.splice(j,1);
-        //         topPositionArray.splice(j,1);
-        //         leftPositionArray.splice(j,1);
-        //     }
-        // }
-
-
     });
 
 }
@@ -300,8 +342,8 @@ function createWeatherStyle(apiResponse, locationTop, locationLeft, divId, weath
     }
     else {
         console.log("weathertimenotexist");
-        weatherStyleDiv.setAttribute('weather-time', dropdown.value);
-        var timeDifference = calculateDateAndTimeDifference(apiResponse, dropdown.value);
+        weatherStyleDiv.setAttribute('weather-time', "current-time");
+        var timeDifference = calculateDateAndTimeDifference(apiResponse, "current time");
     }
     console.log("timedifference " + timeDifference);
     var currentWeather = apiResponse.timeSeries[timeDifference].parameters[18].values[0];
@@ -424,7 +466,7 @@ function createWeatherStyle(apiResponse, locationTop, locationLeft, divId, weath
     if (weatherTime !== "notExist") {
         weatherStyleToCss(divId, top, left, weatherStyleDiv.getAttribute('object-style'), weatherTime);
     }
-    else weatherStyleToCss(divId, top, left, weatherStyleDiv.getAttribute('object-style'), dropdown.value);
+    else weatherStyleToCss(divId, top, left, weatherStyleDiv.getAttribute('object-style'), "current time");
 
 }
 
@@ -480,7 +522,6 @@ function checkIfLocalStorageExists() {
     var objectTopPositions = JSON.parse(localStorage.getItem('top'));
     var objectLeftPositions = JSON.parse(localStorage.getItem('left'));
     var weatherTime = JSON.parse(localStorage.getItem('weather-time'));
-    console.log("weathertime :" + weatherTime);
 
     if (objectIds !== null) { //if there is something in the local storage
 
@@ -512,7 +553,7 @@ function calculateDateAndTimeDifference(apiResponse, selectedWeatherTime) {
 
     var hoursToNextDay = 24 - approvedHour;
 
-    if(selectedWeatherTime =="current-time") {
+    if(selectedWeatherTime =="current time") {
         var currentDateAndTime = getDateAndTime();
         var currentHour = currentDateAndTime[0];
         var currentDay = currentDateAndTime[1];
@@ -526,7 +567,7 @@ function calculateDateAndTimeDifference(apiResponse, selectedWeatherTime) {
         return differenceInHours;
     }
 
-    else if(selectedWeatherTime == "Morning") {
+    else if(selectedWeatherTime == "morning") {
         if( approvedHour > "08") {
             var morningHoursNeeded =  hoursToNextDay + 9;
             return morningHoursNeeded;
@@ -537,7 +578,7 @@ function calculateDateAndTimeDifference(apiResponse, selectedWeatherTime) {
         }
     }
 
-    else if(selectedWeatherTime == "Midday") {
+    else if(selectedWeatherTime == "midday") {
         if(approvedHour > "12") {
             var middayHoursNeeded = hoursToNextDay + 13;
             return middayHoursNeeded
@@ -548,7 +589,7 @@ function calculateDateAndTimeDifference(apiResponse, selectedWeatherTime) {
         }
     }
 
-    else if(selectedWeatherTime == "Afternoon") {
+    else if(selectedWeatherTime == "afternoon") {
         if (approvedHour > "17") {
             var afternoonHoursNeeded = hoursToNextDay + 18;
             return afternoonHoursNeeded;
@@ -560,7 +601,7 @@ function calculateDateAndTimeDifference(apiResponse, selectedWeatherTime) {
         }
     }
 
-    else if(selectedWeatherTime == "Evening") {
+    else if(selectedWeatherTime == "evening") {
         if (approvedHour > "21") {
             var eveningHoursNeeded = hoursToNextDay + 22;
             return eveningHoursNeeded;
@@ -587,11 +628,21 @@ function getLocation() {
 The function works but it is very slow in getting the coordinates and the API will therefore give an error message.
  */
 function showPosition(position) {
-    userLatitude = position.coords.latitude;
-    userLongitude = position.coords.longitude;
-    userLatitude.toString();
-    userLongitude.toString();
-    console.log("showPos");
+    console.log(position.coords);
+    // if (position.coords == null) {
+    //     console.log("timeout");
+    //     setTimeout(function(){
+    //         showPosition(position); }, 500);
+    //     return false;
+    // }
+    // else {
+        userLatitude = position.coords.latitude;
+        userLongitude = position.coords.longitude;
+        userLatitude.toString();
+        userLongitude.toString();
+        // console.log(userLatitude);
+        // console.log(userLongitude);
+    // }
 }
 
 function SMHICall(topPosition, leftPosition, divId, weatherTime) {

@@ -54,5 +54,25 @@
   "delete-button": {
     "en":"Delete",
     "se":"Radera"
+  },
+  "current-time-option": {
+    "en":"Current time",
+    "se":"Just nu"
+  },
+  "morning-option": {
+    "en":"Morning",
+    "se":"Morgon"
+  },
+  "midday-option": {
+    "en":"Midday",
+    "se":"Förmiddag"
+  },
+  "afternoon-option": {
+    "en":"Afternoon",
+    "se":"Eftermiddag"
+  },
+  "evening-option": {
+    "en":"Evening",
+    "se":"Kväll"
   }
 }
