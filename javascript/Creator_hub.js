@@ -8,6 +8,7 @@ var objectIdArray = [];
 var weatherTimeArray = [];
 var userLatitude;
 var userLongitude;
+var currentHighlightedObject;
 
 
 
@@ -46,11 +47,13 @@ function createEventHandlers() {
     };
 
     $(document).on('click','.weather-option', function() {
+        console.log("click");
         if ($(this).hasClass('clicked')) {
             $(this).removeClass('clicked');
             $(this).find('.hidden-options').css("display", "none");
         }
         else {
+            console.log("else");
             // $(this).animate({'width': '388px', 'height': '350px'}, 200);
             $(this).addClass('clicked');
             $(this).find('.hidden-options').css("display", "block");
@@ -58,14 +61,14 @@ function createEventHandlers() {
         }
     });
 
-    $(document).click(function(e){
-        var clickedObject = e.target.parentNode;
-        // console.log("clicked object: " + clickedObject);
+    $('.middle-side').click(function(e){
+        currentHighlightedObject = e.target.parentNode;
+        console.log("clicked object: " + currentHighlightedObject);
         // console.log("real clicked object " + e.target);
-        if (clickedObject.classList.contains("icon-middle")) { //if it is a highlightable object
+        if (currentHighlightedObject.classList.contains("icon-middle")) { //if it is a highlightable object
             // console.log("contains");
             $('.weather-choose-time option').remove();
-            highLightObject(clickedObject);
+            highLightObject();
         }
         //The icon should not be unhighlighted if you press specific objects on the screen.
         else if (e.target.classList.contains('hidden-options') || e.target instanceof HTMLButtonElement || e.target instanceof HTMLSelectElement) {
@@ -76,31 +79,37 @@ function createEventHandlers() {
             $('.icon-middle').each(function() {
                 if ($(this).hasClass('highlighted')) { //remove the previous highlighted object
                     $(this).removeClass('highlighted');
+                    currentHighlightedObject = null;
                     hideDropDown();
                     hideDeleteButton();
                 }
             });
         }
     });
+
+    $( ".weather-choose-time" ).change(function() { //when an option is clicked in the dropdown menu
+        // var newWeatherTime = $('.weather-choose-time option:selected').text();
+        switchWeatherTime(this);
+    });
 }
 
 /*
 A function that gives an icon a highlighted effect.
  */
-function highLightObject(clickedObject) {
+function highLightObject() {
     $('.icon-middle').each(function() {
         if ($(this).hasClass('highlighted')) { //remove the previous highlighted object
             $(this).removeClass('highlighted');
         }
     });
-    clickedObject.classList.add('highlighted');
-    showDropDown(clickedObject);
-    showDeleteButton(clickedObject);
+    currentHighlightedObject.classList.add('highlighted');
+    showDropDown();
+    showDeleteButton();
 
 }
 
-function showDropDown(highlightedObject) {
-    console.log(highlightedObject);
+function showDropDown() {
+    console.log(currentHighlightedObject);
     $('.weather-choose-time').css('display','block');
     var currentTimeOption = document.createElement('option');
     currentTimeOption.value ="current time";
@@ -129,37 +138,38 @@ function showDropDown(highlightedObject) {
     check the weatherTime attribute appeneded to the div. Depending on its' value change the selection in the dropdown.
      */
     for (var i = 0; i < dropdown.options.length; i++ ) {
-        if (highlightedObject.getAttribute('weather-time') == dropdown.options[i].value) {
+        if (currentHighlightedObject.getAttribute('weather-time') == dropdown.options[i].value) {
             dropdown.options[i].selected = true;
             break;
         }
     }
 
-    //THIS IS NOT WORKING CORRECTLY.
-    $( ".weather-choose-time" ).change(function() { //when an option is clicked in the dropdown menu
-        // var newWeatherTime = $('.weather-choose-time option:selected').text();
-        var newWeatherTime = (this.value);
-        // console.log("event " + event);
-        console.log(newWeatherTime);
-        console.log(highlightedObject);
-        highlightedObject.setAttribute('weather-time', newWeatherTime);
-
-        updateWeatherTimeInformation(highlightedObject);
-        // console.log (highlightedObject.style.top + " " + highlightedObject.style.left + " " + highlightedObject.id);
-
-        //BECAUSE THE CHANGE FUNCTION IS NOT WORKING PROPERLY WE CANNOT CHANGE THE WEATHER ICON INSTANTLY.
-
-        // highlightedObject.remove();
-        // SMHICall(highlightedObject.style.top, highlightedObject.style.left, highlightedObject.id, highlightedObject.getAttribute('weather-time'));
-
-    });
-
 }
 
-function updateWeatherTimeInformation(highlightedObject) {
+/*
+When an option is changed in the dropdown menu we need to change the weather time in the selected div and then
+change the icon of the whole div itself.
+ */
+function switchWeatherTime(selectedValue) {
+    console.log("function call");
+    var newWeatherTime = selectedValue.value;
+    console.log(newWeatherTime);
+    console.log(currentHighlightedObject);
+    currentHighlightedObject.setAttribute('weather-time', newWeatherTime);
+    currentHighlightedObject.remove();
+    SMHICall(currentHighlightedObject.style.top, currentHighlightedObject.style.left, currentHighlightedObject.id, currentHighlightedObject.getAttribute('weather-time'));
+    hideDropDown();
+    hideDeleteButton();
+    updateWeatherTimeInformation();
+}
+
+/*
+Update the global array for the weather time attribute and then update the local storage.
+ */
+function updateWeatherTimeInformation() {
     for (var i = 0; i < objectIdArray.length; i++) {
-        if (objectIdArray[i] == highlightedObject.id) {
-            weatherTimeArray[i] = highlightedObject.getAttribute('weather-time');
+        if (objectIdArray[i] == currentHighlightedObject.id) {
+            weatherTimeArray[i] = currentHighlightedObject.getAttribute('weather-time');
             updateLocalStorage();
         }
     }
@@ -175,7 +185,7 @@ function hideDeleteButton() {
     deleteButton.style.display = 'none';
 }
 
-function showDeleteButton(highlightedObject) {
+function showDeleteButton() {
     // if ($('.delete-button').css('display')=='none') {
     //     console.log("if");
     //     $('.delete-button').css('display','block');
@@ -191,7 +201,7 @@ function showDeleteButton(highlightedObject) {
         // console.log(highlightedObject.id);
         // console.log(objectIdArray);
         for (var i = 0; i < objectIdArray.length; i++ ) {
-            if (objectIdArray[i] == highlightedObject.id) {
+            if (objectIdArray[i] == currentHighlightedObject.id) {
                 // console.log("if " + i);
                 objectIdArray.splice(i,1);
                 objectStyleArray.splice(i,1);
@@ -204,7 +214,7 @@ function showDeleteButton(highlightedObject) {
             }
         }
         hideDeleteButton();
-        highlightedObject.remove();
+        currentHighlightedObject.remove();
     });
 
 }

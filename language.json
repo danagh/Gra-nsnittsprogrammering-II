@@ -74,5 +74,13 @@
   "evening-option": {
     "en":"Evening",
     "se":"Kväll"
+  },
+  "weather": {
+    "en":"Weather",
+    "se":"Väder"
+  },
+  "temperature": {
+    "en":"Temperature",
+    "se":"Temperatur"
   }
 }
