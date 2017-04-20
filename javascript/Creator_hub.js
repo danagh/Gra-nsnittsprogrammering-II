@@ -9,6 +9,8 @@ var weatherTimeArray = [];
 var userLatitude;
 var userLongitude;
 var currentHighlightedObject;
+var objectWidthArray = [];
+var objectHeightArray = [];
 
 
 
@@ -62,8 +64,8 @@ function createEventHandlers() {
     });
 
     $('.middle-side').click(function(e){
-        currentHighlightedObject = e.target.parentNode;
-        console.log("clicked object: " + currentHighlightedObject);
+        currentHighlightedObject = e.target;
+        // console.log("clicked object: " + currentHighlightedObject);
         // console.log("real clicked object " + e.target);
         if (currentHighlightedObject.classList.contains("icon-middle")) { //if it is a highlightable object
             // console.log("contains");
@@ -71,7 +73,7 @@ function createEventHandlers() {
             highLightObject();
         }
         //The icon should not be unhighlighted if you press specific objects on the screen.
-        else if (e.target.classList.contains('hidden-options') || e.target instanceof HTMLButtonElement || e.target instanceof HTMLSelectElement) {
+        else if (e.target.classList.contains('hidden-options') || e.target instanceof HTMLButtonElement || e.target instanceof HTMLSelectElement || e.target.classList.contains('resizer') ) {
             // console.log("else if");
         }
 
@@ -82,6 +84,7 @@ function createEventHandlers() {
                     currentHighlightedObject = null;
                     hideDropDown();
                     hideDeleteButton();
+                    hideResizer();
                 }
             });
         }
@@ -91,6 +94,11 @@ function createEventHandlers() {
         // var newWeatherTime = $('.weather-choose-time option:selected').text();
         switchWeatherTime(this);
     });
+
+    // $('.resizer').mousedown(function() {
+    //     console.log(currentHighlightedObject);
+    //    initResize();
+    // });
 }
 
 /*
@@ -105,7 +113,80 @@ function highLightObject() {
     currentHighlightedObject.classList.add('highlighted');
     showDropDown();
     showDeleteButton();
+    showResizer();
 
+}
+
+function hideResizer() {
+    var resizer = document.getElementsByClassName('resizer')[0];
+    // resizer.style.display='none';
+    resizer.remove();
+}
+
+function showResizer() {
+    // console.log(currentHighlightedObject);
+    var oldResizer = document.getElementsByClassName('resizer')[0];
+    if (oldResizer) {
+        oldResizer.style.display = "none";
+        oldResizer.remove();
+    }
+
+    var resizer = document.createElement('div');
+    resizer.className = 'resizer';
+    var style = window.getComputedStyle(currentHighlightedObject);
+    var bottom = style.getPropertyValue('bottom');
+    var right = style.getPropertyValue('right');
+    resizer.style.bottom = bottom;
+    resizer.style.right = right;
+    document.getElementsByClassName("middle-side")[0].appendChild(resizer);
+
+
+    // currentHighlightedObject.appendChild(resizer);
+    resizer.addEventListener('mousedown', initResize, false);
+}
+
+function initResize(e) {
+    // console.log(currentHighlightedObject);
+    startX = e.clientX;
+    startY = e.clientY;
+    startWidth = parseInt(document.defaultView.getComputedStyle(currentHighlightedObject,null).width, 10);
+    startHeight = parseInt(document.defaultView.getComputedStyle(currentHighlightedObject,null).height, 10);
+    window.addEventListener('mousemove', resize, false);
+    window.addEventListener('mouseup', stopResize, false);
+}
+
+function resize(e) {
+    currentHighlightedObject.style.width = (startWidth + e.clientX - startX) + 'px';
+    currentHighlightedObject.style.height = (startHeight + e.clientY - startY) + 'px';
+    // currentHighlightedObject.style.width = (e.clientX - currentHighlightedObject.offsetLeft) + 'px';
+    // currentHighlightedObject.style.height = (e.clientY - currentHighlightedObject.offsetTop) + 'px';
+}
+
+function stopResize() {
+    // console.log(currentHighlightedObject);
+    window.removeEventListener('mousemove', resize, false);
+    window.removeEventListener('mouseup', stopResize, false);
+    updateObjectSize(document.defaultView.getComputedStyle(currentHighlightedObject,null).width, document.defaultView.getComputedStyle(currentHighlightedObject,null).height);
+}
+
+function updateObjectSize(newWidth, newHeight) {
+    console.log(currentHighlightedObject);
+    console.log(newWidth + newHeight);
+    currentHighlightedObject.setAttribute('object-width',newWidth);
+    currentHighlightedObject.setAttribute('object-height',newHeight);
+
+    for (var i = 0; i < objectIdArray.length; i++) {
+        console.log(objectWidthArray);
+        console.log(objectHeightArray);
+        if (objectIdArray[i] == currentHighlightedObject.id) {
+            console.log("exists");
+            objectWidthArray[i] = newWidth;
+            objectHeightArray[i] = newHeight;
+
+            updateLocalStorage();
+            break;
+        }
+    }
 }
 
 function showDropDown() {
@@ -157,9 +238,10 @@ function switchWeatherTime(selectedValue) {
     console.log(currentHighlightedObject);
     currentHighlightedObject.setAttribute('weather-time', newWeatherTime);
     currentHighlightedObject.remove();
-    SMHICall(currentHighlightedObject.style.top, currentHighlightedObject.style.left, currentHighlightedObject.id, currentHighlightedObject.getAttribute('weather-time'));
+    SMHICall(currentHighlightedObject.style.top, currentHighlightedObject.style.left, currentHighlightedObject.id, currentHighlightedObject.getAttribute('weather-time'), currentHighlightedObject.getAttribute('object-width'),currentHighlightedObject.getAttribute('object-height'));
     hideDropDown();
     hideDeleteButton();
+    hideResizer();
     updateWeatherTimeInformation();
 }
 
@@ -208,12 +290,16 @@ function showDeleteButton() {
                 topPositionArray.splice(i,1);
                 leftPositionArray.splice(i,1);
                 weatherTimeArray.splice(i,1);
+                objectWidthArray.splice(i,1);
+                objectHeightArray.splice(i,1);
 
                 updateLocalStorage();
                 console.log(objectIdArray);
             }
         }
         hideDeleteButton();
+        hideDropDown();
+        hideResizer();
         currentHighlightedObject.remove();
     });
 
@@ -294,6 +380,7 @@ function drop(ev, target) {
     var offset = ev.dataTransfer.getData("text/plain").split(','); //put the data into an array and split at a comma-sign.
 
     if (offset[2] == 'true') {
+        console.log("drop");
         var draggedId = offset[3];
         console.log("dragged more than once: " + draggedId);
         var draggedDiv = document.getElementById(draggedId);
@@ -313,9 +400,10 @@ function drop(ev, target) {
 
     }
     else if (offset[2] == 0) {
+        console.log("drop else if");
         var locationLeft = ev.pageX - '367' + 'px' ;
         var locationTop = ev.pageY - '53'+ 'px' ;
-        SMHICall(locationTop, locationLeft, dropCallsString, "notExist");
+        SMHICall(locationTop, locationLeft, dropCallsString, "notExist", "startWidth", "startHeight");
     }
 
     else if (offset[2] == 1) {
@@ -340,8 +428,8 @@ function drop(ev, target) {
 
 }
 
-function createWeatherStyle(apiResponse, locationTop, locationLeft, divId, weatherTime) {
-    var weatherStyleDiv = document.createElement('div');
+function createWeatherStyle(apiResponse, locationTop, locationLeft, divId, weatherTime, objectWidth, objectHeight) {
+    var weatherStyleDiv = document.createElement('img');
     weatherStyleDiv.setAttribute('id', divId); //give an id so that we can choose the correct object to be dragged.
 
     var dropdown = document.getElementsByClassName('weather-choose-time')[0];
@@ -367,96 +455,95 @@ function createWeatherStyle(apiResponse, locationTop, locationLeft, divId, weath
 
     //currentWeather = 4; //test another else if-statement
     if (currentWeather == 1 || currentWeather == 2) { //sunny
-        console.log("is correct");
-        var sun = document.createElement('div');
-        sun.className ='sun';
-
-        var rays = document.createElement('div');
-        rays.className = 'rays';
-
-        weatherStyleDiv.appendChild(sun);
-        sun.appendChild(rays);
+        // console.log("is correct");
+        // var sun = document.createElement('div');
+        // sun.className ='sun';
+        //
+        // var rays = document.createElement('div');
+        // rays.className = 'rays';
+        // var sun = document.createElement('img');
+        // sun.addEventListener('dragstart', drag2, false);
+        weatherStyleDiv.src="weathericons/simple_weather_icon_01.png";
+        // weatherStyleDiv.style.content="url(weathericons/simple_weather_icon_01.png)";
+        // weatherStyleDiv.appendChild(sun);
+        // sun.appendChild(rays);
     }
 
     else if (currentWeather == 3 || currentWeather == 4 || currentWeather == 5 || currentWeather == 6 || currentWeather == 7) { //cloudy
-        var cloud = document.createElement('div');
-        cloud.className ='cloud';
-
-        var cloud2 = document.createElement('div');
-        cloud2.className = 'cloud';
-
-        weatherStyleDiv.appendChild(cloud);
-        weatherStyleDiv.appendChild(cloud2);
+        // var cloud = document.createElement('img');
+        // cloud.addEventListener('dragstart', drag2, false);
+        weatherStyleDiv.src= "weathericons/simple_weather_icon_04.png";
+        // weatherStyleDiv.style.content= "url(weathericons/simple_weather_icon_04.png)";
+        // weatherStyleDiv.appendChild(cloud);
     }
 
-    else if (currentWeather == 8) { //rain showers
-        var cloud = document.createElement('div');
-        cloud.className ='cloud';
-
-        var sun = document.createElement('div');
-        sun.className ='sun';
-
-        var rays = document.createElement('div');
-        rays.className = 'rays';
-
-        var rain = document.createElement('div');
-        rain.className = 'rain';
-
-        weatherStyleDiv.appendChild(cloud);
-        weatherStyleDiv.appendChild(sun);
-        sun.appendChild(rays);
-        weatherStyleDiv.append(rain);
-    }
-
-    else if (currentWeather == 12) { //rain
-        var cloud = document.createElement('div');
-        cloud.className ='cloud';
-
-        var rain = document.createElement('div');
-        rain.className = 'rain';
-
-        weatherStyleDiv.appendChild(cloud);
-        weatherStyleDiv.appendChild(rain);
-    }
-
-    else if (currentWeather == 9 || currentWeather == 13) { //lightning
-        var cloud = document.createElement('div');
-        cloud.className ='cloud';
-
-        var lighting = document.createElement('div');
-        lighting.className = 'lightning';
-
-        var bolt1 = document.createElement('div');
-        bolt1.className ='bolt';
-
-        var bolt2 = document.createElement('div');
-        bolt2.className = 'bolt';
-
-        weatherStyleDiv.appendChild(cloud);
-        weatherStyleDiv.appendChild(lighting);
-        lighting.appendChild(bolt1);
-        lighting.appendChild(bolt2);
-    }
-
-    else if (currentWeather == 10 || currentWeather == 11 || currentWeather == 14 || currentWeather == 15) { //snow
-        var cloud = document.createElement('div');
-        cloud.className = 'cloud';
-
-        var snow = document.createElement('div');
-        snow.className = 'snow';
-
-        var flake1 = document.createElement('div');
-        flake1.className = 'flake';
-
-        var flake2 = document.createElement('div');
-        flake2.className = 'flake';
-
-        weatherStyleDiv.appendChild(cloud);
-        weatherStyleDiv.appendChild(snow);
-        snow.appendChild(flake1);
-        snow.appendChild(flake2);
-    }
-
+    // else if (currentWeather == 8) { //rain showers
+    //     var cloud = document.createElement('div');
+    //     cloud.className ='cloud';
+    //
+    //     var sun = document.createElement('div');
+    //     sun.className ='sun';
+    //
+    //     var rays = document.createElement('div');
+    //     rays.className = 'rays';
+    //
+    //     var rain = document.createElement('div');
+    //     rain.className = 'rain';
+    //
+    //     weatherStyleDiv.appendChild(cloud);
+    //     weatherStyleDiv.appendChild(sun);
+    //     sun.appendChild(rays);
+    //     weatherStyleDiv.append(rain);
+    // }
+    //
+    // else if (currentWeather == 12) { //rain
+    //     var cloud = document.createElement('div');
+    //     cloud.className ='cloud';
+    //
+    //     var rain = document.createElement('div');
+    //     rain.className = 'rain';
+    //
+    //     weatherStyleDiv.appendChild(cloud);
+    //     weatherStyleDiv.appendChild(rain);
+    // }
+    //
+    // else if (currentWeather == 9 || currentWeather == 13) { //lightning
+    //     var cloud = document.createElement('div');
+    //     cloud.className ='cloud';
+    //
+    //     var lighting = document.createElement('div');
+    //     lighting.className = 'lightning';
+    //
+    //     var bolt1 = document.createElement('div');
+    //     bolt1.className ='bolt';
+    //
+    //     var bolt2 = document.createElement('div');
+    //     bolt2.className = 'bolt';
+    //
+    //     weatherStyleDiv.appendChild(cloud);
+    //     weatherStyleDiv.appendChild(lighting);
+    //     lighting.appendChild(bolt1);
+    //     lighting.appendChild(bolt2);
+    // }
+    //
+    // else if (currentWeather == 10 || currentWeather == 11 || currentWeather == 14 || currentWeather == 15) { //snow
+    //     var cloud = document.createElement('div');
+    //     cloud.className = 'cloud';
+    //
+    //     var snow = document.createElement('div');
+    //     snow.className = 'snow';
+    //
+    //     var flake1 = document.createElement('div');
+    //     flake1.className = 'flake';
+    //
+    //     var flake2 = document.createElement('div');
+    //     flake2.className = 'flake';
+    //
+    //     weatherStyleDiv.appendChild(cloud);
+    //     weatherStyleDiv.appendChild(snow);
+    //     snow.appendChild(flake1);
+    //     snow.appendChild(flake2);
+    // }
     document.getElementsByClassName('middle-side')[0].appendChild(weatherStyleDiv);
 
     weatherStyleDiv.style.left = locationLeft ; //create an offset so that it is placed correctly
@@ -471,12 +558,24 @@ function createWeatherStyle(apiResponse, locationTop, locationLeft, divId, weath
 
 
 
+    if (objectWidth == "startWidth" && objectHeight=="startHeight") {
+        console.log("startWidthHeight: " + style.getPropertyValue('width') + " " + style.getPropertyValue('height'));
+        weatherStyleDiv.setAttribute('object-width',style.getPropertyValue('width'));
+        weatherStyleDiv.setAttribute('object-height',style.getPropertyValue('height'));
+    }
+    else {
+        weatherStyleDiv.style.width = objectWidth;
+        weatherStyleDiv.style.height = objectHeight;
+        console.log("objectWidthHeight " + objectWidth + " " + objectHeight);
+        weatherStyleDiv.setAttribute('object-width',objectWidth);
+        weatherStyleDiv.setAttribute('object-height',objectHeight);
+    }
 
 
     if (weatherTime !== "notExist") {
-        weatherStyleToCss(divId, top, left, weatherStyleDiv.getAttribute('object-style'), weatherTime);
+        weatherStyleToCss(divId, top, left, weatherStyleDiv.getAttribute('object-style'), weatherTime, weatherStyleDiv.getAttribute('object-width'), weatherStyleDiv.getAttribute('object-height'));
     }
-    else weatherStyleToCss(divId, top, left, weatherStyleDiv.getAttribute('object-style'), "current time");
+    else weatherStyleToCss(divId, top, left, weatherStyleDiv.getAttribute('object-style'), "current time", weatherStyleDiv.getAttribute('object-width'), weatherStyleDiv.getAttribute('object-height'));
 
 }
 
@@ -486,7 +585,7 @@ saves it into local storage. This way when the user is logged in again we can ta
 that was equal to the one the person exited from.
  */
 
-function weatherStyleToCss(draggedId, topPosition, leftPosition, objectStyle, selectedTime) {
+function weatherStyleToCss(draggedId, topPosition, leftPosition, objectStyle, selectedTime, objectWidth, objectHeight) {
     //
     // var topInt = topPosition.replace(/\D/g,''); //Make the pixel value into an integer
     // var leftInt = leftPosition.replace(/\D/g,'');
@@ -509,6 +608,8 @@ function weatherStyleToCss(draggedId, topPosition, leftPosition, objectStyle, se
         topPositionArray.push(topPosition);
         objectStyleArray.push(objectStyle);
         weatherTimeArray.push(selectedTime);
+        objectWidthArray.push(objectWidth);
+        objectHeightArray.push(objectHeight);
     }
 
     updateLocalStorage()
@@ -523,6 +624,8 @@ function updateLocalStorage() {
     localStorage.setItem("object-style", JSON.stringify(objectStyleArray));
     localStorage.setItem("object-id",JSON.stringify(objectIdArray));
     localStorage.setItem("weather-time", JSON.stringify(weatherTimeArray));
+    localStorage.setItem("object-width", JSON.stringify(objectWidthArray));
+    localStorage.setItem("object-height", JSON.stringify(objectHeightArray));
 
 }
 
@@ -532,6 +635,8 @@ function checkIfLocalStorageExists() {
     var objectTopPositions = JSON.parse(localStorage.getItem('top'));
     var objectLeftPositions = JSON.parse(localStorage.getItem('left'));
     var weatherTime = JSON.parse(localStorage.getItem('weather-time'));
+    var objectWidth = JSON.parse(localStorage.getItem('object-width'));
+    var objectHeight = JSON.parse(localStorage.getItem('object-height'));
 
     if (objectIds !== null) { //if there is something in the local storage
 
@@ -540,7 +645,7 @@ function checkIfLocalStorageExists() {
                 dropCalls++;
                 var dropCallsString = dropCalls.toString();
 
-                SMHICall(objectTopPositions[i], objectLeftPositions[i], dropCallsString, weatherTime[i]);
+                SMHICall(objectTopPositions[i], objectLeftPositions[i], dropCallsString, weatherTime[i], objectWidth[i], objectHeight[i]);
             }
         }
     }
@@ -655,7 +760,7 @@ function showPosition(position) {
     // }
 }
 
-function SMHICall(topPosition, leftPosition, divId, weatherTime) {
+function SMHICall(topPosition, leftPosition, divId, weatherTime, objectWidth, objectHeight) {
     userLongitude = "17.6389";
     userLatitude = "59.8586";
     // var endPoint = "http://opendata-download-metfcst.smhi.se/api/category/pmp2g/version/2/geotype/point/lon/17.6389/lat/59.8586/data.json";
@@ -698,7 +803,7 @@ function SMHICall(topPosition, leftPosition, divId, weatherTime) {
 
         // createWeatherStyle(data.timeSeries[timeDifference].parameters[18].values[0], topPosition, leftPosition, divId);
 
-        createWeatherStyle(data, topPosition, leftPosition, divId, weatherTime);
+        createWeatherStyle(data, topPosition, leftPosition, divId, weatherTime, objectWidth, objectHeight);
     });
 
 }

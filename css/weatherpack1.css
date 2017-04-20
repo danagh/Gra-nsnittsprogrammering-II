@@ -9,6 +9,7 @@ html *:after { box-sizing: inherit; }
     width: 9em;
     height: 10em;
     font-size: 1em; /* control icon size here */
+
 }
 
 .icon-middle {

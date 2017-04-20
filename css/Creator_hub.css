@@ -199,3 +199,35 @@ body {
 .weather-choose-time {
     display:none;
 }
+
+.outer-div {
+    display:block;
+    overflow: auto;
+    width: auto;
+    border: 1px solid black;
+    resize:both;
+}
+
+.resizer {
+    position: absolute;
+    display:block;
+    width: 10px;
+    height: 10px;
+    background: red;
+    /*left: 0; !* Hardcoded for cloud *!*/
+    /*top: 0;*/
+    cursor: se-resize;
+}
+
+.icon-middle {
+    position: absolute;
+    display: block;
+
+    /*border: 3px solid green;*/
+    /*resize: both;*/
+    /*overflow:auto;*/
+}
+.blabla{
+    /*display:block;*/
+    /*background:green;*/
+}
