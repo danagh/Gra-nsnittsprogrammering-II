@@ -5,18 +5,45 @@
     <title>Make your smart mirror!</title>
 
     <link rel="stylesheet" href="css/Creator_hub.css">
+    <link rel="stylesheet" href="css/select2.css">
+    <link rel="stylesheet" href="css/fonts.css">
     <!--<link rel="stylesheet" href="css/weatherpack1.css">-->
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"
             integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
             crossorigin="anonymous"></script>
+    <script src="javascript/jquery.js"></script>
+    <script src="javascript/select2.full.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js"></script>
+    <script src="javascript/fonts.js"></script>
+    <!--<script src="http://code.interactjs.io/v1.2.6/interact.js"></script>-->
+    <script type='text/javascript' >
+//        initiate global variables
+        var dropCalls = 0;
+        var userWidth = window.screen.width;
+        var userHeight = window.screen.height;
+        var topPositionArray = [];
+        var leftPositionArray = [];
+        var objectStyleArray = [];
+        var objectIdArray = [];
+        var weatherTimeArray = [];
+        var userLatitude;
+        var userLongitude;
+        var currentHighlightedObject;
+        var objectWidthArray = [];
+        var objectHeightArray = [];
+        var objectFontArray = [];
+        var WebFontConfig;
+    </script>
+    <script type="text/javascript">
+        var fontFamilies2 = [];
+//        console.log(fontFamilies2);
+    </script>
+
+
     <script src="javascript/Creator_hub.js"></script>
+    <script src="javascript/temperature.js"></script>
     <script src="javascript/translator.js"></script>
-    <!--<link rel="stylesheet" href="css/weather-icons.css">-->
-    <!--<link rel="stylesheet" href="css/weather-icons.min.css">-->
-    <!--<link rel="stylesheet" href="css/weather-icons-wind.css">-->
-    <!--<link rel="stylesheet" href="css/weather-icons-wind.min.css">-->
-    <!--<script src="javascript/weather.js"></script>-->
-    <!--<script src="javascript/testWeather.js"></script>-->
+
 
     <link href="https://fonts.googleapis.com/css?family=Lobster|Open+Sans:400,600" rel="stylesheet">
 </head>
@@ -129,8 +156,25 @@
         </div>
     </div>
     <div class="middle-side" ondrop="drop(event, this)" ondragover="dragOver(event)">
-        <!--<i class="wi wi-night-sleet"></i>-->
-        <!--<img src="weathericons/simple_weather_icon_01.png" <div>Bla</div> >-->
+
+        <!--<select id="select_fontfamily"></select>-->
+        <!--<p style="font-size: 20px;">This is the preview of the font selected</p>-->
+        <!--<script type="text/javascript">-->
+            <!--$(document).ready(function() {-->
+
+                <!--$( "#select_fontfamily" ).higooglefonts({-->
+                    <!--selectedCallback:function(e){-->
+                        <!--console.log(e);-->
+                    <!--},-->
+                    <!--loadedCallback:function(e){-->
+                        <!--console.log(e);-->
+                        <!--$("p").css("font-family", e);-->
+                    <!--}-->
+                <!--});-->
+
+            <!--});-->
+
+        <!--</script>-->
     </div>
 
     <div class="right-side">

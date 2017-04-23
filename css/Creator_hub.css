@@ -55,7 +55,7 @@ body {
 }
 
 .right-side {
-    display: flex;
+    display: -webkit-box;
     flex-grow: 0;
     width: 25%;
     overflow: auto;
@@ -222,7 +222,6 @@ body {
 .icon-middle {
     position: absolute;
     display: block;
-
     /*border: 3px solid green;*/
     /*resize: both;*/
     /*overflow:auto;*/
