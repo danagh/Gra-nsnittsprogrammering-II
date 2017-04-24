@@ -33,7 +33,7 @@ function createTemperatureStyle(apiResponse, topPosition, leftPosition, divId, t
 
     var currentTemp = apiResponse.timeSeries[timeDifference].parameters[1].values[0];
     // console.log("current temp: " + currentTemp);
-    temperatureStyleDiv.innerHTML = currentTemp +'\u00B0C'; //last string is the degree-sign
+    temperatureStyleDiv.innerHTML = currentTemp +'\u00B0C'; //last string is the degree-sign + a C for Celsius
 
     temperatureStyleDiv.setAttribute('class','icon-middle sunny');
     temperatureStyleDiv.setAttribute('draggable','true'); //the object has to be able to be moved later on by the user.
@@ -131,6 +131,133 @@ function hideFontSelector() { //hide the font selector
         selector2.style.display = "none";
         selector2.remove();
     }
+}
+
+function createTextMessage(locationTop, locationLeft, divId, messageTime, objectWidth, objectHeight, objectStyle, objectFont, textMessage) {
+    console.log("create text message");
+    var textMessageDiv = document.createElement('div');
+    textMessageDiv.setAttribute('id',divId);
+    textMessageDiv.setAttribute('class','icon-middle sunny');
+    textMessageDiv.setAttribute('draggable','true'); //the object has to be able to be moved later on by the user.
+    textMessageDiv.setAttribute('fromleft','true');
+    textMessageDiv.addEventListener('dragstart', drag2, false);
 
 
+
+    if (textMessage == "noMessage") {
+        console.log("if sats");
+        var placeholder = getText('text-message-placeholder');
+        textMessageDiv.innerHTML = placeholder;
+        textMessageDiv.setAttribute('text-message', placeholder);
+    }
+    else {
+        textMessageDiv.innerHTML = textMessage;
+        textMessageDiv.setAttribute('text-message',textMessage);
+    }
+    document.getElementsByClassName('middle-side')[0].appendChild(textMessageDiv);
+    // textMessageDiv.appendChild(inputField);
+
+    var style = window.getComputedStyle(textMessageDiv);
+    textMessageDiv.style.top =locationTop;
+    textMessageDiv.style.left = locationLeft;
+    textMessageDiv.setAttribute('top', locationTop);
+    textMessageDiv.setAttribute('left',locationLeft);
+
+    textMessageDiv.setAttribute('object-style', objectStyle);
+
+    if(objectFont !== "noFont") {
+        fontFamilies2.push(objectFont); //add the font if there is a selected font
+        console.log("ifFont");
+        textMessageDiv.setAttribute('object-font',objectFont);
+
+        textMessageDiv.style.fontFamily = objectFont;
+    }
+    else {
+        textMessageDiv.setAttribute('object-font',"noFont");
+    }
+
+
+    if (objectWidth == "startWidth" && objectHeight=="startHeight") {
+        // console.log("startWidthHeight: " + style.getPropertyValue('width') + " " + style.getPropertyValue('height'));
+        // temperatureStyleDiv.style.width = "100px";
+        // temperatureStyleDiv.style.height = "50px";
+        textMessageDiv.setAttribute('object-width', style.getPropertyValue('width'));
+        textMessageDiv.setAttribute('object-height',style.getPropertyValue('height'));
+    }
+    else {
+        textMessageDiv.style.width = objectWidth;
+        textMessageDiv.style.height = objectHeight;
+        // console.log("objectWidthHeight " + objectWidth + " " + objectHeight);
+        textMessageDiv.setAttribute('object-width',objectWidth);
+        textMessageDiv.setAttribute('object-height',objectHeight);
+    }
+    textMessageDiv.style.fontSize = textMessageDiv.getAttribute('object-height') ;
+
+    textMessageToCss(divId, locationTop, locationLeft, messageTime, objectWidth, objectHeight, textMessageDiv.getAttribute('object-font'), textMessageDiv.getAttribute('text-message'), objectStyle);
+}
+
+function showInputField() {
+    currentHighlightedObject.innerHTML ="";
+    var inputField = document.createElement('input');
+    inputField.className = 'text-message-field';
+    inputField.setAttribute('type','text');
+    currentHighlightedObject.appendChild(inputField);
+    inputField.focus();
+    inputField.select();
+}
+function hideInputField() {
+
+    var inputField = document.getElementsByClassName('text-message-field')[0];
+    if (inputField) {
+        console.log("current highlight: " + currentHighlightedObject.className);
+        var enteredText =  inputField.value;
+        if (enteredText == "") {
+            currentHighlightedObject.innerHTML = currentHighlightedObject.getAttribute('text-message');
+        }
+        else {
+            currentHighlightedObject.innerHTML = enteredText;
+            currentHighlightedObject.setAttribute('text-message',enteredText);
+            updateTextMessageArray(enteredText);
+        }
+        inputField.style.dipslay = "none";
+        inputField.remove();
+    }
+
+}
+
+function updateTextMessageArray(enteredText) {
+    for (var i = 0; i < objectIdArray.length; i++) {
+        if (objectIdArray[i] == currentHighlightedObject.id) {
+            objectTextMessages[i] = enteredText;
+            console.log(objectTextMessages);
+            updateLocalStorage();
+        }
+    }
+}
+
+function textMessageToCss(divId, topPosition, leftPosition, objectTime, objectWidth, objectHeight, objectFont, textMessage, objectStyle) {
+    var index = objectIdArray.indexOf(divId);
+    if (index !== -1) { //if the id is not found in the id-array
+        leftPositionArray[index] = leftPosition;
+        topPositionArray[index] = topPosition;
+    }
+
+    else {
+        objectIdArray.push(divId);
+        leftPositionArray.push(leftPosition);
+        topPositionArray.push(topPosition);
+        objectStyleArray.push(objectStyle);
+        weatherTimeArray.push(objectTime);
+        objectWidthArray.push(objectWidth);
+        objectHeightArray.push(objectHeight);
+        objectFontArray.push(objectFont);
+
+        for (var i= 0; i < objectIdArray.length; i++) {
+            if (objectIdArray[i] == divId) {
+                objectTextMessages[i] = textMessage
+            }
+        }
+    }
+
+    updateLocalStorage();
 }

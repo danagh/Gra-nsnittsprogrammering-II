@@ -65,12 +65,14 @@ function createEventHandlers() {
     });
 
     $('.middle-side').click(function(e){
+        hideInputField();
         currentHighlightedObject = e.target;
         // console.log("clicked object: " + currentHighlightedObject);
         // console.log("real clicked object " + e.target);
         if (currentHighlightedObject.classList.contains("icon-middle")) { //if it is a highlightable object
             // console.log("contains");
             $('.weather-choose-time option').remove();
+            hideInputField();
             hideFontSelector();
             highLightObject();
         }
@@ -83,11 +85,13 @@ function createEventHandlers() {
             $('.icon-middle').each(function() {
                 if ($(this).hasClass('highlighted')) { //remove the previous highlighted object
                     $(this).removeClass('highlighted');
+
                     currentHighlightedObject = null;
                     hideDropDown();
                     hideDeleteButton();
                     hideResizer();
                     hideFontSelector();
+
 
                 }
             });
@@ -122,6 +126,9 @@ function highLightObject() {
     if(currentHighlightedObject.getAttribute('object-style') == "temperature" || currentHighlightedObject.getAttribute('object-style') == "text-message") {
         showFontSelector();
     }
+    if (currentHighlightedObject.getAttribute('object-style') == "text-message") {
+        showInputField();
+    }
 
 }
 
@@ -143,9 +150,9 @@ function showResizer() {
 
     var resizer = document.createElement('div');
     resizer.className = 'resizer';
-    var style = window.getComputedStyle(currentHighlightedObject);
-    var bottom = style.getPropertyValue('bottom');
-    var right = style.getPropertyValue('right');
+    var bottom = window.getComputedStyle(currentHighlightedObject).getPropertyValue('bottom');
+    // var bottom = style.getPropertyValue('bottom');
+    var right = window.getComputedStyle(currentHighlightedObject).getPropertyValue('right');
     resizer.style.bottom = bottom;
     resizer.style.right = right;
     document.getElementsByClassName("middle-side")[0].appendChild(resizer);
@@ -249,10 +256,11 @@ function switchWeatherTime(selectedValue) {
     console.log(currentHighlightedObject);
     currentHighlightedObject.setAttribute('weather-time', newWeatherTime);
     currentHighlightedObject.remove();
-    SMHICall(currentHighlightedObject.style.top, currentHighlightedObject.style.left, currentHighlightedObject.id, currentHighlightedObject.getAttribute('weather-time'), currentHighlightedObject.getAttribute('object-width'),currentHighlightedObject.getAttribute('object-height'), currentHighlightedObject.getAttribute('object-style'));
+    SMHICall(currentHighlightedObject.style.top, currentHighlightedObject.style.left, currentHighlightedObject.id, currentHighlightedObject.getAttribute('weather-time'), currentHighlightedObject.getAttribute('object-width'),currentHighlightedObject.getAttribute('object-height'), currentHighlightedObject.getAttribute('object-style'), currentHighlightedObject.getAttribute('object-font'));
     hideDropDown();
     hideDeleteButton();
     hideResizer();
+    hideFontSelector();
     updateWeatherTimeInformation();
 }
 
@@ -429,7 +437,11 @@ function drop(ev, target) {
         SMHICall(locationTop, locationLeft, dropCallsString, "notExist", "startWidth", "startHeight", "temperature", "noFont");
     }
 
-
+    else if (offset[2] == 2) {
+        var locationLeft = ev.pageX - '367' + 'px' ;
+        var locationTop = ev.pageY - '53'+ 'px' ;
+        createTextMessage(locationTop, locationLeft, dropCallsString, "notExist", "startWidth", "startHeight", "text-message", "noFont", "noMessage");
+    }
     ev.preventDefault();
 
 }
@@ -638,6 +650,7 @@ function updateLocalStorage() {
     localStorage.setItem("object-height", JSON.stringify(objectHeightArray));
     localStorage.setItem("object-font", JSON.stringify(objectFontArray));
     localStorage.setItem("font-families",JSON.stringify(fontFamilies2));
+    localStorage.setItem("object-message",JSON.stringify(objectTextMessages));
 }
 
 function checkIfLocalStorageExists() {
@@ -649,6 +662,7 @@ function checkIfLocalStorageExists() {
     var objectWidth = JSON.parse(localStorage.getItem('object-width'));
     var objectHeight = JSON.parse(localStorage.getItem('object-height'));
     var objectFont = JSON.parse(localStorage.getItem('object-font'));
+    var textMessages = JSON.parse(localStorage.getItem('object-message'));
 
 
     if (objectIds !== null) { //if there is something in the local storage
@@ -668,6 +682,12 @@ function checkIfLocalStorageExists() {
                 var dropCallsString = dropCalls.toString();
 
                 SMHICall(objectTopPositions[i], objectLeftPositions[i], dropCallsString, weatherTime[i], objectWidth[i], objectHeight[i], objectStyles[i], objectFont[i]);
+            }
+            else if (objectStyles[i] == "text-message") {
+                dropCalls++;
+                var dropCallsString = dropCalls.toString();
+
+                createTextMessage(objectTopPositions[i], objectLeftPositions[i], dropCallsString, weatherTime[i], objectWidth[i], objectHeight[i], objectStyles[i], objectFont[i], textMessages[i]);
             }
         }
 

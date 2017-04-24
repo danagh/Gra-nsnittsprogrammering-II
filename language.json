@@ -82,5 +82,9 @@
   "temperature": {
     "en":"Temperature",
     "se":"Temperatur"
+  },
+  "text-message-placeholder": {
+    "en":"Insert text here",
+    "se":"Skriv ditt meddelande här"
   }
 }
