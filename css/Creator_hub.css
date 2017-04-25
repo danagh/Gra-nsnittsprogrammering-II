@@ -255,12 +255,27 @@ body {
 
 .icon-middle {
     position: absolute;
-    display: block;
+    display: inline-block;
+    max-height: 400px;
+    max-width: 400px;
+    min-height: 40px;
+    min-width: 40px;
     /*border: 3px solid green;*/
     /*resize: both;*/
     /*overflow:auto;*/
 }
-.blabla{
-    /*display:block;*/
-    /*background:green;*/
+.animation-overlay {
+    position: absolute;
+    left: 100%;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.4);
+    z-index: 1000;
+}
+.overlay {
+    display:none;
+    position: fixed;
+    width:0%;
+    Height: 0%;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 1000;
 }

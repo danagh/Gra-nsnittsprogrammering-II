@@ -15,6 +15,7 @@
 
 
 $(document).ready(function() {
+<<<<<<< HEAD
      console.log("creator: " + fontFamilies2);
      localStorage.clear();
      for (var k = 0; k < objectIdArray.length; k++) {
@@ -25,6 +26,18 @@ $(document).ready(function() {
 
      }
 
+=======
+    // console.log("creator: " + fontFamilies2);
+    // localStorage.clear();
+    // for (var k = 0; k < objectIdArray.length; k++) {
+    //     delete topPositionArray[k];
+    //     delete leftPositionArray[k];
+    //     delete  objectStyleArray[k];
+    //     delete  objectIdArray[k];
+    //
+    // }
+    createWholeOverlay();
+>>>>>>> origin/master
     getLocation();
     setTimeout(checkIfLocalStorageExists(), 5000); //The timeouts are not working correctly and this has to be fixed later on in the project.
     setTimeout(addAttributesToWeatherOptionDiv(), 5000);
@@ -85,7 +98,7 @@ function createEventHandlers() {
             $('.icon-middle').each(function() {
                 if ($(this).hasClass('highlighted')) { //remove the previous highlighted object
                     $(this).removeClass('highlighted');
-
+                    console.log("här är jag");
                     currentHighlightedObject = null;
                     hideDropDown();
                     hideDeleteButton();
@@ -127,7 +140,7 @@ function highLightObject() {
         showFontSelector();
     }
     if (currentHighlightedObject.getAttribute('object-style') == "text-message") {
-        showInputField();
+        showInputField(currentHighlightedObject);
     }
 
 }
@@ -304,6 +317,9 @@ function showDeleteButton() {
         for (var i = 0; i < objectIdArray.length; i++ ) {
             if (objectIdArray[i] == currentHighlightedObject.id) {
                 // console.log("if " + i);
+                if(objectStyleArray[i] == "text-message") { //the text message should not always be removed.
+                    objectTextMessages.splice(i,1);
+                }
                 objectIdArray.splice(i,1);
                 objectStyleArray.splice(i,1);
                 topPositionArray.splice(i,1);
