@@ -24,7 +24,7 @@ $(document).ready(function() {
     //     delete  objectIdArray[k];
     //
     // }
-
+    createWholeOverlay();
     getLocation();
     setTimeout(checkIfLocalStorageExists(), 5000); //The timeouts are not working correctly and this has to be fixed later on in the project.
     setTimeout(addAttributesToWeatherOptionDiv(), 5000);
@@ -85,7 +85,7 @@ function createEventHandlers() {
             $('.icon-middle').each(function() {
                 if ($(this).hasClass('highlighted')) { //remove the previous highlighted object
                     $(this).removeClass('highlighted');
-
+                    console.log("här är jag");
                     currentHighlightedObject = null;
                     hideDropDown();
                     hideDeleteButton();
@@ -127,7 +127,7 @@ function highLightObject() {
         showFontSelector();
     }
     if (currentHighlightedObject.getAttribute('object-style') == "text-message") {
-        showInputField();
+        showInputField(currentHighlightedObject);
     }
 
 }
@@ -304,6 +304,9 @@ function showDeleteButton() {
         for (var i = 0; i < objectIdArray.length; i++ ) {
             if (objectIdArray[i] == currentHighlightedObject.id) {
                 // console.log("if " + i);
+                if(objectStyleArray[i] == "text-message") { //the text message should not always be removed.
+                    objectTextMessages.splice(i,1);
+                }
                 objectIdArray.splice(i,1);
                 objectStyleArray.splice(i,1);
                 topPositionArray.splice(i,1);

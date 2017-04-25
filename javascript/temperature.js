@@ -201,6 +201,11 @@ function showInputField() {
     var inputField = document.createElement('input');
     inputField.className = 'text-message-field';
     inputField.setAttribute('type','text');
+    console.log(currentHighlightedObject.getAttribute('text-message'));
+    inputField.value = currentHighlightedObject.getAttribute('text-message');
+    inputField.style.fontFamily = currentHighlightedObject.getAttribute('object-font');
+    inputField.style.fontSize = currentHighlightedObject.getAttribute('object-height');
+    inputField.style.width = currentHighlightedObject.getAttribute('object-width');
     currentHighlightedObject.appendChild(inputField);
     inputField.focus();
     inputField.select();
