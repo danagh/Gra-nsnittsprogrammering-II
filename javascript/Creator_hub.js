@@ -15,15 +15,15 @@
 
 
 $(document).ready(function() {
-    // console.log("creator: " + fontFamilies2);
-    // localStorage.clear();
-    // for (var k = 0; k < objectIdArray.length; k++) {
-    //     delete topPositionArray[k];
-    //     delete leftPositionArray[k];
-    //     delete  objectStyleArray[k];
-    //     delete  objectIdArray[k];
-    //
-    // }
+     console.log("creator: " + fontFamilies2);
+     localStorage.clear();
+     for (var k = 0; k < objectIdArray.length; k++) {
+         delete topPositionArray[k];
+         delete leftPositionArray[k];
+         delete  objectStyleArray[k];
+         delete  objectIdArray[k];
+
+     }
 
     getLocation();
     setTimeout(checkIfLocalStorageExists(), 5000); //The timeouts are not working correctly and this has to be fixed later on in the project.
