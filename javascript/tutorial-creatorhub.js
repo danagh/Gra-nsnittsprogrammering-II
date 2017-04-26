@@ -11,22 +11,25 @@
 // var currentHighlightedObject;
 // var objectWidthArray = [];
 // var objectHeightArray = [];
-
+var dropCount = 0;
+var highlightCount = 0;
+var changeTimeCount = 0;
+var highlightClicker = 0;
 
 
 $(document).ready(function() {
 
     // console.log("creator: " + fontFamilies2);
-    // localStorage.clear();
-    // for (var k = 0; k < objectIdArray.length; k++) {
-    //     delete topPositionArray[k];
-    //     delete leftPositionArray[k];
-    //     delete  objectStyleArray[k];
-    //     delete  objectIdArray[k];
-    //
-    // }
-    // tutorialEventHandlers();
-    // createWholeOverlay();
+    localStorage.clear();
+    for (var k = 0; k < objectIdArray.length; k++) {
+        delete topPositionArray[k];
+        delete leftPositionArray[k];
+        delete  objectStyleArray[k];
+        delete  objectIdArray[k];
+
+    }
+    tutorialEventHandlers();
+    createWholeOverlay();
     getLocation();
     setTimeout(checkIfLocalStorageExists(), 5000); //The timeouts are not working correctly and this has to be fixed later on in the project.
     setTimeout(addAttributesToWeatherOptionDiv(), 5000);
@@ -67,41 +70,50 @@ function createEventHandlers() {
     });
 
     $('.middle-side').click(function(e){
-        hideInputField();
-        currentHighlightedObject = e.target;
-        // console.log("clicked object: " + currentHighlightedObject);
-        // console.log("real clicked object " + e.target);
-        if (currentHighlightedObject.classList.contains("icon-middle")) { //if it is a highlightable object
-            // console.log("contains");
-            $('.weather-choose-time option').remove();
+
             hideInputField();
-            hideFontSelector();
-            highLightObject();
-        }
-        //The icon should not be unhighlighted if you press specific objects on the screen.
-        else if (e.target.classList.contains('hidden-options') || e.target instanceof HTMLButtonElement || e.target instanceof HTMLSelectElement || e.target.classList.contains('resizer') ) {
-            // console.log("else if");
-        }
+            if (e.target.classList.contains('icon-middle')) {
+                currentHighlightedObject = e.target;
+            }
 
-        else { //if anywhere else was pressed on the screen then unhighlight an object if it already is highlighted.
-            $('.icon-middle').each(function() {
-                if ($(this).hasClass('highlighted')) { //remove the previous highlighted object
-                    $(this).removeClass('highlighted');
-                    console.log("här är jag");
-                    currentHighlightedObject = null;
-                    hideDropDown();
-                    hideDeleteButton();
-                    hideResizer();
-                    hideFontSelector();
+            // console.log("clicked object: " + currentHighlightedObject);
+            // console.log("real clicked object " + e.target);
+            if (currentHighlightedObject.classList.contains("icon-middle") && currentHighlightedObject instanceof HTMLImageElement) { //if it is a highlightable object
+                // console.log("contains");
+                $('.weather-choose-time option').remove();
+                hideInputField();
+                hideFontSelector();
+                highLightObject();
+            }
+            //The icon should not be unhighlighted if you press specific objects on the screen.
+            else if (e.target.classList.contains('hidden-options') || e.target instanceof HTMLButtonElement || e.target instanceof HTMLSelectElement || e.target.classList.contains('resizer')) {
+                // console.log("else if");
+            }
+            //
+            // else { //if anywhere else was pressed on the screen then unhighlight an object if it already is highlighted.
+            //     $('.icon-middle').each(function() {
+            //         if ($(this).hasClass('highlighted')) { //remove the previous highlighted object
+            //             $(this).removeClass('highlighted');
+            //             console.log("här är jag");
+            //             currentHighlightedObject = null;
+            //             hideDropDown();
+            //             hideDeleteButton();
+            //             hideResizer();
+            //             hideFontSelector();
+            //
+            //
+            //         }
+            //     });
+            // }
 
-
-                }
-            });
-        }
     });
 
     $( ".weather-choose-time" ).change(function() { //when an option is clicked in the dropdown menu
         // var newWeatherTime = $('.weather-choose-time option:selected').text();
+        changeTimeCount++;
+        if (changeTimeCount == 1) {
+            afterChangeWeatherTime();
+        }
         switchWeatherTime(this);
     });
 
@@ -112,9 +124,14 @@ function createEventHandlers() {
 }
 
 /*
-A function that gives an icon a highlighted effect.
+ A function that gives an icon a highlighted effect.
  */
 function highLightObject() {
+    highlightCount++;
+    console.log("highlight object");
+    if (highlightCount == 1) {
+        firstHighlight();
+    }
     $('.icon-middle').each(function() {
         if ($(this).hasClass('highlighted')) { //remove the previous highlighted object
             $(this).removeClass('highlighted');
@@ -236,7 +253,7 @@ function showDropDown() {
     dropdown.appendChild(eveningOption);
 
     /*
-    check the weatherTime attribute appeneded to the div. Depending on its' value change the selection in the dropdown.
+     check the weatherTime attribute appeneded to the div. Depending on its' value change the selection in the dropdown.
      */
     for (var i = 0; i < dropdown.options.length; i++ ) {
         if (currentHighlightedObject.getAttribute('weather-time') == dropdown.options[i].value) {
@@ -248,8 +265,8 @@ function showDropDown() {
 }
 
 /*
-When an option is changed in the dropdown menu we need to change the weather time in the selected div and then
-change the icon of the whole div itself.
+ When an option is changed in the dropdown menu we need to change the weather time in the selected div and then
+ change the icon of the whole div itself.
  */
 function switchWeatherTime(selectedValue) {
     console.log("function call");
@@ -259,15 +276,15 @@ function switchWeatherTime(selectedValue) {
     currentHighlightedObject.setAttribute('weather-time', newWeatherTime);
     currentHighlightedObject.remove();
     SMHICall(currentHighlightedObject.style.top, currentHighlightedObject.style.left, currentHighlightedObject.id, currentHighlightedObject.getAttribute('weather-time'), currentHighlightedObject.getAttribute('object-width'),currentHighlightedObject.getAttribute('object-height'), currentHighlightedObject.getAttribute('object-style'), currentHighlightedObject.getAttribute('object-font'));
-    hideDropDown();
-    hideDeleteButton();
-    hideResizer();
-    hideFontSelector();
+    // hideDropDown();
+    // hideDeleteButton();
+    // hideResizer();
+    // hideFontSelector();
     updateWeatherTimeInformation();
 }
 
 /*
-Update the global array for the weather time attribute and then update the local storage.
+ Update the global array for the weather time attribute and then update the local storage.
  */
 function updateWeatherTimeInformation() {
     for (var i = 0; i < objectIdArray.length; i++) {
@@ -348,8 +365,8 @@ function addAttributesToWeatherOptionDiv() {
 
 
 /*
-These functions are used to add a border to the droppable area. They are not working correctly right now
-since the draggable divs are smaller than the area they are located in.
+ These functions are used to add a border to the droppable area. They are not working correctly right now
+ since the draggable divs are smaller than the area they are located in.
  */
 function drag_enter(ev) {
     document.getElementsByClassName('middle-side')[0].style.border = '3px dotted black';
@@ -361,10 +378,10 @@ function drag_leave(ev) {
 
 }
 /*
-We use two different drag events - one when you drag something from the left side of the screen and one when
-you drag an already dragged object. The difference is that when you drag an already dragged object it has an attribute called
-fromleft, which equals true. This makes it so that it doesn't create a new element when dropped. In the second drag function we also
-give another attribute with the id of the selected element, so that the correct element is moved.
+ We use two different drag events - one when you drag something from the left side of the screen and one when
+ you drag an already dragged object. The difference is that when you drag an already dragged object it has an attribute called
+ fromleft, which equals true. This makes it so that it doesn't create a new element when dropped. In the second drag function we also
+ give another attribute with the id of the selected element, so that the correct element is moved.
  */
 
 function drag(ev) {
@@ -397,11 +414,15 @@ function dragOver(e) {
 }
 
 /*
-When an option is dropped the function first checks if it has been already dragged from the left side or not.
-If it has been dragged from the left side we do not have to create a new element and instead just move the element that is dropped.
-If the element is dragged from the left we first check which option it is and then create the correct icon.
+ When an option is dropped the function first checks if it has been already dragged from the left side or not.
+ If it has been dragged from the left side we do not have to create a new element and instead just move the element that is dropped.
+ If the element is dragged from the left we first check which option it is and then create the correct icon.
  */
 function drop(ev, target) {
+    dropCount++;
+    if (dropCount == 1) {
+        afterDrop();
+    }
     // console.log('rör på samma objekt');
     target.style.border = 'none';
     dropCalls++; //enumerate the dropcalls so that when a new object is created it gets an unique id.
@@ -606,9 +627,9 @@ function createWeatherStyle(apiResponse, locationTop, locationLeft, divId, weath
 }
 
 /*
-This function is called each time something is dropped. It takes the id of the dropped div together with its' position and style and
-saves it into local storage. This way when the user is logged in again we can take the values from local storage and create a session
-that was equal to the one the person exited from.
+ This function is called each time something is dropped. It takes the id of the dropped div together with its' position and style and
+ saves it into local storage. This way when the user is logged in again we can take the values from local storage and create a session
+ that was equal to the one the person exited from.
  */
 
 function weatherStyleToCss(draggedId, topPosition, leftPosition, objectStyle, selectedTime, objectWidth, objectHeight, objectFont) {
@@ -788,7 +809,7 @@ function getLocation() {
     }
 }
 /*
-The function works but it is very slow in getting the coordinates and the API will therefore give an error message.
+ The function works but it is very slow in getting the coordinates and the API will therefore give an error message.
  */
 function showPosition(position) {
     console.log(position.coords);
@@ -799,12 +820,12 @@ function showPosition(position) {
     //     return false;
     // }
     // else {
-        userLatitude = position.coords.latitude;
-        userLongitude = position.coords.longitude;
-        userLatitude.toString();
-        userLongitude.toString();
-        // console.log(userLatitude);
-        // console.log(userLongitude);
+    userLatitude = position.coords.latitude;
+    userLongitude = position.coords.longitude;
+    userLatitude.toString();
+    userLongitude.toString();
+    // console.log(userLatitude);
+    // console.log(userLongitude);
     // }
 }
 
@@ -833,12 +854,12 @@ function SMHICall(topPosition, leftPosition, divId, objectTime, objectWidth, obj
      */
     $.getJSON(endPoint, function(data) {
         /*
-        The forecast ID-code is hidden deep in the response from the API-call. It is the last attribute received.
-        The API does give a timeseries as well so we have to go through it and find the correct time right now.
-        The API does also always give an approvedTime to be used as an reference to find the weather forecast right now.
-        The first information in the timeseries is always given two hours prior to the approved time so we have to calculate
-        which index in the time series we have to grab. The approvedtime can always be grabbed with the index 11 and 12 from the approvedTime string.
-        The approved time can also have happened a day before so we also have to check the approved day by checking index 8 and 9 of the response.
+         The forecast ID-code is hidden deep in the response from the API-call. It is the last attribute received.
+         The API does give a timeseries as well so we have to go through it and find the correct time right now.
+         The API does also always give an approvedTime to be used as an reference to find the weather forecast right now.
+         The first information in the timeseries is always given two hours prior to the approved time so we have to calculate
+         which index in the time series we have to grab. The approvedtime can always be grabbed with the index 11 and 12 from the approvedTime string.
+         The approved time can also have happened a day before so we also have to check the approved day by checking index 8 and 9 of the response.
          */
 
 

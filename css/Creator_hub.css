@@ -1,3 +1,4 @@
+
 /* =============================================================================
   HTML, BODY
 ============================================================================= */
@@ -232,6 +233,7 @@ body {
 
 .weather-choose-time {
     display:none;
+    margin-top:40px;
 }
 
 .outer-div {
@@ -277,5 +279,148 @@ body {
     width:0%;
     Height: 0%;
     background-color: rgba(0, 0, 0, 0.4);
+    z-index: 500;
+}
+
+#o0 {
     z-index: 1000;
 }
+
+#o1 {
+    display:none;
+    position: fixed;
+    width: 11.3%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    /*z-index: 1000;*/
+}
+
+#o2 {
+    display:none;
+    position: fixed;
+    left: 11.3%;
+    width: 13.4%;
+    height: 50%;
+    background-color: rgba(0, 0, 0, 0.4);
+    /*z-index: 1000;*/
+}
+
+#o3 {
+    display:none;
+    position: fixed;
+    left:11.3%;
+    top: 50%;
+    width: 13.4%;
+    height: 50%;
+    background-color: rgba(0, 0, 0, 0.4);
+    /*z-index: 1000;*/
+}
+
+#o4 {
+    display:none;
+    position: fixed;
+    left: 24.8%;
+    width: 50.5%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    /*z-index: 1000;*/
+}
+
+#o5 {
+    display:none;
+    position: fixed;
+    left:75.3%;
+    width: 13.5%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    /*z-index: 1000;*/
+}
+
+#o6 {
+    display:none;
+    position: fixed;
+    left:88.8%;
+    width: 11.3%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    /*z-index: 1000;*/
+}
+
+
+.text-bubble {
+    max-width: 255px;
+    word-wrap: break-word;
+    margin-bottom: 20px;
+    line-height: 24px;
+    display: inline-block;
+}
+
+.text-bubble.left {
+    position:relative;
+    padding:10px 20px;
+    color:white;
+    background:#0B93F6;
+    border-radius:25px;
+    float: right;}
+
+.text-bubble.left:before {
+         content:"";
+         position:absolute;
+         z-index:-1;
+         bottom:-2px;
+         right:-7px;
+         height:20px;
+         border-right:20px solid #0B93F6;
+         border-bottom-left-radius: 16px 14px;
+         -webkit-transform:translate(0, -2px);
+     }
+
+.text-bubble.left:after {
+          content:"";
+          position:absolute;
+          z-index:1;
+          bottom:-2px;
+          right:-56px;
+          width:26px;
+          height:20px;
+    background-color: rgba(0,0,0,0.4);
+    /*opacity: 1;*/
+          border-bottom-left-radius: 10px;
+          -webkit-transform:translate(-30px, -2px);
+}
+
+.text-bubble.right {
+    position: relative;
+    padding: 10px 20px;
+    background: #E5E5EA;
+    border-radius: 25px;
+    color: black;
+    float: left;
+}
+
+.text-bubble.right:before {
+     content:"";
+     position:absolute;
+     z-index:2;
+     bottom:-2px;
+     left:-7px;
+     height:20px;
+     border-left:20px solid #E5E5EA;
+     border-bottom-right-radius: 16px 14px;
+     -webkit-transform:translate(0, -2px);
+}
+
+.text-bubble.right:after {
+     content:"";
+     position:absolute;
+     z-index:3;
+     bottom:-2px;
+     left:4px;
+     width:26px;
+     height:20px;
+     background:white;
+     border-bottom-right-radius: 10px;
+     -webkit-transform:translate(-30px, -2px);
+}
+
+
