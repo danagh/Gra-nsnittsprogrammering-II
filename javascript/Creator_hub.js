@@ -91,7 +91,7 @@ function createEventHandlers() {
                     currentHighlightedObject = null;
                     hideDropDown();
                     hideDeleteButton();
-                    hideResizer();
+                    // hideResizer();
                     hideFontSelector();
 
 
@@ -123,7 +123,7 @@ function highLightObject() {
     currentHighlightedObject.classList.add('highlighted');
     showDropDown();
     showDeleteButton();
-    showResizer();
+    // showResizer();
 
     if(currentHighlightedObject.getAttribute('object-style') == "temperature" || currentHighlightedObject.getAttribute('object-style') == "text-message") {
         showFontSelector();
@@ -133,72 +133,72 @@ function highLightObject() {
     }
 
 }
+//
+//
+//
+// function hideResizer() {
+//     var resizer = document.getElementsByClassName('resizer')[0];
+//     // resizer.style.display='none';
+//     resizer.remove();
+// }
+//
+// function showResizer() {
+//     // console.log(currentHighlightedObject);
+//     var oldResizer = document.getElementsByClassName('resizer')[0];
+//     if (oldResizer) {
+//         oldResizer.style.display = "none";
+//         oldResizer.remove();
+//     }
+//
+//     var resizer = document.createElement('div');
+//     resizer.className = 'resizer';
+//     var bottom = window.getComputedStyle(currentHighlightedObject).getPropertyValue('bottom');
+//     // var bottom = style.getPropertyValue('bottom');
+//     var right = window.getComputedStyle(currentHighlightedObject).getPropertyValue('right');
+//     resizer.style.bottom = bottom;
+//     resizer.style.right = right;
+//     document.getElementsByClassName("middle-side")[0].appendChild(resizer);
+//
+//
+//     // currentHighlightedObject.appendChild(resizer);
+//     resizer.addEventListener('mousedown', initResize, false);
+// }
+//
+// function initResize(e) {
+//     // console.log(currentHighlightedObject);
+//     startX = e.clientX;
+//     startY = e.clientY;
+//     startWidth = parseInt(document.defaultView.getComputedStyle(currentHighlightedObject,null).width, 10);
+//     startHeight = parseInt(document.defaultView.getComputedStyle(currentHighlightedObject,null).height, 10);
+//     window.addEventListener('mousemove', resize, false);
+//     window.addEventListener('mouseup', stopResize, false);
+// }
+//
+// function resize(e) {
+//     currentHighlightedObject.style.width = (startWidth + e.clientX - startX) + 'px';
+//     currentHighlightedObject.style.height = (startHeight + e.clientY - startY) + 'px';
+//     currentHighlightedObject.style.fontSize = currentHighlightedObject.style.height;
+//     // currentHighlightedObject.style.width = (e.clientX - currentHighlightedObject.offsetLeft) + 'px';
+//     // currentHighlightedObject.style.height = (e.clientY - currentHighlightedObject.offsetTop) + 'px';
+// }
+//
+// function stopResize() {
+//     // console.log(currentHighlightedObject);
+//     window.removeEventListener('mousemove', resize, false);
+//     window.removeEventListener('mouseup', stopResize, false);
+//     updateObjectSize(document.defaultView.getComputedStyle(currentHighlightedObject,null).width, document.defaultView.getComputedStyle(currentHighlightedObject,null).height);
+// }
 
-
-
-function hideResizer() {
-    var resizer = document.getElementsByClassName('resizer')[0];
-    // resizer.style.display='none';
-    resizer.remove();
-}
-
-function showResizer() {
-    // console.log(currentHighlightedObject);
-    var oldResizer = document.getElementsByClassName('resizer')[0];
-    if (oldResizer) {
-        oldResizer.style.display = "none";
-        oldResizer.remove();
-    }
-
-    var resizer = document.createElement('div');
-    resizer.className = 'resizer';
-    var bottom = window.getComputedStyle(currentHighlightedObject).getPropertyValue('bottom');
-    // var bottom = style.getPropertyValue('bottom');
-    var right = window.getComputedStyle(currentHighlightedObject).getPropertyValue('right');
-    resizer.style.bottom = bottom;
-    resizer.style.right = right;
-    document.getElementsByClassName("middle-side")[0].appendChild(resizer);
-
-
-    // currentHighlightedObject.appendChild(resizer);
-    resizer.addEventListener('mousedown', initResize, false);
-}
-
-function initResize(e) {
-    // console.log(currentHighlightedObject);
-    startX = e.clientX;
-    startY = e.clientY;
-    startWidth = parseInt(document.defaultView.getComputedStyle(currentHighlightedObject,null).width, 10);
-    startHeight = parseInt(document.defaultView.getComputedStyle(currentHighlightedObject,null).height, 10);
-    window.addEventListener('mousemove', resize, false);
-    window.addEventListener('mouseup', stopResize, false);
-}
-
-function resize(e) {
-    currentHighlightedObject.style.width = (startWidth + e.clientX - startX) + 'px';
-    currentHighlightedObject.style.height = (startHeight + e.clientY - startY) + 'px';
-    currentHighlightedObject.style.fontSize = currentHighlightedObject.style.height;
-    // currentHighlightedObject.style.width = (e.clientX - currentHighlightedObject.offsetLeft) + 'px';
-    // currentHighlightedObject.style.height = (e.clientY - currentHighlightedObject.offsetTop) + 'px';
-}
-
-function stopResize() {
-    // console.log(currentHighlightedObject);
-    window.removeEventListener('mousemove', resize, false);
-    window.removeEventListener('mouseup', stopResize, false);
-    updateObjectSize(document.defaultView.getComputedStyle(currentHighlightedObject,null).width, document.defaultView.getComputedStyle(currentHighlightedObject,null).height);
-}
-
-function updateObjectSize(newWidth, newHeight) {
-    console.log(currentHighlightedObject);
+function updateObjectSize(target, newWidth, newHeight) {
+    console.log(target);
     console.log(newWidth + newHeight);
-    currentHighlightedObject.setAttribute('object-width',newWidth);
-    currentHighlightedObject.setAttribute('object-height',newHeight);
+    target.setAttribute('object-width',newWidth);
+    target.setAttribute('object-height',newHeight);
 
     for (var i = 0; i < objectIdArray.length; i++) {
         console.log(objectWidthArray);
         console.log(objectHeightArray);
-        if (objectIdArray[i] == currentHighlightedObject.id) {
+        if (objectIdArray[i] == target.id) {
             console.log("exists");
             objectWidthArray[i] = newWidth;
             objectHeightArray[i] = newHeight;
@@ -208,6 +208,108 @@ function updateObjectSize(newWidth, newHeight) {
         }
     }
 }
+
+// target elements with the "draggable" class
+interact('.draggable')
+    .draggable({
+        // enable inertial throwing
+        inertia: true,
+        // keep the element within the area of it's parent
+        restrict: {
+            restriction: "parent",
+            endOnly: true,
+            elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
+        },
+        // enable autoScroll
+        autoScroll: true,
+
+        // call this function on every dragmove event
+        onmove: dragMoveListener,
+        // call this function on every dragend event
+        onend: function (event) {
+
+        }
+    });
+
+function dragMoveListener (event) {
+    var target = event.target,
+        // keep the dragged position in the data-x/data-y attributes
+        // x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
+        // y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+        x = (parseFloat(target.getAttribute('left')) || 0) + event.dx,
+        y = (parseFloat(target.getAttribute('top')) || 0) + event.dy;
+
+    // translate the element
+    // target.style.webkitTransform =
+    //     target.style.transform =
+    //         'translate(' + x + 'px, ' + y + 'px)';
+    target.style.left = x + 'px';
+    target.style.top = y + 'px';
+
+    // update the posiion attributes
+    target.setAttribute('data-x', x);
+    target.setAttribute('data-y', y);
+    target.setAttribute('top', y + 'px');
+    target.setAttribute('left', x + 'px');
+}
+
+// this is used later in the resizing and gesture demos
+// window.dragMoveListener = dragMoveListener;
+
+
+interact('.resize-drag')
+    .draggable({
+        // enable inertial throwing
+        inertia: true,
+        // keep the element within the area of it's parent
+        restrict: {
+            restriction: "parent",
+            endOnly: true,
+            elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
+        },
+        // enable autoScroll
+        autoScroll: true,
+
+        // call this function on every dragmove event
+        onmove: dragMoveListener,
+        // call this function on every dragend event
+        onend: function (event) {
+            console.log('end');
+            var target = event.target;
+            weatherStyleToCss(target.id, target.getAttribute('top'), target.getAttribute('left'), target.getAttribute('object-style'), target.getAttribute("weather-time"));
+
+
+        }
+    })
+    .resizable({
+        preserveAspectRatio: true,
+        edges: { left: false, right: true, bottom: true, top: false }
+    })
+    .on('resizemove', function (event) {
+        var target = event.target,
+            x = (parseFloat(target.getAttribute('data-xx')) || 0),
+            y = (parseFloat(target.getAttribute('data-yy')) || 0);
+
+        // update the element's style
+        target.style.width  = event.rect.width + 'px';
+        target.style.height = event.rect.height + 'px';
+        target.style.fontSize = event.rect.height/3 + 'px';
+
+        // translate when resizing from top or left edges
+        x += event.deltaRect.left;
+        y += event.deltaRect.top;
+
+        target.style.webkitTransform = target.style.transform =
+            'translate(' + x + 'px,' + y + 'px)';
+
+        target.setAttribute('data-xx', x);
+        target.setAttribute('data-yy', y);
+        updateObjectSize(target, event.rect.width + 'px', event.rect.height + 'px');
+        // target.setAttribute('object-width', event.rect.width + 'px');
+        // target.setAttribute('object-height', event.rect.height + 'px');
+        // weatherStyleToCss(target.id, target.getAttribute('top'), target.getAttribute('left'), target.getAttribute('object-style'), target.getAttribute('weather-time'), target.getAttribute('object-width'), target.getAttribute('object-height'),target.getAttribute('object-font'));
+
+    });
 
 function showDropDown() {
     console.log(currentHighlightedObject);
@@ -261,7 +363,7 @@ function switchWeatherTime(selectedValue) {
     SMHICall(currentHighlightedObject.style.top, currentHighlightedObject.style.left, currentHighlightedObject.id, currentHighlightedObject.getAttribute('weather-time'), currentHighlightedObject.getAttribute('object-width'),currentHighlightedObject.getAttribute('object-height'), currentHighlightedObject.getAttribute('object-style'), currentHighlightedObject.getAttribute('object-font'));
     hideDropDown();
     hideDeleteButton();
-    hideResizer();
+    // hideResizer();
     hideFontSelector();
     updateWeatherTimeInformation();
 }
@@ -324,7 +426,7 @@ function showDeleteButton() {
         }
         hideDeleteButton();
         hideDropDown();
-        hideResizer();
+        // hideResizer();
         currentHighlightedObject.remove();
     });
 
@@ -376,16 +478,16 @@ function drag(ev) {
         ',' + (parseInt(style.getPropertyValue("top"), 10) - ev.clientY) + ',' + ev.target.getAttribute('weatherId'));
 }
 
-function drag2(event) {
-    var oldResizer = document.getElementsByClassName('resizer')[0];
-    if (oldResizer) {
-        oldResizer.style.display = "none";
-        oldResizer.remove();
-    }
-    var style = window.getComputedStyle(event.target, null);
-    event.dataTransfer.setData("text/plain",
-        (parseInt(style.getPropertyValue("left"),10) - event.clientX) + ',' + (parseInt(style.getPropertyValue("top"),10) - event.clientY) + ',' + event.target.getAttribute('fromleft') + ',' + event.target.getAttribute('id'));
-}
+// function drag2(event) {
+//     // var oldResizer = document.getElementsByClassName('resizer')[0];
+//     // if (oldResizer) {
+//     //     oldResizer.style.display = "none";
+//     //     oldResizer.remove();
+//     // }
+//     var style = window.getComputedStyle(event.target, null);
+//     event.dataTransfer.setData("text/plain",
+//         (parseInt(style.getPropertyValue("left"),10) - event.clientX) + ',' + (parseInt(style.getPropertyValue("top"),10) - event.clientY) + ',' + event.target.getAttribute('fromleft') + ',' + event.target.getAttribute('id'));
+// }
 
 /*
  Allows an option to be dropped into the middle side of the page. If this
@@ -471,10 +573,10 @@ function createWeatherStyle(apiResponse, locationTop, locationLeft, divId, weath
 
 
 
-    weatherStyleDiv.setAttribute('class','icon-middle sunny');
-    weatherStyleDiv.setAttribute('draggable','true'); //the object has to be able to be moved later on by the user.
-    weatherStyleDiv.setAttribute('fromleft','true');
-    weatherStyleDiv.addEventListener('dragstart', drag2, false);
+    weatherStyleDiv.setAttribute('class','icon-middle sunny resize-drag');
+    // weatherStyleDiv.setAttribute('draggable','true'); //the object has to be able to be moved later on by the user.
+    // weatherStyleDiv.setAttribute('fromleft','true');
+    // weatherStyleDiv.addEventListener('dragstart', drag2, false);
 
     //currentWeather = 4; //test another else if-statement
     if (currentWeather == 1 || currentWeather == 2) { //sunny

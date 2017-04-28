@@ -421,7 +421,7 @@ function dragOver(e) {
 function drop(ev, target) {
     dropCount++;
     if (dropCount == 1) {
-        afterDrop();
+        afterDroppingWeatherObject();
     }
     // console.log('rör på samma objekt');
     target.style.border = 'none';

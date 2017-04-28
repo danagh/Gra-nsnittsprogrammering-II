@@ -35,10 +35,10 @@ function createTemperatureStyle(apiResponse, topPosition, leftPosition, divId, t
     // console.log("current temp: " + currentTemp);
     temperatureStyleDiv.innerHTML = currentTemp +'\u00B0C'; //last string is the degree-sign + a C for Celsius
 
-    temperatureStyleDiv.setAttribute('class','icon-middle sunny');
-    temperatureStyleDiv.setAttribute('draggable','true'); //the object has to be able to be moved later on by the user.
-    temperatureStyleDiv.setAttribute('fromleft','true');
-    temperatureStyleDiv.addEventListener('dragstart', drag2, false);
+    temperatureStyleDiv.setAttribute('class','icon-middle sunny resize-drag');
+    // temperatureStyleDiv.setAttribute('draggable','true'); //the object has to be able to be moved later on by the user.
+    // temperatureStyleDiv.setAttribute('fromleft','true');
+    // temperatureStyleDiv.addEventListener('dragstart', drag2, false);
 
     document.getElementsByClassName('middle-side')[0].appendChild(temperatureStyleDiv);
 
@@ -67,7 +67,9 @@ function createTemperatureStyle(apiResponse, topPosition, leftPosition, divId, t
         temperatureStyleDiv.setAttribute('object-width',objectWidth);
         temperatureStyleDiv.setAttribute('object-height',objectHeight);
     }
-    temperatureStyleDiv.style.fontSize = temperatureStyleDiv.getAttribute('object-height') ;
+    var font = parseFloat(temperatureStyleDiv.getAttribute('object-height'));
+    temperatureStyleDiv.style.fontSize = font/3 + 'px' ;
+    // temperatureStyleDiv.style.fontSize = temperatureStyleDiv.getAttribute('object-height')/1.5 ;
     console.log(objectFont);
 
     if(objectFont !== "noFont") {
@@ -137,10 +139,10 @@ function createTextMessage(locationTop, locationLeft, divId, messageTime, object
     console.log("create text message");
     var textMessageDiv = document.createElement('div');
     textMessageDiv.setAttribute('id',divId);
-    textMessageDiv.setAttribute('class','icon-middle sunny');
-    textMessageDiv.setAttribute('draggable','true'); //the object has to be able to be moved later on by the user.
-    textMessageDiv.setAttribute('fromleft','true');
-    textMessageDiv.addEventListener('dragstart', drag2, false);
+    textMessageDiv.setAttribute('class','icon-middle sunny resize-drag');
+    // textMessageDiv.setAttribute('draggable','true'); //the object has to be able to be moved later on by the user.
+    // textMessageDiv.setAttribute('fromleft','true');
+    // textMessageDiv.addEventListener('dragstart', drag2, false);
 
 
 
@@ -191,7 +193,10 @@ function createTextMessage(locationTop, locationLeft, divId, messageTime, object
         textMessageDiv.setAttribute('object-width',objectWidth);
         textMessageDiv.setAttribute('object-height',objectHeight);
     }
-    textMessageDiv.style.fontSize = textMessageDiv.getAttribute('object-height') ;
+
+    var font = parseFloat(textMessageDiv.getAttribute('object-height'));
+    textMessageDiv.style.fontSize = font/3 + 'px';
+    // textMessageDiv.style.fontSize = textMessageDiv.getAttribute('object-height') ;
 
     textMessageToCss(divId, locationTop, locationLeft, messageTime, objectWidth, objectHeight, textMessageDiv.getAttribute('object-font'), textMessageDiv.getAttribute('text-message'), objectStyle);
 }
@@ -204,7 +209,11 @@ function showInputField() {
     console.log(currentHighlightedObject.getAttribute('text-message'));
     inputField.value = currentHighlightedObject.getAttribute('text-message');
     inputField.style.fontFamily = currentHighlightedObject.getAttribute('object-font');
-    inputField.style.fontSize = currentHighlightedObject.getAttribute('object-height');
+
+    var font = parseFloat(currentHighlightedObject.getAttribute('object-height'));
+    inputField.style.fontsize = font/2 + 'px';
+
+    // inputField.style.fontSize = currentHighlightedObject.getAttribute('object-height');
     inputField.style.width = currentHighlightedObject.getAttribute('object-width');
     currentHighlightedObject.appendChild(inputField);
     inputField.focus();
