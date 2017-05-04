@@ -74,7 +74,7 @@ body {
     width: 50vw;
     min-width: 600px;
     height: 93vh;
-    background-color: white;
+    background-color: gray;
     display: flex;
     /*flex-grow:0;*/
     position: relative;
@@ -262,6 +262,7 @@ body {
     max-width: 400px;
     min-height: 40px;
     min-width: 40px;
+    color: white;
     /*border: 3px solid green;*/
     /*resize: both;*/
     /*overflow:auto;*/
@@ -426,7 +427,7 @@ body {
 
 .resize-drag {
     /*background-color: #29e;*/
-    color: black;
+    color: white;
     font-size: 20px;
     font-family: sans-serif;
     border-radius: 8px;

@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="css/Creator_hub.css">
     <link rel="stylesheet" href="css/select2.css">
     <link rel="stylesheet" href="css/fonts.css">
-    <!--<link rel="stylesheet" href="css/weatherpack1.css">-->
+    <link rel="stylesheet" href="css/weatherpack1.css">
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"
             integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
             crossorigin="anonymous"></script>
@@ -37,6 +37,8 @@
         var objectFontArray = [];
         var WebFontConfig;
         var objectTextMessages = [];
+        var clockTimer;
+        var dateTimer;
     </script>
     <script type="text/javascript">
         var fontFamilies2 = [];
@@ -46,6 +48,7 @@
 
     <script src="javascript/Creator_hub.js"></script>
     <script src="javascript/temperature.js"></script>
+    <script src="javascript/clock-and-date.js"></script>
     <script src="javascript/translator.js"></script>
 
 
@@ -131,6 +134,24 @@
                     </div>
                 </div>
                 <div class="weather-option">Text
+                    <div class="hidden-options">
+                        <div class="icon sunny">
+                            <div class="sun-still">
+                                <div class="rays"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="weather-option">Time
+                    <div class="hidden-options">
+                        <div class="icon sunny">
+                            <div class="sun-still">
+                                <div class="rays"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="weather-option">Date
                     <div class="hidden-options">
                         <div class="icon sunny">
                             <div class="sun-still">
