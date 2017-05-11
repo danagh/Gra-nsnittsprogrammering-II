@@ -12,7 +12,7 @@ function createTimeObject(topPosition, leftPosition, divId, objectStyle, objectT
     if(document.getElementsByClassName('clock')[0]) {
         var clockDiv = document.getElementsByClassName('clock')[0];
         clockDiv.innerHTML = hr + ":" + min + ":" + sec ;
-        console.log("updated");
+        //console.log("updated");
 
     }
     else {
@@ -62,8 +62,13 @@ function createTimeObject(topPosition, leftPosition, divId, objectStyle, objectT
 
         document.getElementsByClassName('middle-side')[0].appendChild(clockDiv);
 
-        weatherStyleToCss(divId, topPosition, leftPosition, clockDiv.getAttribute('object-style'), "no-time", clockDiv.getAttribute('object-width'), clockDiv.getAttribute('object-height'),clockDiv.getAttribute('object-font'));
+        var functionCaller = arguments.callee.caller.name;
+        if (functionCaller == "drop") {
+            console.log("if");
+            addToUndoArray(clockDiv.id, "addObject", topPosition, leftPosition, clockDiv.getAttribute('object-style'), objectTime, clockDiv.getAttribute('object-width'), clockDiv.getAttribute('object-height'),clockDiv.getAttribute('object-font'), "noMessage");
+        }
 
+        weatherStyleToCss(divId, topPosition, leftPosition, clockDiv.getAttribute('object-style'), "no-time", clockDiv.getAttribute('object-width'), clockDiv.getAttribute('object-height'),clockDiv.getAttribute('object-font'));
 
     }
 
@@ -71,6 +76,9 @@ function createTimeObject(topPosition, leftPosition, divId, objectStyle, objectT
 
 }
 
+/*
+If the seconds, minutes or hours are less than 10 add a zero before the number.
+ */
 function checkTime(i) {
     if (i < 10) {
         i = "0" + i;
@@ -78,7 +86,7 @@ function checkTime(i) {
     return i;
 }
 
-function createDateObject (topPosition, leftPosition, divId, objectStyle, temperatureTime, objectWidth, objectHeight, objectFont) {
+function createDateObject (topPosition, leftPosition, divId, objectStyle, objectTime, objectWidth, objectHeight, objectFont) {
     var today = new Date();
     var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -90,7 +98,7 @@ function createDateObject (topPosition, leftPosition, divId, objectStyle, temper
     if(document.getElementsByClassName('date')[0]) {
         var dateDiv = document.getElementsByClassName('date')[0];
         dateDiv.innerHTML = curWeekDay+", "+curDay+" "+curMonth+" "+curYear;
-        console.log("updated");
+        // console.log("updated");
 
     }
     else {
@@ -140,6 +148,12 @@ function createDateObject (topPosition, leftPosition, divId, objectStyle, temper
         dateDiv.style.fontSize = font / 3 + 'px';
 
         document.getElementsByClassName('middle-side')[0].appendChild(dateDiv);
+
+        var functionCaller = arguments.callee.caller.name;
+        if (functionCaller == "drop") {
+            console.log("if");
+            addToUndoArray(dateDiv.id, "addObject", topPosition, leftPosition, dateDiv.getAttribute('object-style'), objectTime, dateDiv.getAttribute('object-width'), dateDiv.getAttribute('object-height'),dateDiv.getAttribute('object-font'), "noMessage");
+        }
 
         weatherStyleToCss(divId, topPosition, leftPosition, dateDiv.getAttribute('object-style'), "no-time", dateDiv.getAttribute('object-width'), dateDiv.getAttribute('object-height'),dateDiv.getAttribute('object-font'));
 

@@ -39,6 +39,10 @@
         var objectTextMessages = [];
         var clockTimer;
         var dateTimer;
+        var undoArray = [];
+        var redoArray = [];
+        var previousPosition = [];
+        var previousSize = [];
     </script>
     <script type="text/javascript">
         var fontFamilies2 = [];
@@ -50,6 +54,7 @@
     <script src="javascript/temperature.js"></script>
     <script src="javascript/clock-and-date.js"></script>
     <script src="javascript/translator.js"></script>
+    <script src="javascript/undo-redo.js"></script>
 
 
     <link href="https://fonts.googleapis.com/css?family=Lobster|Open+Sans:400,600" rel="stylesheet">
@@ -61,12 +66,19 @@
     <a href="#" title="Go to the main page">
         <h1 class = "header-text text-translate" data-translate-key="project-name"></h1>
     </a>
-<div class="right-navigation">
-    <a href="index.html" title="Logout">
-        <h1 class="logout text-translate" data-translate-key="logout"></h1>
-    </a>
+    <div class="right-navigation">
+        <a href="index.html" title="Logout">
+            <h1 class="logout text-translate" data-translate-key="logout"></h1>
+        </a>
 </div>
+    <div class="undo-div">
+        <button class="undo-button">Undo</button>
+    </div>
+    <div class="redo-div">
+        <button class="redo-button">Redo</button>
+    </div>
 </div>
+
 <div class="main">
     <div class="left-side">
         <div class="user-categories">

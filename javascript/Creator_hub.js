@@ -16,15 +16,15 @@
 
 $(document).ready(function() {
 
-    console.log("creator: " + fontFamilies2);
-    localStorage.clear();
-    for (var k = 0; k < objectIdArray.length; k++) {
-        delete topPositionArray[k];
-        delete leftPositionArray[k];
-        delete  objectStyleArray[k];
-        delete  objectIdArray[k];
-
-    }
+    // console.log("creator: " + fontFamilies2);
+    // localStorage.clear();
+    // for (var k = 0; k < objectIdArray.length; k++) {
+    //     delete topPositionArray[k];
+    //     delete leftPositionArray[k];
+    //     delete  objectStyleArray[k];
+    //     delete  objectIdArray[k];
+    //
+    // }
     // tutorialEventHandlers();
     // createWholeOverlay();
     getLocation();
@@ -52,13 +52,11 @@ function createEventHandlers() {
     };
 
     $(document).on('click','.weather-option', function() {
-        console.log("click");
         if ($(this).hasClass('clicked')) {
             $(this).removeClass('clicked');
             $(this).find('.hidden-options').css("display", "none");
         }
         else {
-            console.log("else");
             // $(this).animate({'width': '388px', 'height': '350px'}, 200);
             $(this).addClass('clicked');
             $(this).find('.hidden-options').css("display", "block");
@@ -94,7 +92,6 @@ function createEventHandlers() {
             $('.icon-middle').each(function() {
                 if ($(this).hasClass('highlighted')) { //remove the previous highlighted object
                     $(this).removeClass('highlighted');
-                    console.log("här är jag");
                     currentHighlightedObject = null;
                     hideDropDown();
                     hideDeleteButton();
@@ -110,6 +107,13 @@ function createEventHandlers() {
     $( ".weather-choose-time" ).change(function() { //when an option is clicked in the dropdown menu
         // var newWeatherTime = $('.weather-choose-time option:selected').text();
         switchWeatherTime(this);
+    });
+    $(document).on('click', '.undo-button', function() {
+       checkLatestUndoAction();
+    });
+
+    $(document).on('click', '.redo-button', function() {
+        checkLatestRedoAction();
     });
 
     // $('.resizer').mousedown(function() {
@@ -131,6 +135,7 @@ function highLightObject() {
     showDropDown();
     showDeleteButton();
     // showResizer();
+    console.log(currentHighlightedObject);
 
     if(currentHighlightedObject.getAttribute('object-style') == "temperature" || currentHighlightedObject.getAttribute('object-style') == "text-message" || currentHighlightedObject.getAttribute('object-style') == "clock" || currentHighlightedObject.getAttribute('object-style') == "date") {
         showFontSelector();
@@ -196,27 +201,10 @@ function highLightObject() {
 //     updateObjectSize(document.defaultView.getComputedStyle(currentHighlightedObject,null).width, document.defaultView.getComputedStyle(currentHighlightedObject,null).height);
 // }
 
-function updateObjectSize(target, newWidth, newHeight) {
-    console.log(target);
-    console.log(newWidth + newHeight);
-    target.setAttribute('object-width',newWidth);
-    target.setAttribute('object-height',newHeight);
-
-    for (var i = 0; i < objectIdArray.length; i++) {
-        console.log(objectWidthArray);
-        console.log(objectHeightArray);
-        if (objectIdArray[i] == target.id) {
-            console.log("exists");
-            objectWidthArray[i] = newWidth;
-            objectHeightArray[i] = newHeight;
-
-            updateLocalStorage();
-            break;
-        }
-    }
-}
 
 // target elements with the "draggable" class
+
+/*
 interact('.draggable')
     .draggable({
         // enable inertial throwing
@@ -234,12 +222,16 @@ interact('.draggable')
         onmove: dragMoveListener,
         // call this function on every dragend event
         onend: function (event) {
-
+            console.log("end call");
         }
     });
 
+<<<<<<< Updated upstream
 // Martin lek igen
 var mirror = undefined;
+
+=======
+*/
 
 function dragMoveListener (event) {
     var target = event.target,
@@ -249,6 +241,8 @@ function dragMoveListener (event) {
         x = (parseFloat(target.getAttribute('left')) || 0) + event.dx,
         y = (parseFloat(target.getAttribute('top')) || 0) + event.dy;
 
+    var previousXPosition ;
+    var previousYPosition;
     // translate the element
     // target.style.webkitTransform =
     //     target.style.transform =
@@ -276,6 +270,13 @@ function dragMoveListener (event) {
 // this is used later in the resizing and gesture demos
 // window.dragMoveListener = dragMoveListener;
 
+//this function is used to save the previous position of the object before it is moved so that an undo action can move it back.
+function getPreviousPosition(event) {
+    var target = event.target;
+    var previousTopPosition = target.getAttribute('top');
+    var previousLeftPosition = target.getAttribute('left');
+    return [previousTopPosition, previousLeftPosition];
+}
 
 interact('.resize-drag')
     .draggable({
@@ -289,13 +290,22 @@ interact('.resize-drag')
         },
         // enable autoScroll
         autoScroll: true,
-
+        onstart: function(event) {
+            previousPosition = getPreviousPosition(event);
+        },
         // call this function on every dragmove event
-        onmove: dragMoveListener,
+        onmove: function(event) {
+            dragMoveListener(event);
+        } ,
         // call this function on every dragend event
         onend: function (event) {
-            console.log('end');
+            var previousTop = previousPosition[0];
+            var previousLeft = previousPosition[1];
             var target = event.target;
+
+            //add the action to the undo array
+            addToUndoArray(target.id, "movedObject", previousTop, previousLeft, target.getAttribute('object-style'), target.getAttribute('weather-time'), target.getAttribute('object-width'), target.getAttribute('object-height'), target.getAttribute('object-font'), "noMessage");
+
             weatherStyleToCss(target.id, target.getAttribute('top'), target.getAttribute('left'), target.getAttribute('object-style'), target.getAttribute("weather-time"));
 
 
@@ -303,8 +313,50 @@ interact('.resize-drag')
     })
     .resizable({
         preserveAspectRatio: true,
-        edges: { left: false, right: true, bottom: true, top: false }
-    })
+        edges: { left: false, right: true, bottom: true, top: false },
+
+        onstart: function(event) {
+          previousSize = getPreviousSize(event);
+        },
+
+        onmove: function(event) {
+            var target = event.target,
+                x = (parseFloat(target.getAttribute('data-xx')) || 0),
+                 y = (parseFloat(target.getAttribute('data-yy')) || 0);
+
+            // update the element's style
+            target.style.width  = event.rect.width + 'px';
+            target.style.height = event.rect.height + 'px';
+            target.style.fontSize = event.rect.height/3 + 'px';
+
+            // translate when resizing from top or left edges
+            x += event.deltaRect.left;
+            y += event.deltaRect.top;
+
+            target.style.webkitTransform = target.style.transform =
+                'translate(' + x + 'px,' + y + 'px)';
+
+            target.setAttribute('data-xx', x);
+            target.setAttribute('data-yy', y);
+            //updateObjectSize(target, event.rect.width + 'px', event.rect.height + 'px');
+            // target.setAttribute('object-width', event.rect.width + 'px');
+            // target.setAttribute('object-height', event.rect.height + 'px');
+            // weatherStyleToCss(target.id, target.getAttribute('top'), target.getAttribute('left'), target.getAttribute('object-style'), target.getAttribute('weather-time'), target.getAttribute('object-width'), target.getAttribute('object-height'),target.getAttribute('object-font'));
+        },
+        onend: function(event) {
+            console.log("resize end");
+            var target = event.target;
+            var currentWidth = window.getComputedStyle(target).getPropertyValue('width');
+            var currentHeight = window.getComputedStyle(target).getPropertyValue('height');
+
+            var previousWidth = previousSize[0];
+            var previousHeight = previousSize[1];
+
+            addToUndoArray(target.id, "resizedObject", target.getAttribute('top'), target.getAttribute('left'), target.getAttribute('object-style'), target.getAttribute('weather-time'), previousWidth, previousHeight, target.getAttribute('object-font'), "noMessage");
+
+            updateObjectSize(target, currentWidth, currentHeight);
+        }
+    /*
     .on('resizemove', function (event) {
         var target = event.target,
             x = (parseFloat(target.getAttribute('data-xx')) || 0),
@@ -329,10 +381,37 @@ interact('.resize-drag')
         // target.setAttribute('object-height', event.rect.height + 'px');
         // weatherStyleToCss(target.id, target.getAttribute('top'), target.getAttribute('left'), target.getAttribute('object-style'), target.getAttribute('weather-time'), target.getAttribute('object-width'), target.getAttribute('object-height'),target.getAttribute('object-font'));
 
+    })
+    */
     });
 
+
+function updateObjectSize(target, newWidth, newHeight) {
+    console.log(target);
+    console.log(newWidth + newHeight);
+    target.setAttribute('object-width',newWidth);
+    target.setAttribute('object-height',newHeight);
+
+    for (var i = 0; i < objectIdArray.length; i++) {
+        if (objectIdArray[i] == target.id) {
+            objectWidthArray[i] = newWidth;
+            objectHeightArray[i] = newHeight;
+
+            updateLocalStorage();
+            break;
+        }
+    }
+}
+
+function getPreviousSize(event) {
+    var target = event.target;
+    var previousWidth = target.getAttribute('object-width');
+    var previousHeight = target.getAttribute('object-height');
+
+    return [previousWidth, previousHeight];
+}
+
 function showDropDown() {
-    console.log(currentHighlightedObject);
     $('.weather-choose-time').css('display','block');
     var currentTimeOption = document.createElement('option');
     currentTimeOption.value ="current time";
@@ -374,10 +453,7 @@ When an option is changed in the dropdown menu we need to change the weather tim
 change the icon of the whole div itself.
  */
 function switchWeatherTime(selectedValue) {
-    console.log("function call");
     var newWeatherTime = selectedValue.value;
-    console.log(newWeatherTime);
-    console.log(currentHighlightedObject);
     currentHighlightedObject.setAttribute('weather-time', newWeatherTime);
     currentHighlightedObject.remove();
     SMHICall(currentHighlightedObject.style.top, currentHighlightedObject.style.left, currentHighlightedObject.id, currentHighlightedObject.getAttribute('weather-time'), currentHighlightedObject.getAttribute('object-width'),currentHighlightedObject.getAttribute('object-height'), currentHighlightedObject.getAttribute('object-style'), currentHighlightedObject.getAttribute('object-font'));
@@ -425,39 +501,45 @@ function showDeleteButton() {
     deleteButton.addEventListener('click', function() {
         // console.log(highlightedObject.id);
         // console.log(objectIdArray);
-        for (var i = 0; i < objectIdArray.length; i++ ) {
-            if (objectIdArray[i] == currentHighlightedObject.id) {
-                // console.log("if " + i);
-                if(objectStyleArray[i] == "text-message") { //the text message should not always be removed.
-                    objectTextMessages.splice(i,1);
-                }
-                if(objectStyleArray[i] == "clock") {
-                    clearTimeout(clockTimer);
-                }
-                else if (objectStyleArray[i] == "date") {
-                    clearTimeout(dateTimer);
-                }
-                objectIdArray.splice(i,1);
-                objectStyleArray.splice(i,1);
-                topPositionArray.splice(i,1);
-                leftPositionArray.splice(i,1);
-                weatherTimeArray.splice(i,1);
-                objectWidthArray.splice(i,1);
-                objectHeightArray.splice(i,1);
-                objectFontArray.splice(i,1);
+        addToUndoArray(currentHighlightedObject.id, "deleteObject", currentHighlightedObject.getAttribute('top'), currentHighlightedObject.getAttribute('left'), currentHighlightedObject.getAttribute('object-style'), currentHighlightedObject.getAttribute('weather-time'), currentHighlightedObject.getAttribute('object-width'), currentHighlightedObject.getAttribute('object-height'), currentHighlightedObject.getAttribute('object-font'));
+        deleteObject(currentHighlightedObject.id);
 
-                updateLocalStorage();
-                console.log(objectIdArray);
-            }
-        }
-        hideDeleteButton();
-        hideDropDown();
-        // hideResizer();
-        currentHighlightedObject.remove();
     });
 
 }
 
+function deleteObject(objectId) {
+    for (var i = 0; i < objectIdArray.length; i++ ) {
+        if (objectIdArray[i] == objectId) {
+        //if (objectIdArray[i] == currentHighlightedObject.id) {
+            // console.log("if " + i);
+            if(objectStyleArray[i] == "text-message") { //the text message should not always be removed.
+                objectTextMessages.splice(i,1);
+            }
+            if(objectStyleArray[i] == "clock") {
+                clearTimeout(clockTimer);
+            }
+            else if (objectStyleArray[i] == "date") {
+                clearTimeout(dateTimer);
+            }
+            objectIdArray.splice(i,1);
+            objectStyleArray.splice(i,1);
+            topPositionArray.splice(i,1);
+            leftPositionArray.splice(i,1);
+            weatherTimeArray.splice(i,1);
+            objectWidthArray.splice(i,1);
+            objectHeightArray.splice(i,1);
+            objectFontArray.splice(i,1);
+
+            updateLocalStorage();
+            //console.log(objectIdArray);
+        }
+    }
+    hideDeleteButton();
+    hideDropDown();
+    // hideResizer();
+    document.getElementById(objectId).remove();
+}
 
 function addAttributesToWeatherOptionDiv() {
     var numberOfDivs = document.querySelectorAll('.weather-option').length;
@@ -538,9 +620,7 @@ function drop(ev, target) {
     var offset = ev.dataTransfer.getData("text/plain").split(','); //put the data into an array and split at a comma-sign.
 
     if (offset[2] == 'true') {
-        console.log("drop");
         var draggedId = offset[3];
-        console.log("dragged more than once: " + draggedId);
         var draggedDiv = document.getElementById(draggedId);
         draggedDiv.style.left = (event.clientX + parseInt(offset[0],10)) + 'px';
         draggedDiv.style.top = (event.clientY + parseInt(offset[1],10)) + 'px';
@@ -558,7 +638,6 @@ function drop(ev, target) {
 
     }
     else if (offset[2] == 0) {
-        console.log("drop else if");
         var locationLeft = ev.pageX - '367' + 'px' ;
         var locationTop = ev.pageY - '53'+ 'px' ;
         SMHICall(locationTop, locationLeft, dropCallsString, "notExist", "startWidth", "startHeight", "weather", "noFont");
@@ -590,7 +669,7 @@ function drop(ev, target) {
 
 }
 
-function createWeatherStyle(apiResponse, locationTop, locationLeft, divId, weatherTime, objectWidth, objectHeight) {
+function createWeatherStyle(apiResponse, locationTop, locationLeft, divId, weatherTime, objectWidth, objectHeight, functionCaller) {
     // var weatherStyleDiv = document.createElement('img');
     var weatherStyleDiv = document.createElement('div');
     weatherStyleDiv.setAttribute('id', divId); //give an id so that we can choose the correct object to be dragged.
@@ -602,11 +681,10 @@ function createWeatherStyle(apiResponse, locationTop, locationLeft, divId, weath
         var timeDifference = calculateDateAndTimeDifference(apiResponse, weatherTime);
     }
     else {
-        // console.log("weathertimenotexist");
         weatherStyleDiv.setAttribute('weather-time', "current-time");
-        var timeDifference = calculateDateAndTimeDifference(apiResponse, "current time");
+        var timeDifference = calculateDateAndTimeDifference(apiResponse, "current-time");
     }
-    // console.log("timedifference " + timeDifference);
+
     var currentWeather = apiResponse.timeSeries[timeDifference].parameters[18].values[0];
 
 
@@ -727,7 +805,6 @@ function createWeatherStyle(apiResponse, locationTop, locationLeft, divId, weath
 
 
     if (objectWidth == "startWidth" && objectHeight=="startHeight") {
-        console.log("startWidthHeight: " + style.getPropertyValue('width') + " " + style.getPropertyValue('height'));
         weatherStyleDiv.style.width = "100px";
         weatherStyleDiv.style.height = "50px";
         weatherStyleDiv.setAttribute('object-width',style.getPropertyValue('width'));
@@ -736,17 +813,22 @@ function createWeatherStyle(apiResponse, locationTop, locationLeft, divId, weath
     else {
         weatherStyleDiv.style.width = objectWidth;
         weatherStyleDiv.style.height = objectHeight;
-        console.log("objectWidthHeight " + objectWidth + " " + objectHeight);
         weatherStyleDiv.setAttribute('object-width',objectWidth);
         weatherStyleDiv.setAttribute('object-height',objectHeight);
     }
     var fontSize = parseFloat(weatherStyleDiv.getAttribute('object-height'));
     weatherStyleDiv.style.fontSize = fontSize/3 + 'px';
 
+    if (functionCaller == "drop") { //the object should only be added to the undo array if the user made the drop-action
+        console.log("drop function caller");
+        addToUndoArray(weatherStyleDiv.id, "addObject", top, left, weatherStyleDiv.getAttribute('object-style'), weatherTime, weatherStyleDiv.getAttribute('object-width'), weatherStyleDiv.getAttribute('object-height'),"noFont", "noMessage");
+    }
+
+
     if (weatherTime !== "notExist") {
         weatherStyleToCss(divId, top, left, weatherStyleDiv.getAttribute('object-style'), weatherTime, weatherStyleDiv.getAttribute('object-width'), weatherStyleDiv.getAttribute('object-height'),"noFont");
     }
-    else weatherStyleToCss(divId, top, left, weatherStyleDiv.getAttribute('object-style'), "current time", weatherStyleDiv.getAttribute('object-width'), weatherStyleDiv.getAttribute('object-height'),"noFont");
+    else weatherStyleToCss(divId, top, left, weatherStyleDiv.getAttribute('object-style'), "current-time", weatherStyleDiv.getAttribute('object-width'), weatherStyleDiv.getAttribute('object-height'),"noFont");
 
 }
 
@@ -871,7 +953,7 @@ function calculateDateAndTimeDifference(apiResponse, selectedWeatherTime) {
 
     var hoursToNextDay = 24 - approvedHour;
 
-    if(selectedWeatherTime =="current time") {
+    if(selectedWeatherTime =="current-time") {
         var currentDateAndTime = getDateAndTime();
         var currentHour = currentDateAndTime[0];
         var currentDay = currentDateAndTime[1];
@@ -881,7 +963,6 @@ function calculateDateAndTimeDifference(apiResponse, selectedWeatherTime) {
         else {
             var hoursNeeded = approvedHour + hoursToNextDay;
         }
-        // getCurrentWeather(apiResponse, differenceInHours);
         return differenceInHours;
     }
 
@@ -929,6 +1010,7 @@ function calculateDateAndTimeDifference(apiResponse, selectedWeatherTime) {
             return eveningHoursNeeded;
         }
     }
+
 }
 
 function getLocation() {
@@ -966,9 +1048,10 @@ function showPosition(position) {
 function SMHICall(topPosition, leftPosition, divId, objectTime, objectWidth, objectHeight, objectStyle, objectFont) {
     userLongitude = "17.6389";
     userLatitude = "59.8586";
+    console.log(objectTime);
+    var functionCaller = arguments.callee.caller.name;
     // var endPoint = "http://opendata-download-metfcst.smhi.se/api/category/pmp2g/version/2/geotype/point/lon/17.6389/lat/59.8586/data.json";
     var endPoint = "http://opendata-download-metfcst.smhi.se/api/category/pmp2g/version/2/geotype/point/lon/" + userLongitude + "/lat/" + userLatitude +"/data.json";
-    console.log(arguments.callee.caller.name);
     /*
      1	Clear sky
      2	Nearly clear sky
@@ -1006,11 +1089,12 @@ function SMHICall(topPosition, leftPosition, divId, objectTime, objectWidth, obj
 
         // createWeatherStyle(data.timeSeries[timeDifference].parameters[18].values[0], topPosition, leftPosition, divId);
         // if(arguments.callee.caller.name == "checkIfLocalStorageExi")
+
         if (objectStyle =="weather") {
-            createWeatherStyle(data, topPosition, leftPosition, divId, objectTime, objectWidth, objectHeight);
+            createWeatherStyle(data, topPosition, leftPosition, divId, objectTime, objectWidth, objectHeight, functionCaller);
         }
         else if(objectStyle=="temperature") {
-            createTemperatureStyle(data, topPosition, leftPosition, divId, objectTime, objectWidth, objectHeight, objectFont);
+            createTemperatureStyle(data, topPosition, leftPosition, divId, objectTime, objectWidth, objectHeight, objectFont, functionCaller);
         }
     });
 

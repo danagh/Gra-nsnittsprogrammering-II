@@ -18,9 +18,11 @@ function YOURFUNCTION() {
     s.parentNode.insertBefore(wf, s);
 }
 
-function createTemperatureStyle(apiResponse, topPosition, leftPosition, divId, temperatureTime, objectWidth, objectHeight, objectFont) {
+function createTemperatureStyle(apiResponse, topPosition, leftPosition, divId, temperatureTime, objectWidth, objectHeight, objectFont, functionCaller) {
     var temperatureStyleDiv = document.createElement('div');
     temperatureStyleDiv.setAttribute('id', divId);
+
+    console.log("temp time " + temperatureTime);
 
     if (temperatureTime !== "notExist") {
         temperatureStyleDiv.setAttribute('weather-time', temperatureTime);
@@ -28,8 +30,11 @@ function createTemperatureStyle(apiResponse, topPosition, leftPosition, divId, t
     }
     else {
         temperatureStyleDiv.setAttribute('weather-time', "current-time");
-        var timeDifference = calculateDateAndTimeDifference(apiResponse, "current time");
+        var timeDifference = calculateDateAndTimeDifference(apiResponse, "current-time");
     }
+
+
+    console.log("temp time difference" + timeDifference);
 
     var currentTemp = apiResponse.timeSeries[timeDifference].parameters[1].values[0];
     // console.log("current temp: " + currentTemp);
@@ -82,6 +87,14 @@ function createTemperatureStyle(apiResponse, topPosition, leftPosition, divId, t
     else {
         temperatureStyleDiv.setAttribute('object-font',"noFont");
     }
+
+    console.log(functionCaller);
+    if (functionCaller == "drop") {
+        console.log("function caller if ");
+        addToUndoArray(temperatureStyleDiv.id, "addObject", top, left, temperatureStyleDiv.getAttribute('object-style'), temperatureStyleDiv.getAttribute('weather-time'), temperatureStyleDiv.getAttribute('object-width'), temperatureStyleDiv.getAttribute('object-height'),temperatureStyleDiv.getAttribute('object-font'), "noMessage");
+    }
+
+
 
     if (temperatureTime !== "notExist") {
         weatherStyleToCss(divId, top, left, temperatureStyleDiv.getAttribute('object-style'), temperatureTime, temperatureStyleDiv.getAttribute('object-width'), temperatureStyleDiv.getAttribute('object-height'),temperatureStyleDiv.getAttribute('object-font'));
@@ -136,7 +149,7 @@ function hideFontSelector() { //hide the font selector
 }
 
 function createTextMessage(locationTop, locationLeft, divId, messageTime, objectWidth, objectHeight, objectStyle, objectFont, textMessage) {
-    console.log("create text message");
+    console.log("create text message" + textMessage);
     var textMessageDiv = document.createElement('div');
     textMessageDiv.setAttribute('id',divId);
     textMessageDiv.setAttribute('class','icon-middle sunny resize-drag');
@@ -156,6 +169,8 @@ function createTextMessage(locationTop, locationLeft, divId, messageTime, object
         textMessageDiv.innerHTML = textMessage;
         textMessageDiv.setAttribute('text-message',textMessage);
     }
+    console.log(textMessageDiv.getAttribute('text-message'));
+
     document.getElementsByClassName('middle-side')[0].appendChild(textMessageDiv);
     // textMessageDiv.appendChild(inputField);
 
@@ -197,6 +212,13 @@ function createTextMessage(locationTop, locationLeft, divId, messageTime, object
     var font = parseFloat(textMessageDiv.getAttribute('object-height'));
     textMessageDiv.style.fontSize = font/3 + 'px';
     // textMessageDiv.style.fontSize = textMessageDiv.getAttribute('object-height') ;
+
+    var functionCaller = arguments.callee.caller.name;
+    console.log(functionCaller);
+    if (functionCaller == "drop") {
+        console.log("if");
+        addToUndoArray(textMessageDiv.id, "addObject", locationTop, locationLeft, textMessageDiv.getAttribute('object-style'), messageTime, textMessageDiv.getAttribute('object-width'), textMessageDiv.getAttribute('object-height'),textMessageDiv.getAttribute('object-font'), textMessageDiv.getAttribute('text-message'));
+    }
 
     textMessageToCss(divId, locationTop, locationLeft, messageTime, objectWidth, objectHeight, textMessageDiv.getAttribute('object-font'), textMessageDiv.getAttribute('text-message'), objectStyle);
 }

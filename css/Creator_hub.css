@@ -200,6 +200,10 @@ body {
     text-decoration: none;
     color: brown;
 }
+ .undo-div, .redo-div {
+     display: inline-block;
+     margin-right: 0;
+ }
 
 .logout {
     color:brown;
@@ -490,6 +494,9 @@ body {
          display: flex;
      }
  }
+
+
+
 
 
 
