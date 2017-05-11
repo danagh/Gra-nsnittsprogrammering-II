@@ -256,9 +256,7 @@ function dragMoveListener (event) {
 
 
     // Martins lekkod
-    if (mirror === undefined){
-        mirror = document.getElementById("mirror");
-    }
+
 
      target.style.left = ((x / mirror.offsetWidth) * 100) + '%';
      target.style.top = ((y / mirror.offsetHeight) * 100) + '%';
@@ -530,6 +528,9 @@ If it has been dragged from the left side we do not have to create a new element
 If the element is dragged from the left we first check which option it is and then create the correct icon.
  */
 function drop(ev, target) {
+    if (mirror === undefined){
+        mirror = document.getElementById("mirror");
+    }
     // console.log('rör på samma objekt');
     target.style.border = 'none';
     dropCalls++; //enumerate the dropcalls so that when a new object is created it gets an unique id.
@@ -559,31 +560,31 @@ function drop(ev, target) {
     }
     else if (offset[2] == 0) {
         console.log("drop else if");
-        var locationLeft = ev.pageX - '367' + 'px' ;
-        var locationTop = ev.pageY - '53'+ 'px' ;
+        var locationLeft = ev.pageX - mirror.getBoundingClientRect().left - 50 + 'px';
+        var locationTop = ev.pageY - mirror.getBoundingClientRect().top - 25 + 'px';
         SMHICall(locationTop, locationLeft, dropCallsString, "notExist", "startWidth", "startHeight", "weather", "noFont");
     }
 
     else if (offset[2] == 1) {
-        var locationLeft = ev.pageX - '367' + 'px' ;
-        var locationTop = ev.pageY - '53'+ 'px' ;
+        var locationLeft = ev.pageX - mirror.getBoundingClientRect().left - 5 + 'px';
+        var locationTop = ev.pageY - mirror.getBoundingClientRect().top - 3 + 'px';
         SMHICall(locationTop, locationLeft, dropCallsString, "notExist", "startWidth", "startHeight", "temperature", "noFont");
     }
 
     else if (offset[2] == 2) {
-        var locationLeft = ev.pageX - '367' + 'px' ;
-        var locationTop = ev.pageY - '53'+ 'px' ;
+        var locationLeft = ev.pageX - mirror.getBoundingClientRect().left - 35 + 'px';
+        var locationTop = ev.pageY - mirror.getBoundingClientRect().top - 3 + 'px';
         createTextMessage(locationTop, locationLeft, dropCallsString, "notExist", "startWidth", "startHeight", "text-message", "noFont", "noMessage");
     }
 
     else if (offset[2] == 3) {
-        var locationLeft = ev.pageX - '367' + 'px' ;
-        var locationTop = ev.pageY - '53'+ 'px' ;
+        var locationLeft = ev.pageX - mirror.getBoundingClientRect().left - 25 + 'px';
+        var locationTop = ev.pageY - mirror.getBoundingClientRect().top - 3 + 'px';
         createTimeObject(locationTop, locationLeft, dropCallsString, "clock", "no-time", "startWidth", "startHeight",  "noFont");
     }
     else if (offset[2] == 4) {
-        var locationLeft = ev.pageX - '367' + 'px' ;
-        var locationTop = ev.pageY - '53'+ 'px' ;
+        var locationLeft = ev.pageX - mirror.getBoundingClientRect().left - 50 + 'px';
+        var locationTop = ev.pageY - mirror.getBoundingClientRect().top - 3 + 'px';
         createDateObject(locationTop, locationLeft, dropCallsString, "date", "no-time", "startWidth", "startHeight",  "noFont");
     }
     ev.preventDefault();
