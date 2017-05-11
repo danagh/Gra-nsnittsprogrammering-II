@@ -16,15 +16,15 @@
 
 $(document).ready(function() {
 
-    // console.log("creator: " + fontFamilies2);
-    // localStorage.clear();
-    // for (var k = 0; k < objectIdArray.length; k++) {
-    //     delete topPositionArray[k];
-    //     delete leftPositionArray[k];
-    //     delete  objectStyleArray[k];
-    //     delete  objectIdArray[k];
-    //
-    // }
+    console.log("creator: " + fontFamilies2);
+    localStorage.clear();
+    for (var k = 0; k < objectIdArray.length; k++) {
+        delete topPositionArray[k];
+        delete leftPositionArray[k];
+        delete  objectStyleArray[k];
+        delete  objectIdArray[k];
+
+    }
     // tutorialEventHandlers();
     // createWholeOverlay();
     getLocation();
@@ -238,6 +238,9 @@ interact('.draggable')
         }
     });
 
+// Martin lek igen
+var mirror = undefined;
+
 function dragMoveListener (event) {
     var target = event.target,
         // keep the dragged position in the data-x/data-y attributes
@@ -250,8 +253,18 @@ function dragMoveListener (event) {
     // target.style.webkitTransform =
     //     target.style.transform =
     //         'translate(' + x + 'px, ' + y + 'px)';
-    target.style.left = x + 'px';
-    target.style.top = y + 'px';
+
+
+    // Martins lekkod
+    if (mirror === undefined){
+        mirror = document.getElementById("mirror");
+    }
+
+     target.style.left = ((x / mirror.offsetWidth) * 100) + '%';
+     target.style.top = ((y / mirror.offsetHeight) * 100) + '%';
+    // Martin liker här nu, Danas kod finns under
+    // target.style.left = x + 'px';
+    // target.style.top = y + 'px';
 
     // update the posiion attributes
     target.setAttribute('data-x', x);
