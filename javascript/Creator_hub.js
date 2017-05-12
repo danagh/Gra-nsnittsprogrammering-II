@@ -16,7 +16,7 @@
 
 $(document).ready(function() {
 
-    // console.log("creator: " + fontFamilies2);
+    console.log("creator: " + fontFamilies2);
     // localStorage.clear();
     // for (var k = 0; k < objectIdArray.length; k++) {
     //     delete topPositionArray[k];
