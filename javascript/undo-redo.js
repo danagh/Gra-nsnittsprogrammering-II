@@ -9,6 +9,7 @@ var undoWidthArray = [];
 var undoHeightArray = [];
 var undoFontArray = [];
 var undoMessageArray = [];
+var undoSecondsArray = []
 var redoIdArray = [];
 var redoActionArray = [];
 var redoTopArray = [];
@@ -19,9 +20,10 @@ var redoWidthArray = [];
 var redoHeightArray = [];
 var redoFontArray = [];
 var redoMessageArray = [];
+var redoSecondsArray = []
 
 //This function is called to add the latest action to the undo array
-function addToUndoArray(objectId, objectAction, topPosition, leftPosition, objectStyle, objectTime, objectWidth, objectHeight, objectFont, objectMessage) {
+function addToUndoArray(objectId, objectAction, topPosition, leftPosition, objectStyle, objectTime, objectWidth, objectHeight, objectFont, objectMessage, objectSeconds) {
     undoIdArray.push(objectId);
     undoActionArray.push(objectAction);
     undoTopArray.push(topPosition);
@@ -32,15 +34,12 @@ function addToUndoArray(objectId, objectAction, topPosition, leftPosition, objec
     undoHeightArray.push(objectHeight);
     undoFontArray.push(objectFont);
     undoMessageArray.push(objectMessage);
-
-    console.log(undoMessageArray);
+    undoSecondsArray.push(objectSeconds);
     updateUndoArray();
 }
 
 //This function is called when the undo-button is pressed and it gets the last index of the undo array and its action so that they can be used to undo the latest action
 function checkLatestUndoAction() {
-    console.log("undo array "  + ' ' + undoActionArray);
-    console.log("redo array" + ' ' + redoActionArray);
     var lastIndex = undoActionArray.length - 1; //get the index of the last item in the array
     var latestAction = undoArray[1][lastIndex]; //get the last item of the array
 
@@ -48,8 +47,10 @@ function checkLatestUndoAction() {
 
 }
 
+/*
+ This function checks the latest user action and then generates the correct undo action.
+ */
 function completeUndo(lastIndex, latestAction) {
-    console.log(undoArray[0][lastIndex]);
     if (latestAction == "addObject") { //if the latest action was to add an object remove the same object.
         //var currentIndex = getIndexOfCurrentObject(undoArray[0][latestItem]); //get the index of the specific id.
 
@@ -88,6 +89,22 @@ function completeUndo(lastIndex, latestAction) {
         resizeObject(undoArray[0][lastIndex], undoArray[6][lastIndex], undoArray[7][lastIndex]);
     }
 
+    else if (latestAction == "changedFont") {
+        changeBackFont(undoArray[0][lastIndex], undoArray[8][lastIndex])
+    }
+
+    else if (latestAction == "changeTime" ) {
+        changeBackTime(undoArray[0][lastIndex], undoArray[5][lastIndex])
+    }
+
+    else if (latestAction == "changeText") {
+        changeTextBack(undoArray[0][lastIndex], undoArray[9][lastIndex])
+    }
+
+    else if (latestAction == "changeSeconds") {
+        changeSecondsBack(undoArray[0][lastIndex], undoArray[10][lastIndex]);
+    }
+
     undoActionArray.splice(lastIndex,1); //remove the latest undo-action from the undo arrays.
     undoIdArray.splice(lastIndex,1);
     undoTopArray.splice(lastIndex,1);
@@ -98,16 +115,82 @@ function completeUndo(lastIndex, latestAction) {
     undoHeightArray.splice(lastIndex,1);
     undoFontArray.splice(lastIndex,1);
     undoMessageArray.splice(lastIndex,1);
-
-    console.log("undo array " + ' ' + undoActionArray);
-    console.log("redo array" + ' ' + redoActionArray);
+    undoSecondsArray.splice(lastIndex,1);
     updateUndoArray();
 }
 
-function resizeObject(objectId, widthValue, heightValue) {
-    console.log("resize object");
-    console.log(widthValue + ' ' + heightValue);
+/*
+depending on if the latest action by the user was to check or uncheck the "show seconds" checkbox this function does the reverse action.
+ */
+function changeSecondsBack(objectId, objectSeconds) {
+    var objectToBeChanged = document.getElementById(objectId);
+    var currentSeconds = objectToBeChanged.getAttribute('seconds');
 
+    if (arguments.callee.caller.name == "completeUndo") { //add the current position to the redo array before undoing the movement.
+        addToRedoArray(objectId, "changeSeconds", objectToBeChanged.getAttribute('top'), objectToBeChanged.getAttribute('left'), objectToBeChanged.getAttribute('object-style'), objectToBeChanged.getAttribute('weather-time'), objectToBeChanged.getAttribute('object-width'), objectToBeChanged.getAttribute('object-height'), objectToBeChanged.getAttribute('object-font'), objectToBeChanged.getAttribute('text-message'), currentSeconds);
+    }
+    else { //if it was a redo-function that called this function add the information instead in the undo array.
+        addToUndoArray(objectId, "changeSeconds", objectToBeChanged.getAttribute('top'), objectToBeChanged.getAttribute('left'), objectToBeChanged.getAttribute('object-style'), objectToBeChanged.getAttribute('weather-time'), objectToBeChanged.getAttribute('object-width'), objectToBeChanged.getAttribute('object-height'), objectToBeChanged.getAttribute('object-font'), objectToBeChanged.getAttribute('text-message'), currentSeconds);
+    }
+
+    objectToBeChanged.setAttribute('seconds', objectSeconds);
+}
+
+//Change the text back to the one that was previous to the new one
+function changeTextBack(objectId, textMessage) {
+    console.log(textMessage);
+    var objectToBeChanged = document.getElementById(objectId);
+    var currentTextMessage = objectToBeChanged.getAttribute('text-message');
+
+    if (arguments.callee.caller.name == "completeUndo") { //add the current position to the redo array before undoing the movement.
+        addToRedoArray(objectId, "changeText", objectToBeChanged.getAttribute('top'), objectToBeChanged.getAttribute('left'), objectToBeChanged.getAttribute('object-style'), objectToBeChanged.getAttribute('weather-time'), objectToBeChanged.getAttribute('object-width'), objectToBeChanged.getAttribute('object-height'), objectToBeChanged.getAttribute('object-font'), currentTextMessage);
+    }
+    else { //if it was a redo-function that called this function add the information instead in the undo array.
+        addToUndoArray(objectId, "changeText", objectToBeChanged.getAttribute('top'), objectToBeChanged.getAttribute('left'), objectToBeChanged.getAttribute('object-style'), objectToBeChanged.getAttribute('weather-time'), objectToBeChanged.getAttribute('object-width'), objectToBeChanged.getAttribute('object-height'), objectToBeChanged.getAttribute('object-font'), currentTextMessage);
+    }
+
+    objectToBeChanged.innerHTML = textMessage;
+}
+
+/*
+This function is used to go back to the objecttime before the change.
+ */
+function changeBackTime(objectId, objectTime) {
+    var objectToBeChanged = document.getElementById(objectId);
+    var currentTime = objectToBeChanged.getAttribute('weather-time');
+
+    if (arguments.callee.caller.name == "completeUndo") { //add the current position to the redo array before undoing the movement.
+        addToRedoArray(objectId, "changeTime", objectToBeChanged.getAttribute('top'), objectToBeChanged.getAttribute('left'), objectToBeChanged.getAttribute('object-style'), currentTime, objectToBeChanged.getAttribute('object-width'), objectToBeChanged.getAttribute('object-height'), objectToBeChanged.getAttribute('object-font'), objectToBeChanged.getAttribute('text-message'));
+    }
+    else { //if it was a redo-function that called this function add the information instead in the undo array.
+        addToUndoArray(objectId, "changeTime", objectToBeChanged.getAttribute('top'), objectToBeChanged.getAttribute('left'), objectToBeChanged.getAttribute('object-style'), currentTime, objectToBeChanged.getAttribute('object-width'), objectToBeChanged.getAttribute('object-height'), objectToBeChanged.getAttribute('object-font'), objectToBeChanged.getAttribute('text-message'));
+    }
+
+    objectToBeChanged.remove();
+    SMHICall(objectToBeChanged.getAttribute('top'), objectToBeChanged.getAttribute('left'), objectId, objectTime, objectToBeChanged.getAttribute('object-width'), objectToBeChanged.getAttribute('object-height'), objectToBeChanged.getAttribute('object-style'), objectToBeChanged.getAttribute('object-font'));
+}
+
+/*
+This function changes the fontfamily back to the one that was seen before the undo/redo button was pressed.
+ */
+function changeBackFont(objectId, objectFont) {
+    var objectFontToBeChanged = document.getElementById(objectId);
+    var currentFont = window.getComputedStyle(objectFontToBeChanged).getPropertyValue('font-family');
+
+    if (arguments.callee.caller.name == "completeUndo") { //add the current position to the redo array before undoing the movement.
+        addToRedoArray(objectId, "changedFont", objectFontToBeChanged.getAttribute('top'), objectFontToBeChanged.getAttribute('left'), objectFontToBeChanged.getAttribute('object-style'), objectFontToBeChanged.getAttribute('weather-time'), objectFontToBeChanged.getAttribute('object-width'), objectFontToBeChanged.getAttribute('object-height'), currentFont, objectFontToBeChanged.getAttribute('text-message'));
+    }
+    else { //if it was a redo-function that called this function add the information instead in the undo array.
+        addToUndoArray(objectId, "changedFont", objectFontToBeChanged.getAttribute('top'), objectFontToBeChanged.getAttribute('left'), objectFontToBeChanged.getAttribute('object-style'), objectFontToBeChanged.getAttribute('weather-time'), objectFontToBeChanged.getAttribute('object-width'), objectFontToBeChanged.getAttribute('object-height'), currentFont, objectFontToBeChanged.getAttribute('text-message'));
+    }
+
+    objectFontToBeChanged.style.fontFamily = objectFont;
+}
+
+/*
+This function resizes the size of the object to the size that was before the undo/redo-button was pressed
+ */
+function resizeObject(objectId, widthValue, heightValue) {
     var objectToBeResized = document.getElementById(objectId);
 
     var objectStyle = window.getComputedStyle(objectToBeResized);
@@ -128,9 +211,10 @@ function resizeObject(objectId, widthValue, heightValue) {
     objectToBeResized.style.fontSize = newFontSize + 'px';
 }
 
+/*
+This function moves back the object to its previous position
+ */
 function moveBackObject(topPosition, leftPosition, objectId) {
-    console.log("move back object");
-    console.log("object id " + objectId);
     var objectToBeMoved = document.getElementById(objectId);
 
     //we have to get the current position so that it can be added to the redo array.
@@ -160,11 +244,10 @@ function updateUndoArray() {
     undoArray[7] = undoHeightArray;
     undoArray[8] = undoFontArray;
     undoArray[9] = undoMessageArray;
-    console.log("undo array");
-    console.log(undoArray);
+    undoArray[10] = undoSecondsArray;
 }
 
-function addToRedoArray(objectId, objectAction, topPosition, leftPosition, objectStyle, objectTime, objectWidth, objectHeight, objectFont, objectMessage) {
+function addToRedoArray(objectId, objectAction, topPosition, leftPosition, objectStyle, objectTime, objectWidth, objectHeight, objectFont, objectMessage, objectSeconds) {
     redoIdArray.push(objectId);
     redoActionArray.push(objectAction);
     redoTopArray.push(topPosition);
@@ -175,6 +258,7 @@ function addToRedoArray(objectId, objectAction, topPosition, leftPosition, objec
     redoHeightArray.push(objectHeight);
     redoFontArray.push(objectFont);
     redoMessageArray.push(objectMessage);
+    redoSecondsArray.push(objectSeconds);
 
     updateRedoArray();
 }
@@ -183,14 +267,15 @@ function addToRedoArray(objectId, objectAction, topPosition, leftPosition, objec
 function checkLatestRedoAction() {
     var lastIndex = redoActionArray.length - 1; //get the index of the last item in the array
     var latestAction = redoArray[1][lastIndex]; //get the last item of the array
-    console.log("undo array" + ' ' + undoActionArray);
-    console.log("redo array " + ' ' + redoActionArray);
     completeRedoAction(lastIndex, latestAction);
 
 }
 
+/*
+This function checks the latest user action and then generates the correct redo action.
+ */
 function completeRedoAction(lastIndex, latestAction) {
-    console.log(redoArray[0][lastIndex]);
+
     if(latestAction == "addObject") { //if the latest undo action was to remove an object we have to add the object again.
 
         addToUndoArray(redoArray[0][lastIndex], redoArray[1][lastIndex], redoArray[2][lastIndex], redoArray[3][lastIndex], redoArray[4][lastIndex], redoArray[5][lastIndex], redoArray[6][lastIndex], redoArray[7][lastIndex], redoArray[8][lastIndex], redoArray[9][lastIndex]);
@@ -227,6 +312,18 @@ function completeRedoAction(lastIndex, latestAction) {
     else if (latestAction == "resizedObject") {
         resizeObject(redoArray[0][lastIndex], redoArray[6][lastIndex], redoArray[7][lastIndex]);
     }
+    else if (latestAction == "changedFont") {
+        changeBackFont(redoArray[0][lastIndex], redoArray[8][lastIndex])
+    }
+    else if (latestAction == "changeTime" ) {
+        changeBackTime(redoArray[0][lastIndex], redoArray[5][lastIndex])
+    }
+    else if (latestAction == "changeText") {
+        changeTextBack(redoArray[0][lastIndex], redoArray[9][lastIndex])
+    }
+    else if (latestAction == "changeSeconds") {
+        changeSecondsBack(redoArray[0][lastIndex], redoArray[10][lastIndex]);
+    }
 
     redoActionArray.splice(lastIndex,1); //remove the latest undo-action from the undo arrays.
     redoIdArray.splice(lastIndex,1);
@@ -238,11 +335,11 @@ function completeRedoAction(lastIndex, latestAction) {
     redoHeightArray.splice(lastIndex,1);
     redoFontArray.splice(lastIndex,1);
     redoMessageArray.splice(lastIndex,1);
-    console.log("undo array" + ' ' + undoActionArray);
-    console.log("redo array " + ' ' + redoActionArray);
+    redoSecondsArray.splice(lastIndex,1);
     updateRedoArray();
 }
 
+//apdate the redo array so that it's always up to date
 function updateRedoArray() {
     redoArray[0] = redoIdArray;
     redoArray[1] = redoActionArray;
@@ -254,6 +351,7 @@ function updateRedoArray() {
     redoArray[7] = redoHeightArray;
     redoArray[8] = redoFontArray;
     redoArray[9] = redoMessageArray;
+    redoArray[10] = redoSecondsArray;
     console.log(redoArray);
 }
 

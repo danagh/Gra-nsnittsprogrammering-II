@@ -16,17 +16,21 @@
 
 $(document).ready(function() {
 
-    console.log("creator: " + fontFamilies2);
-    // localStorage.clear();
-    // for (var k = 0; k < objectIdArray.length; k++) {
-    //     delete topPositionArray[k];
-    //     delete leftPositionArray[k];
-    //     delete  objectStyleArray[k];
-    //     delete  objectIdArray[k];
-    //
-    // }
+    //console.log("creator: " + fontFamilies2);
+
+/*
+     localStorage.clear();
+     for (var k = 0; k < objectIdArray.length; k++) {
+        delete topPositionArray[k];
+         delete leftPositionArray[k];
+         delete  objectStyleArray[k];
+         delete  objectIdArray[k];
+     }
+*/
+
     // tutorialEventHandlers();
     // createWholeOverlay();
+
     getLocation();
     setTimeout(checkIfLocalStorageExists(), 5000); //The timeouts are not working correctly and this has to be fixed later on in the project.
     setTimeout(addAttributesToWeatherOptionDiv(), 5000);
@@ -34,6 +38,12 @@ $(document).ready(function() {
 });
 
 function createEventHandlers() {
+
+    window.addEventListener("beforeunload", function(e){ //eventlistener that saves all changes before the user leaves the page.
+        //console.log("leaving page");
+        saveAllChanges();
+    });
+
     $(document).on('click', '.dropbtn', function() {
         if ($('.dropdown-content').hasClass('show')) {
             $('.dropdown-content').removeClass('show');
@@ -66,6 +76,7 @@ function createEventHandlers() {
     //This eventhandler highlight objects so that more options pops up on the side for the user.
     $('.middle-side').click(function(e){
         hideInputField();
+        hideSecondChooser();
         if (e.target.classList.contains('icon-middle')) { //If an object div is pressed
             currentHighlightedObject = e.target;
         }
@@ -82,6 +93,7 @@ function createEventHandlers() {
             hideInputField();
             hideFontSelector();
             highLightObject();
+
         }
         //The icon should not be unhighlighted if you press specific objects on the screen.
         else if (e.target.classList.contains('hidden-options') || e.target instanceof HTMLButtonElement || e.target instanceof HTMLSelectElement || e.target.classList.contains('resizer') ) {
@@ -108,18 +120,32 @@ function createEventHandlers() {
         // var newWeatherTime = $('.weather-choose-time option:selected').text();
         switchWeatherTime(this);
     });
-    $(document).on('click', '.undo-button', function() {
+    $(document).on('click', '.undo-button', function() { //undo-button click listener
        checkLatestUndoAction();
     });
 
-    $(document).on('click', '.redo-button', function() {
+    $(document).on('click', '.redo-button', function() { //redo-button click listener
         checkLatestRedoAction();
+    });
+
+    $(document).on('click', '.second-chooser', function(){ //show seconds checkbox click listener
+        addToUndoArray(currentHighlightedObject.id, "changeSeconds",currentHighlightedObject.getAttribute('top'), currentHighlightedObject.getAttribute('left'), currentHighlightedObject.getAttribute('object-style'), currentHighlightedObject.getAttribute('weather-time'), currentHighlightedObject.getAttribute('object-width'), currentHighlightedObject.getAttribute('object-height'), currentHighlightedObject.getAttribute('object-font'), currentHighlightedObject.getAttribute('text-message'), currentHighlightedObject.getAttribute('seconds'));
+        if ($(this).is(':checked')) { //if checkbox is clicked and checked show the seconds
+            currentHighlightedObject.setAttribute('seconds', 'true');
+        }
+        else { //if checkbox is clicked and unchecked hide the seconds
+            currentHighlightedObject.setAttribute('seconds', 'false');
+
+        }
+
+        changeSeconds();
     });
 
     // $('.resizer').mousedown(function() {
     //     console.log(currentHighlightedObject);
     //    initResize();
     // });
+
 }
 
 /*
@@ -142,6 +168,10 @@ function highLightObject() {
     }
     if (currentHighlightedObject.getAttribute('object-style') == "text-message") {
         showInputField(currentHighlightedObject);
+    }
+
+    if (currentHighlightedObject.getAttribute('object-style') == "clock") {
+        showSecondsChooser();
     }
 
 }
@@ -306,7 +336,7 @@ interact('.resize-drag')
             //add the action to the undo array
             addToUndoArray(target.id, "movedObject", previousTop, previousLeft, target.getAttribute('object-style'), target.getAttribute('weather-time'), target.getAttribute('object-width'), target.getAttribute('object-height'), target.getAttribute('object-font'), "noMessage");
 
-            weatherStyleToCss(target.id, target.getAttribute('top'), target.getAttribute('left'), target.getAttribute('object-style'), target.getAttribute("weather-time"));
+           // weatherStyleToCss(target.id, target.getAttribute('top'), target.getAttribute('left'), target.getAttribute('object-style'), target.getAttribute("weather-time"));
 
 
         }
@@ -454,14 +484,18 @@ change the icon of the whole div itself.
  */
 function switchWeatherTime(selectedValue) {
     var newWeatherTime = selectedValue.value;
+    var currentWeatherTime = currentHighlightedObject.getAttribute('weather-time');
+    //add the current weather time to the undo array so that it can be changed back.
+    addToUndoArray(currentHighlightedObject.id, "changeTime", currentHighlightedObject.getAttribute('top'), currentHighlightedObject.getAttribute('left'), currentHighlightedObject.getAttribute('object-style'), currentWeatherTime, currentHighlightedObject.getAttribute('object-width'), currentHighlightedObject.getAttribute('object-height'), currentHighlightedObject.getAttribute('object-font'));
+
     currentHighlightedObject.setAttribute('weather-time', newWeatherTime);
-    currentHighlightedObject.remove();
+    currentHighlightedObject.remove(); //remove the current object and create a new one in its place.
     SMHICall(currentHighlightedObject.style.top, currentHighlightedObject.style.left, currentHighlightedObject.id, currentHighlightedObject.getAttribute('weather-time'), currentHighlightedObject.getAttribute('object-width'),currentHighlightedObject.getAttribute('object-height'), currentHighlightedObject.getAttribute('object-style'), currentHighlightedObject.getAttribute('object-font'));
     hideDropDown();
     hideDeleteButton();
     // hideResizer();
     hideFontSelector();
-    updateWeatherTimeInformation();
+    //updateWeatherTimeInformation();
 }
 
 /*
@@ -507,36 +541,22 @@ function showDeleteButton() {
     });
 
 }
-
+/*
+This function takes the specified object and deletes it, together with hiding the different right-side options.
+ */
 function deleteObject(objectId) {
-    for (var i = 0; i < objectIdArray.length; i++ ) {
-        if (objectIdArray[i] == objectId) {
-        //if (objectIdArray[i] == currentHighlightedObject.id) {
-            // console.log("if " + i);
-            if(objectStyleArray[i] == "text-message") { //the text message should not always be removed.
-                objectTextMessages.splice(i,1);
-            }
-            if(objectStyleArray[i] == "clock") {
-                clearTimeout(clockTimer);
-            }
-            else if (objectStyleArray[i] == "date") {
-                clearTimeout(dateTimer);
-            }
-            objectIdArray.splice(i,1);
-            objectStyleArray.splice(i,1);
-            topPositionArray.splice(i,1);
-            leftPositionArray.splice(i,1);
-            weatherTimeArray.splice(i,1);
-            objectWidthArray.splice(i,1);
-            objectHeightArray.splice(i,1);
-            objectFontArray.splice(i,1);
-
-            updateLocalStorage();
-            //console.log(objectIdArray);
-        }
+    //if the deleted object is a time or date object the timer has to be removed or else they will keep on showing
+    //up on the screen
+    if (currentHighlightedObject.getAttribute('object-style') == "clock") {
+        clearTimeout(clockTimer);
+    }
+    else if (currentHighlightedObject.getAttribute('object-style') == "date") {
+        clearTimeout(dateTimer);
     }
     hideDeleteButton();
     hideDropDown();
+    hideFontSelector();
+    hideSecondChooser();
     // hideResizer();
     document.getElementById(objectId).remove();
 }
@@ -619,6 +639,7 @@ function drop(ev, target) {
     var dropCallsString = dropCalls.toString(); //change the id into a string so that it can be parsed.
     var offset = ev.dataTransfer.getData("text/plain").split(','); //put the data into an array and split at a comma-sign.
 
+    /*
     if (offset[2] == 'true') {
         var draggedId = offset[3];
         var draggedDiv = document.getElementById(draggedId);
@@ -632,35 +653,36 @@ function drop(ev, target) {
         draggedDiv.setAttribute('left',left);
 
 
-        weatherStyleToCss(draggedId, top, left, draggedDiv.getAttribute('object-style'), draggedDiv.getAttribute("weather-time"));
+     //   weatherStyleToCss(draggedId, top, left, draggedDiv.getAttribute('object-style'), draggedDiv.getAttribute("weather-time"));
 
         // weatherStyleToCss(top, left, draggedId);
 
     }
-    else if (offset[2] == 0) {
+    */
+    if (offset[2] == 0) { //if the dragged element is weather
         var locationLeft = ev.pageX - '367' + 'px' ;
         var locationTop = ev.pageY - '53'+ 'px' ;
         SMHICall(locationTop, locationLeft, dropCallsString, "notExist", "startWidth", "startHeight", "weather", "noFont");
     }
 
-    else if (offset[2] == 1) {
+    else if (offset[2] == 1) { //if the dragged element is temperature
         var locationLeft = ev.pageX - '367' + 'px' ;
         var locationTop = ev.pageY - '53'+ 'px' ;
         SMHICall(locationTop, locationLeft, dropCallsString, "notExist", "startWidth", "startHeight", "temperature", "noFont");
     }
 
-    else if (offset[2] == 2) {
+    else if (offset[2] == 2) { //if the dragged element is a text message
         var locationLeft = ev.pageX - '367' + 'px' ;
         var locationTop = ev.pageY - '53'+ 'px' ;
         createTextMessage(locationTop, locationLeft, dropCallsString, "notExist", "startWidth", "startHeight", "text-message", "noFont", "noMessage");
     }
 
-    else if (offset[2] == 3) {
+    else if (offset[2] == 3) { //if the dragged element is a clock
         var locationLeft = ev.pageX - '367' + 'px' ;
         var locationTop = ev.pageY - '53'+ 'px' ;
-        createTimeObject(locationTop, locationLeft, dropCallsString, "clock", "no-time", "startWidth", "startHeight",  "noFont");
+        createTimeObject(locationTop, locationLeft, dropCallsString, "clock", "no-time", "startWidth", "startHeight",  "noFont", "true");
     }
-    else if (offset[2] == 4) {
+    else if (offset[2] == 4) { //if the dragged element is a date
         var locationLeft = ev.pageX - '367' + 'px' ;
         var locationTop = ev.pageY - '53'+ 'px' ;
         createDateObject(locationTop, locationLeft, dropCallsString, "date", "no-time", "startWidth", "startHeight",  "noFont");
@@ -826,9 +848,9 @@ function createWeatherStyle(apiResponse, locationTop, locationLeft, divId, weath
 
 
     if (weatherTime !== "notExist") {
-        weatherStyleToCss(divId, top, left, weatherStyleDiv.getAttribute('object-style'), weatherTime, weatherStyleDiv.getAttribute('object-width'), weatherStyleDiv.getAttribute('object-height'),"noFont");
+      //  weatherStyleToCss(divId, top, left, weatherStyleDiv.getAttribute('object-style'), weatherTime, weatherStyleDiv.getAttribute('object-width'), weatherStyleDiv.getAttribute('object-height'),"noFont");
     }
-    else weatherStyleToCss(divId, top, left, weatherStyleDiv.getAttribute('object-style'), "current-time", weatherStyleDiv.getAttribute('object-width'), weatherStyleDiv.getAttribute('object-height'),"noFont");
+   // else weatherStyleToCss(divId, top, left, weatherStyleDiv.getAttribute('object-style'), "current-time", weatherStyleDiv.getAttribute('object-width'), weatherStyleDiv.getAttribute('object-height'),"noFont");
 
 }
 
@@ -870,6 +892,29 @@ function weatherStyleToCss(draggedId, topPosition, leftPosition, objectStyle, se
 
 }
 
+/*
+This function saves all the user's changes. It is only done when the user leaves the website to
+minimize the amount of calls to this function.
+ */
+function saveAllChanges() {
+    $('.icon-middle').each(function(i, obj) {
+        objectIdArray.push($(this).attr('id'));
+        leftPositionArray.push($(this).attr('left'));
+        topPositionArray.push($(this).attr('top'));
+        objectStyleArray.push($(this).attr('object-style'));
+        weatherTimeArray.push($(this).attr('weather-time'));
+        objectWidthArray.push($(this).attr('object-width'));
+        objectHeightArray.push($(this).attr('object-height'));
+        objectFontArray.push($(this).attr('object-font'));
+        objectTextMessages.push($(this).attr('text-message'));
+        showSecondsArray.push($(this).attr('seconds'));
+    });
+    updateLocalStorage();
+}
+
+/*
+After the changes has been saved in the different arrays localstorage has to be updated with the changes.
+ */
 function updateLocalStorage() {
     window.localStorage.clear();
 
@@ -883,6 +928,7 @@ function updateLocalStorage() {
     localStorage.setItem("object-font", JSON.stringify(objectFontArray));
     localStorage.setItem("font-families",JSON.stringify(fontFamilies2));
     localStorage.setItem("object-message",JSON.stringify(objectTextMessages));
+    localStorage.setItem("seconds",JSON.stringify(showSecondsArray));
 }
 
 function checkIfLocalStorageExists() {
@@ -895,6 +941,7 @@ function checkIfLocalStorageExists() {
     var objectHeight = JSON.parse(localStorage.getItem('object-height'));
     var objectFont = JSON.parse(localStorage.getItem('object-font'));
     var textMessages = JSON.parse(localStorage.getItem('object-message'));
+    var showSeconds = JSON.parse(localStorage.getItem('seconds'));
 
 
     if (objectIds !== null) { //if there is something in the local storage
@@ -924,7 +971,7 @@ function checkIfLocalStorageExists() {
             else if (objectStyles[i] == "clock") {
                 dropCalls++;
                 var dropCallsString = dropCalls.toString();
-                createTimeObject(objectTopPositions[i], objectLeftPositions[i], dropCallsString, objectStyles[i], weatherTime[i], objectWidth[i], objectHeight[i], objectFont[i]);
+                createTimeObject(objectTopPositions[i], objectLeftPositions[i], dropCallsString, objectStyles[i], weatherTime[i], objectWidth[i], objectHeight[i], objectFont[i], showSeconds[i]);
             }
             else if (objectStyles[i] == "date") {
                 dropCalls++;
