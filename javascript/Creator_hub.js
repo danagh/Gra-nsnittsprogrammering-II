@@ -687,6 +687,12 @@ function drop(ev, target) {
         var locationTop = ev.pageY - '53'+ 'px' ;
         createDateObject(locationTop, locationLeft, dropCallsString, "date", "no-time", "startWidth", "startHeight",  "noFont");
     }
+
+    else if (offset[2] == 5) { //if the dragged element is a graph
+        var locationLeft = ev.pageX - '367' + 'px' ;
+        var locationTop = ev.pageY - '53'+ 'px' ;
+        SMHICall(locationTop, locationLeft, dropCallsString, "whole-day", "startWidth", "startHeight", "temp-graph", "noFont");
+    }
     ev.preventDefault();
 
 }
@@ -959,7 +965,6 @@ function checkIfLocalStorageExists() {
             if (objectStyles[i] == "weather" || objectStyles[i] == "temperature") { //if there is an object-style named weather, create a weather icon.
                 dropCalls++;
                 var dropCallsString = dropCalls.toString();
-
                 SMHICall(objectTopPositions[i], objectLeftPositions[i], dropCallsString, weatherTime[i], objectWidth[i], objectHeight[i], objectStyles[i], objectFont[i]);
             }
             else if (objectStyles[i] == "text-message") {
@@ -977,6 +982,11 @@ function checkIfLocalStorageExists() {
                 dropCalls++;
                 var dropCallsString = dropCalls.toString();
                 createDateObject(objectTopPositions[i], objectLeftPositions[i], dropCallsString, objectStyles[i], weatherTime[i], objectWidth[i], objectHeight[i], objectFont[i]);
+            }
+            else if (objectStyles[i] == "temp-graph") {
+                dropCalls++;
+                var dropCallsString = dropCalls.toString();
+                SMHICall(objectTopPositions[i], objectLeftPositions[i], dropCallsString, weatherTime[i], objectWidth[i], objectHeight[i], objectStyles[i], objectFont[i]);
             }
         }
 
@@ -1142,6 +1152,10 @@ function SMHICall(topPosition, leftPosition, divId, objectTime, objectWidth, obj
         }
         else if(objectStyle=="temperature") {
             createTemperatureStyle(data, topPosition, leftPosition, divId, objectTime, objectWidth, objectHeight, objectFont, functionCaller);
+        }
+
+        else if (objectStyle=="temp-graph") {
+            createGraphCanvas(data, topPosition, leftPosition, divId, objectStyle, objectTime, objectWidth, objectHeight, objectFont);
         }
     });
 
