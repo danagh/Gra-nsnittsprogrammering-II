@@ -489,6 +489,7 @@ body {
          height: 200px;
          width: 130px;
          opacity: 0.5;
+         overflow-y: scroll;
      }
 
      .drag-window:hover .weather-options {
