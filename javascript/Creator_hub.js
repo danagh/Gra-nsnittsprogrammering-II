@@ -303,11 +303,11 @@ interact('.draggable')
     });
 
 <<<<<<< Updated upstream
-// Martin lek igen
-var mirror = undefined;
-
 =======
 */
+
+// definierar en variabel för fönstret för spegeln
+var mirror = undefined;
 
 function dragMoveListener (event) {
     var target = event.target,
@@ -325,12 +325,11 @@ function dragMoveListener (event) {
     //         'translate(' + x + 'px, ' + y + 'px)';
 
 
-    // Martins lekkod
-
+    // Ger object en absolut position i förhållande till sidorna. 
 
      target.style.left = ((x / mirror.offsetWidth) * 100) + '%';
      target.style.top = ((y / mirror.offsetHeight) * 100) + '%';
-    // Martin liker här nu, Danas kod finns under
+    // Danas gla kod
     // target.style.left = x + 'px';
     // target.style.top = y + 'px';
 
