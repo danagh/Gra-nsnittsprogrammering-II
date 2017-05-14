@@ -504,6 +504,21 @@ body {
      float: left;
  }
 
+ .line-time-container {
+     display: none;
+     margin-top: 50px;
+ }
+
+ .time-overlay {
+     background-color: rgba(0,0,0,0.4);
+     position: absolute;
+     top: 14%;
+     bottom: 0;
+     left: 0;
+     right: 0;
+     height: 15%;
+     z-index: 500;
+ }
 
 
 

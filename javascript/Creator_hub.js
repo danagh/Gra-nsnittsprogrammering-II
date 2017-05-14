@@ -18,7 +18,7 @@ $(document).ready(function() {
 
     //console.log("creator: " + fontFamilies2);
 
-/*
+
      localStorage.clear();
      for (var k = 0; k < objectIdArray.length; k++) {
         delete topPositionArray[k];
@@ -26,7 +26,7 @@ $(document).ready(function() {
          delete  objectStyleArray[k];
          delete  objectIdArray[k];
      }
-*/
+
 
     // tutorialEventHandlers();
     // createWholeOverlay();
@@ -77,6 +77,16 @@ function createEventHandlers() {
     $('.middle-side').click(function(e){
         hideInputField();
         hideSecondChooser();
+
+        //if a highlighted object exists and it was a temperature graph we have to check the users changes and adapt accordingly.
+        if (currentHighlightedObject) {
+            if(currentHighlightedObject.getAttribute('object-style') == "temp-graph") {
+                console.log("unhighlighted graph object");
+                checkInputFields();
+            }
+        }
+
+        hideLineGraphTimeChooser();
         if (e.target.classList.contains('icon-middle')) { //If an object div is pressed
             currentHighlightedObject = e.target;
         }
@@ -128,6 +138,7 @@ function createEventHandlers() {
         checkLatestRedoAction();
     });
 
+    //eventhandler when the second-chooser checkbox is pressed when a time-object is highlighted
     $(document).on('click', '.second-chooser', function(){ //show seconds checkbox click listener
         addToUndoArray(currentHighlightedObject.id, "changeSeconds",currentHighlightedObject.getAttribute('top'), currentHighlightedObject.getAttribute('left'), currentHighlightedObject.getAttribute('object-style'), currentHighlightedObject.getAttribute('weather-time'), currentHighlightedObject.getAttribute('object-width'), currentHighlightedObject.getAttribute('object-height'), currentHighlightedObject.getAttribute('object-font'), currentHighlightedObject.getAttribute('text-message'), currentHighlightedObject.getAttribute('seconds'));
         if ($(this).is(':checked')) { //if checkbox is clicked and checked show the seconds
@@ -141,6 +152,33 @@ function createEventHandlers() {
         changeSeconds();
     });
 
+    //eventhandler for the whole day checkbox that is shown when a temperature graph is highlighted
+    $(document).on('click', '.line-checkbox', function() {
+        if ($(this).is(':checked')) { //if checkbox is clicked and checked hide the input fields
+            currentHighlightedObject.setAttribute('weather-time','whole-day');
+            SMHICall(currentHighlightedObject.style.top, currentHighlightedObject.style.left, currentHighlightedObject.id, currentHighlightedObject.getAttribute('weather-time'), currentHighlightedObject.getAttribute('object-width'),currentHighlightedObject.getAttribute('object-height'), currentHighlightedObject.getAttribute('object-style'), currentHighlightedObject.getAttribute('object-font'));
+            currentHighlightedObject.remove();
+            hideLineGraphTimeChooser();
+            showOrHideInputOverlay();
+        }
+        else { //if checkbox is clicked and unchecked show the input fields
+            console.log("unchecked");
+            currentHighlightedObject.setAttribute('weather-time','placeholder');
+            showOrHideInputOverlay();
+        }
+    });
+
+    //eventhandler that chekcs each time the user writes something in one of the two input fields in the temperature graph
+    $(document).on('keypress', '.from-time-input', function() {
+        console.log($(this).val().length);
+        checkInputFieldLength(document.getElementsByClassName('from-time-input')[0]);
+    });
+
+    $(document).on('keypress', '.end-time-input', function() {
+        console.log($(this).val().length);
+        checkInputFieldLength(document.getElementsByClassName('end-time-input')[0]);
+    });
+
     // $('.resizer').mousedown(function() {
     //     console.log(currentHighlightedObject);
     //    initResize();
@@ -152,13 +190,21 @@ function createEventHandlers() {
 A function that gives an icon a highlighted effect.
  */
 function highLightObject() {
+
     $('.icon-middle').each(function() {
         if ($(this).hasClass('highlighted')) { //remove the previous highlighted object
             $(this).removeClass('highlighted');
         }
     });
     currentHighlightedObject.classList.add('highlighted');
-    showDropDown();
+
+    //A different kind of time-chooser will be shown if the user highlights a temperature graph
+    //since the way of choosing time will be different.
+    if (currentHighlightedObject.getAttribute('object-style') == "temp-graph") {
+        showLineGraphTimeChooser();
+    }
+    else showDropDown();
+
     showDeleteButton();
     // showResizer();
     console.log(currentHighlightedObject);
