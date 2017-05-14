@@ -686,7 +686,7 @@ function drop(ev, target) {
     var dropCallsString = dropCalls.toString(); //change the id into a string so that it can be parsed.
     var offset = ev.dataTransfer.getData("text/plain").split(','); //put the data into an array and split at a comma-sign.
 
-    /*
+
     if (offset[2] == 'true') {
         var draggedId = offset[3];
         var draggedDiv = document.getElementById(draggedId);
@@ -705,7 +705,7 @@ function drop(ev, target) {
         // weatherStyleToCss(top, left, draggedId);
 
     }
-<<<<<<< HEAD
+
     else if (offset[2] == 0) {
         console.log("drop else if");
         var locationLeft = ev.pageX - mirror.getBoundingClientRect().left - 50 + 'px';
@@ -733,41 +733,12 @@ function drop(ev, target) {
     else if (offset[2] == 4) {
         var locationLeft = ev.pageX - mirror.getBoundingClientRect().left - 50 + 'px';
         var locationTop = ev.pageY - mirror.getBoundingClientRect().top - 3 + 'px';
-=======
-    */
-    if (offset[2] == 0) { //if the dragged element is weather
-        var locationLeft = ev.pageX - '367' + 'px' ;
-        var locationTop = ev.pageY - '53'+ 'px' ;
-        SMHICall(locationTop, locationLeft, dropCallsString, "notExist", "startWidth", "startHeight", "weather", "noFont");
-    }
-
-    else if (offset[2] == 1) { //if the dragged element is temperature
-        var locationLeft = ev.pageX - '367' + 'px' ;
-        var locationTop = ev.pageY - '53'+ 'px' ;
-        SMHICall(locationTop, locationLeft, dropCallsString, "notExist", "startWidth", "startHeight", "temperature", "noFont");
-    }
-
-    else if (offset[2] == 2) { //if the dragged element is a text message
-        var locationLeft = ev.pageX - '367' + 'px' ;
-        var locationTop = ev.pageY - '53'+ 'px' ;
-        createTextMessage(locationTop, locationLeft, dropCallsString, "notExist", "startWidth", "startHeight", "text-message", "noFont", "noMessage");
-    }
-
-    else if (offset[2] == 3) { //if the dragged element is a clock
-        var locationLeft = ev.pageX - '367' + 'px' ;
-        var locationTop = ev.pageY - '53'+ 'px' ;
-        createTimeObject(locationTop, locationLeft, dropCallsString, "clock", "no-time", "startWidth", "startHeight",  "noFont", "true");
-    }
-    else if (offset[2] == 4) { //if the dragged element is a date
-        var locationLeft = ev.pageX - '367' + 'px' ;
-        var locationTop = ev.pageY - '53'+ 'px' ;
->>>>>>> origin/master
         createDateObject(locationTop, locationLeft, dropCallsString, "date", "no-time", "startWidth", "startHeight",  "noFont");
     }
 
     else if (offset[2] == 5) { //if the dragged element is a graph
-        var locationLeft = ev.pageX - '367' + 'px' ;
-        var locationTop = ev.pageY - '53'+ 'px' ;
+        var locationLeft = ev.pageX - mirror.getBoundingClientRect().left - 50 + 'px';
+        var locationTop = ev.pageY - mirror.getBoundingClientRect().top - 3 + 'px';
         SMHICall(locationTop, locationLeft, dropCallsString, "whole-day", "startWidth", "startHeight", "temp-graph", "noFont");
     }
     ev.preventDefault();
