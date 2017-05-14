@@ -18,6 +18,7 @@
     <script src="javascript/anime.min.js"></script>
     <!--<script src="javascript/tutorial.js"></script>-->
     <script src="javascript/interact.js"></script>
+    <script src="javascript/Chart.bundle.js"></script>
     <script type='text/javascript' >
 //        initiate global variables
         var tutorialClicks = 0;
@@ -37,19 +38,24 @@
         var objectFontArray = [];
         var WebFontConfig;
         var objectTextMessages = [];
+        var showSecondsArray = [];
         var clockTimer;
         var dateTimer;
+        var undoArray = [];
+        var redoArray = [];
+        var previousPosition = [];
+        var previousSize = [];
     </script>
     <script type="text/javascript">
         var fontFamilies2 = [];
-//        console.log(fontFamilies2);
     </script>
-
 
     <script src="javascript/Creator_hub.js"></script>
     <script src="javascript/temperature.js"></script>
     <script src="javascript/clock-and-date.js"></script>
     <script src="javascript/translator.js"></script>
+    <script src="javascript/undo-redo.js"></script>
+    <script src="javascript/temp-graphs.js"></script>
 
 
     <link href="https://fonts.googleapis.com/css?family=Lobster|Open+Sans:400,600" rel="stylesheet">
@@ -61,12 +67,19 @@
     <a href="#" title="Go to the main page">
         <h1 class = "header-text text-translate" data-translate-key="project-name"></h1>
     </a>
-<div class="right-navigation">
-    <a href="index.html" title="Logout">
-        <h1 class="logout text-translate" data-translate-key="logout"></h1>
-    </a>
+    <div class="right-navigation">
+        <a href="index.html" title="Logout">
+            <h1 class="logout text-translate" data-translate-key="logout"></h1>
+        </a>
 </div>
+    <div class="undo-div">
+        <button class="undo-button">Undo</button>
+    </div>
+    <div class="redo-div">
+        <button class="redo-button">Redo</button>
+    </div>
 </div>
+
 <div class="main">
     <div class="left-side">
         <div class="user-categories">
@@ -152,6 +165,15 @@
                     </div>
                 </div>
                 <div class="weather-option">Date
+                    <div class="hidden-options">
+                        <div class="icon sunny">
+                            <div class="sun-still">
+                                <div class="rays"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="weather-option">Weather Graph
                     <div class="hidden-options">
                         <div class="icon sunny">
                             <div class="sun-still">

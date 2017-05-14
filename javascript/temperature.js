@@ -18,9 +18,11 @@ function YOURFUNCTION() {
     s.parentNode.insertBefore(wf, s);
 }
 
-function createTemperatureStyle(apiResponse, topPosition, leftPosition, divId, temperatureTime, objectWidth, objectHeight, objectFont) {
+function createTemperatureStyle(apiResponse, topPosition, leftPosition, divId, temperatureTime, objectWidth, objectHeight, objectFont, functionCaller) {
     var temperatureStyleDiv = document.createElement('div');
     temperatureStyleDiv.setAttribute('id', divId);
+
+    console.log("temp time " + temperatureTime);
 
     if (temperatureTime !== "notExist") {
         temperatureStyleDiv.setAttribute('weather-time', temperatureTime);
@@ -28,8 +30,11 @@ function createTemperatureStyle(apiResponse, topPosition, leftPosition, divId, t
     }
     else {
         temperatureStyleDiv.setAttribute('weather-time', "current-time");
-        var timeDifference = calculateDateAndTimeDifference(apiResponse, "current time");
+        var timeDifference = calculateDateAndTimeDifference(apiResponse, "current-time");
     }
+
+
+    console.log("temp time difference" + timeDifference);
 
     var currentTemp = apiResponse.timeSeries[timeDifference].parameters[1].values[0];
     // console.log("current temp: " + currentTemp);
@@ -83,10 +88,18 @@ function createTemperatureStyle(apiResponse, topPosition, leftPosition, divId, t
         temperatureStyleDiv.setAttribute('object-font',"noFont");
     }
 
-    if (temperatureTime !== "notExist") {
-        weatherStyleToCss(divId, top, left, temperatureStyleDiv.getAttribute('object-style'), temperatureTime, temperatureStyleDiv.getAttribute('object-width'), temperatureStyleDiv.getAttribute('object-height'),temperatureStyleDiv.getAttribute('object-font'));
+    console.log(functionCaller);
+    if (functionCaller == "drop") {
+        console.log("function caller if ");
+        addToUndoArray(temperatureStyleDiv.id, "addObject", top, left, temperatureStyleDiv.getAttribute('object-style'), temperatureStyleDiv.getAttribute('weather-time'), temperatureStyleDiv.getAttribute('object-width'), temperatureStyleDiv.getAttribute('object-height'),temperatureStyleDiv.getAttribute('object-font'), "noMessage");
     }
-    else weatherStyleToCss(divId, top, left, temperatureStyleDiv.getAttribute('object-style'), "current time", temperatureStyleDiv.getAttribute('object-width'), temperatureStyleDiv.getAttribute('object-height'),temperatureStyleDiv.getAttribute('object-font'));
+
+
+
+    if (temperatureTime !== "notExist") {
+      //  weatherStyleToCss(divId, top, left, temperatureStyleDiv.getAttribute('object-style'), temperatureTime, temperatureStyleDiv.getAttribute('object-width'), temperatureStyleDiv.getAttribute('object-height'),temperatureStyleDiv.getAttribute('object-font'));
+    }
+  //  else weatherStyleToCss(divId, top, left, temperatureStyleDiv.getAttribute('object-style'), "current time", temperatureStyleDiv.getAttribute('object-width'), temperatureStyleDiv.getAttribute('object-height'),temperatureStyleDiv.getAttribute('object-font'));
 }
 
 function showFontSelector() {
@@ -97,6 +110,8 @@ function showFontSelector() {
 
         loadedCallback:function(e){ //another function that adds the selected font
             // console.log(e);
+            var currentFontFamily = window.getComputedStyle(currentHighlightedObject).getPropertyValue('font-family');
+            addToUndoArray(currentHighlightedObject.id, "changedFont", currentHighlightedObject.getAttribute('top'), currentHighlightedObject.getAttribute('left'),currentHighlightedObject.getAttribute('object-style'), currentHighlightedObject.getAttribute('weather-time'), currentHighlightedObject.getAttribute('object-width'), currentHighlightedObject.getAttribute('object-height'), currentFontFamily, currentHighlightedObject.getAttribute('text-message'));
             currentHighlightedObject.style.fontFamily = e;
             currentHighlightedObject.setAttribute('object-font',e);
             console.log("blabla: " + currentHighlightedObject.getAttribute('object-font'));
@@ -136,7 +151,7 @@ function hideFontSelector() { //hide the font selector
 }
 
 function createTextMessage(locationTop, locationLeft, divId, messageTime, objectWidth, objectHeight, objectStyle, objectFont, textMessage) {
-    console.log("create text message");
+    console.log("create text message" + textMessage);
     var textMessageDiv = document.createElement('div');
     textMessageDiv.setAttribute('id',divId);
     textMessageDiv.setAttribute('class','icon-middle sunny resize-drag');
@@ -156,6 +171,8 @@ function createTextMessage(locationTop, locationLeft, divId, messageTime, object
         textMessageDiv.innerHTML = textMessage;
         textMessageDiv.setAttribute('text-message',textMessage);
     }
+    console.log(textMessageDiv.getAttribute('text-message'));
+
     document.getElementsByClassName('middle-side')[0].appendChild(textMessageDiv);
     // textMessageDiv.appendChild(inputField);
 
@@ -198,17 +215,26 @@ function createTextMessage(locationTop, locationLeft, divId, messageTime, object
     textMessageDiv.style.fontSize = font/3 + 'px';
     // textMessageDiv.style.fontSize = textMessageDiv.getAttribute('object-height') ;
 
-    textMessageToCss(divId, locationTop, locationLeft, messageTime, objectWidth, objectHeight, textMessageDiv.getAttribute('object-font'), textMessageDiv.getAttribute('text-message'), objectStyle);
+    var functionCaller = arguments.callee.caller.name;
+    console.log(functionCaller);
+    if (functionCaller == "drop") {
+        console.log("if");
+        addToUndoArray(textMessageDiv.id, "addObject", locationTop, locationLeft, textMessageDiv.getAttribute('object-style'), messageTime, textMessageDiv.getAttribute('object-width'), textMessageDiv.getAttribute('object-height'),textMessageDiv.getAttribute('object-font'), textMessageDiv.getAttribute('text-message'));
+    }
+
+  //  textMessageToCss(divId, locationTop, locationLeft, messageTime, objectWidth, objectHeight, textMessageDiv.getAttribute('object-font'), textMessageDiv.getAttribute('text-message'), objectStyle);
 }
 
 function showInputField() {
-    currentHighlightedObject.innerHTML ="";
-    var inputField = document.createElement('input');
+    currentHighlightedObject.innerHTML =""; //remove the text when it is highlighted
+
+    var inputField = document.createElement('input'); //create an input field
     inputField.className = 'text-message-field';
     inputField.setAttribute('type','text');
     console.log(currentHighlightedObject.getAttribute('text-message'));
-    inputField.value = currentHighlightedObject.getAttribute('text-message');
-    inputField.style.fontFamily = currentHighlightedObject.getAttribute('object-font');
+
+    inputField.value = currentHighlightedObject.getAttribute('text-message'); //add the current text message as the input value
+    inputField.style.fontFamily = currentHighlightedObject.getAttribute('object-font'); //change the font to the correct one.
 
     var font = parseFloat(currentHighlightedObject.getAttribute('object-height'));
     inputField.style.fontsize = font/2 + 'px';
@@ -222,16 +248,20 @@ function showInputField() {
 function hideInputField() {
 
     var inputField = document.getElementsByClassName('text-message-field')[0];
-    if (inputField) {
+    if (inputField) { //if the inputfield exists
         console.log("current highlight: " + currentHighlightedObject.className);
         var enteredText =  inputField.value;
-        if (enteredText == "") {
+        if (enteredText == "") { //if the user did not enter anything keep the previous message
             currentHighlightedObject.innerHTML = currentHighlightedObject.getAttribute('text-message');
         }
-        else {
+        else { // if the user entered any text
+            //send the last text message string to the undo array
+            addToUndoArray(currentHighlightedObject.id, "changeText", currentHighlightedObject.getAttribute('top'), currentHighlightedObject.getAttribute('left'), currentHighlightedObject.getAttribute('object-style'), currentHighlightedObject.getAttribute('weather-time'), currentHighlightedObject.getAttribute('object-width'), currentHighlightedObject.getAttribute('object-height'), currentHighlightedObject.getAttribute('object-font'), currentHighlightedObject.getAttribute('text-message'));
+
+            //update the object with the new text message
             currentHighlightedObject.innerHTML = enteredText;
             currentHighlightedObject.setAttribute('text-message',enteredText);
-            updateTextMessageArray(enteredText);
+            //updateTextMessageArray(enteredText);
         }
         inputField.style.dipslay = "none";
         inputField.remove();

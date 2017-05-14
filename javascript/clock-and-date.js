@@ -1,5 +1,5 @@
 
-function createTimeObject(topPosition, leftPosition, divId, objectStyle, objectTime, objectWidth, objectHeight, objectFont) {
+function createTimeObject(topPosition, leftPosition, divId, objectStyle, objectTime, objectWidth, objectHeight, objectFont, secondShower) {
     var today = new Date();
     var hr = today.getHours();
     var min = today.getMinutes();
@@ -11,8 +11,13 @@ function createTimeObject(topPosition, leftPosition, divId, objectStyle, objectT
 
     if(document.getElementsByClassName('clock')[0]) {
         var clockDiv = document.getElementsByClassName('clock')[0];
-        clockDiv.innerHTML = hr + ":" + min + ":" + sec ;
-        console.log("updated");
+        var showSeconds = clockDiv.getAttribute('seconds');
+        if (showSeconds == 'true') { //depending on the user's choice do or don't show the seconds
+            clockDiv.innerHTML = hr + ":" + min + ":" + sec ;
+        }
+        else clockDiv.innerHTML = hr + ":" + min ;
+
+        //console.log("updated");
 
     }
     else {
@@ -20,8 +25,14 @@ function createTimeObject(topPosition, leftPosition, divId, objectStyle, objectT
         clockDiv.setAttribute('id', divId);
         clockDiv.setAttribute('class', 'icon-middle sunny resize-drag clock');
 
+        clockDiv.setAttribute('seconds', secondShower);
 
-        clockDiv.innerHTML = hr + ":" + min + ":" + sec;
+        if (secondShower == 'true') { //depending on the user's choice do or don't show the seconds
+            clockDiv.innerHTML = hr + ":" + min + ":" + sec ;
+        }
+        else clockDiv.innerHTML = hr + ":" + min ;
+
+        //clockDiv.innerHTML = hr + ":" + min + ":" + sec;
 
         var style = window.getComputedStyle(clockDiv);
         clockDiv.style.top = topPosition;
@@ -62,15 +73,23 @@ function createTimeObject(topPosition, leftPosition, divId, objectStyle, objectT
 
         document.getElementsByClassName('middle-side')[0].appendChild(clockDiv);
 
-        weatherStyleToCss(divId, topPosition, leftPosition, clockDiv.getAttribute('object-style'), "no-time", clockDiv.getAttribute('object-width'), clockDiv.getAttribute('object-height'),clockDiv.getAttribute('object-font'));
+        var functionCaller = arguments.callee.caller.name;
+        if (functionCaller == "drop") {
+            console.log("if");
+            addToUndoArray(clockDiv.id, "addObject", topPosition, leftPosition, clockDiv.getAttribute('object-style'), objectTime, clockDiv.getAttribute('object-width'), clockDiv.getAttribute('object-height'),clockDiv.getAttribute('object-font'), "noMessage");
+        }
 
+      //  weatherStyleToCss(divId, topPosition, leftPosition, clockDiv.getAttribute('object-style'), "no-time", clockDiv.getAttribute('object-width'), clockDiv.getAttribute('object-height'),clockDiv.getAttribute('object-font'));
 
     }
 
-    clockTimer = setTimeout(function() {createTimeObject(clockDiv.getAttribute('top'),clockDiv.getAttribute('left'),clockDiv.id,clockDiv.getAttribute('object-style'),"no-time",clockDiv.getAttribute('object-width'),clockDiv.getAttribute('object-height'),clockDiv.getAttribute('object-font')) }, 1000);
+    clockTimer = setTimeout(function() {createTimeObject(clockDiv.getAttribute('top'),clockDiv.getAttribute('left'),clockDiv.id,clockDiv.getAttribute('object-style'),"no-time",clockDiv.getAttribute('object-width'),clockDiv.getAttribute('object-height'),clockDiv.getAttribute('object-font'),clockDiv.getAttribute('seconds')) }, 1000);
 
 }
 
+/*
+If the seconds, minutes or hours are less than 10 add a zero before the number.
+ */
 function checkTime(i) {
     if (i < 10) {
         i = "0" + i;
@@ -78,7 +97,60 @@ function checkTime(i) {
     return i;
 }
 
-function createDateObject (topPosition, leftPosition, divId, objectStyle, temperatureTime, objectWidth, objectHeight, objectFont) {
+/*
+This function checks if the checkbox is checked and shows/hides the seconds on the clock accordingly.
+ */
+function changeSeconds() {
+    var isChecked = currentHighlightedObject.getAttribute('seconds');
+
+    var today = new Date();
+    var hr = today.getHours();
+    var min = today.getMinutes();
+    var sec = today.getSeconds();
+    //Add a zero in front of numbers<10
+    hr = checkTime(hr);
+    min = checkTime(min);
+    sec = checkTime(sec);
+
+    if (isChecked == 'true') {
+        currentHighlightedObject.innerHTML = hr + ":" + min + ":" + sec;
+    }
+    else {
+        currentHighlightedObject.innerHTML = hr + ":" + min;
+    }
+}
+
+/*
+Creates and displays a checkbox where the user can choose the show or hide the seconds counter
+ */
+function showSecondsChooser() {
+    var secondChooserDiv = document.createElement('div');
+    secondChooserDiv.className = 'second-chooser-div';
+    var checkbox = document.createElement('input');
+    checkbox.type = "checkbox";
+    checkbox.className = 'second-chooser';
+
+    var isChecked = currentHighlightedObject.getAttribute('seconds');
+    if (isChecked == 'true') {
+        checkbox.setAttribute('checked', 'checked');
+    }
+
+    secondChooserDiv.appendChild(checkbox);
+    secondChooserDiv.appendChild(document.createTextNode('Show Seconds?'));
+    document.getElementsByClassName('right-side')[0].appendChild(secondChooserDiv);
+    secondChooserDiv.style.display = 'inline-block';
+}
+
+function hideSecondChooser() {
+    var secondChooserDiv = document.getElementsByClassName('second-chooser-div')[0];
+    if (secondChooserDiv) {
+        secondChooserDiv.style.display = 'none';
+        secondChooserDiv.remove();
+    }
+
+}
+
+function createDateObject (topPosition, leftPosition, divId, objectStyle, objectTime, objectWidth, objectHeight, objectFont) {
     var today = new Date();
     var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -90,7 +162,7 @@ function createDateObject (topPosition, leftPosition, divId, objectStyle, temper
     if(document.getElementsByClassName('date')[0]) {
         var dateDiv = document.getElementsByClassName('date')[0];
         dateDiv.innerHTML = curWeekDay+", "+curDay+" "+curMonth+" "+curYear;
-        console.log("updated");
+        // console.log("updated");
 
     }
     else {
@@ -141,7 +213,13 @@ function createDateObject (topPosition, leftPosition, divId, objectStyle, temper
 
         document.getElementsByClassName('middle-side')[0].appendChild(dateDiv);
 
-        weatherStyleToCss(divId, topPosition, leftPosition, dateDiv.getAttribute('object-style'), "no-time", dateDiv.getAttribute('object-width'), dateDiv.getAttribute('object-height'),dateDiv.getAttribute('object-font'));
+        var functionCaller = arguments.callee.caller.name;
+        if (functionCaller == "drop") {
+            console.log("if");
+            addToUndoArray(dateDiv.id, "addObject", topPosition, leftPosition, dateDiv.getAttribute('object-style'), objectTime, dateDiv.getAttribute('object-width'), dateDiv.getAttribute('object-height'),dateDiv.getAttribute('object-font'), "noMessage");
+        }
+
+      //  weatherStyleToCss(divId, topPosition, leftPosition, dateDiv.getAttribute('object-style'), "no-time", dateDiv.getAttribute('object-width'), dateDiv.getAttribute('object-height'),dateDiv.getAttribute('object-font'));
 
     }
 

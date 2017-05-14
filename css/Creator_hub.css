@@ -200,6 +200,10 @@ body {
     text-decoration: none;
     color: brown;
 }
+ .undo-div, .redo-div {
+     display: inline-block;
+     margin-right: 0;
+ }
 
 .logout {
     color:brown;
@@ -258,7 +262,7 @@ body {
     position: absolute;
     display: inline-block;
     max-height: 400px;
-    max-width: 400px;
+    max-width: 500px;
     min-height: 40px;
     min-width: 40px;
     color: white;
@@ -460,7 +464,6 @@ body {
      }
 
      .middle-side {
-         background-color: blue;
      }
 
      /* =============================================================================
@@ -473,23 +476,51 @@ body {
          z-index: 2;
          height: 30px;
          width: 30px;
-         background-color: yellow;
+         background-color: white;
          margin-left: 2vh;
      }
 
      .weather-options {
          display: none;
+         background-color: white;
      }
 
      .drag-window:hover {
          height: 200px;
          width: 130px;
+         opacity: 0.5;
      }
 
      .drag-window:hover .weather-options {
          display: flex;
      }
  }
+ /* =============================================================================
+     Checkbox
+    ============================================================================= */
+
+ .second-chooser-div {
+     display: none;
+     margin-top: 100px;
+     float: left;
+ }
+
+ .line-time-container {
+     display: none;
+     margin-top: 50px;
+ }
+
+ .time-overlay {
+     background-color: rgba(0,0,0,0.4);
+     position: absolute;
+     top: 14%;
+     bottom: 0;
+     left: 0;
+     right: 0;
+     height: 15%;
+     z-index: 500;
+ }
+
 
 
 
