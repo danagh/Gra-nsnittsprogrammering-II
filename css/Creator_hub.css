@@ -10,7 +10,7 @@
 body {
     display: flex;
     flex-direction: column;
-    background-color: lightgray;
+    background-color: rgb(203,255,207);
     margin: 0;
     font-family: FontAwesome;
 }
@@ -76,7 +76,7 @@ body {
     width: 50vw;
     min-width: 600px;
     height: 93vh;
-    background-color: gray;
+    background-color: rgba(137, 153, 147, 1);
     display: flex;
     /*flex-grow:0;*/
     position: relative;
@@ -168,7 +168,7 @@ body {
 ============================================================================= */
 
 .header {
-    background: lightblue;
+    background-color: rgb(81,204,164);
     min-height: 50px;
     height: 5vh;
     width: 100%;
@@ -489,6 +489,11 @@ body {
     /* This makes things *much* easier */
     box-sizing: border-box;
 }
+/* show when a object is marked and beeing draged*/
+
+ .resize-drag:active{
+     opacity: 0.5;
+ }
 
 .resize-container {
     width: 100%;
@@ -496,7 +501,38 @@ body {
 }
 
  /* =============================================================================
-   Media
+     Checkbox
+    ============================================================================= */
+
+ .second-chooser-div {
+     display: none;
+     margin-top: 100px;
+     float: left;
+ }
+
+ .line-time-container {
+     display: none;
+     margin-top: 50px;
+ }
+
+ .time-overlay {
+     background-color: rgba(0,0,0,0.4);
+     position: absolute;
+     top: 14%;
+     bottom: 0;
+     left: 0;
+     right: 0;
+     height: 15%;
+     z-index: 500;
+ }
+
+ /* =============================================================================
+    Options menu
+   ============================================================================= */
+
+
+ /* =============================================================================
+   Media - bör vara längst ner
  ============================================================================= */
 
  @media all and (max-width: 1000px) {
@@ -507,7 +543,9 @@ body {
      }
 
      .right-side {
-         display: none;
+         width: 0;
+         min-width: 0;
+         overflow: hidden;
      }
 
      .middle-side {
@@ -543,32 +581,6 @@ body {
          display: flex;
      }
  }
- /* =============================================================================
-     Checkbox
-    ============================================================================= */
-
- .second-chooser-div {
-     display: none;
-     margin-top: 100px;
-     float: left;
- }
-
- .line-time-container {
-     display: none;
-     margin-top: 50px;
- }
-
- .time-overlay {
-     background-color: rgba(0,0,0,0.4);
-     position: absolute;
-     top: 14%;
-     bottom: 0;
-     left: 0;
-     right: 0;
-     height: 15%;
-     z-index: 500;
- }
-
 
 
 
