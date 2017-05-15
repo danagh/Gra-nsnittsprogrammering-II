@@ -191,7 +191,7 @@ body {
 }
 
 .header-text {
-    color:brown;
+    color:black;
     display:inline-block;
     margin-top:0;
     margin-left:5px;
@@ -202,7 +202,7 @@ body {
 
 .header-text a {
     text-decoration: none;
-    color: brown;
+    color: black;
 }
  .undo-div {
      background-color: transparent;
@@ -254,7 +254,7 @@ body {
  }
 
 .logout {
-    color:brown;
+    color:black;
     font-size: 16px;
     text-decoration: underline;
     position:relative;
