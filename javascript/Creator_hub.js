@@ -590,10 +590,10 @@ This function takes the specified object and deletes it, together with hiding th
 function deleteObject(objectId) {
     //if the deleted object is a time or date object the timer has to be removed or else they will keep on showing
     //up on the screen
-    if (currentHighlightedObject.getAttribute('object-style') == "clock") {
+    if (document.getElementById(objectId).getAttribute('object-style') == "clock") {
         clearTimeout(clockTimer);
     }
-    else if (currentHighlightedObject.getAttribute('object-style') == "date") {
+    else if (document.getElementById(objectId).getAttribute('object-style') == "date") {
         clearTimeout(dateTimer);
     }
     hideDeleteButton();
@@ -685,7 +685,7 @@ function drop(ev, target) {
     var dropCallsString = dropCalls.toString(); //change the id into a string so that it can be parsed.
     var offset = ev.dataTransfer.getData("text/plain").split(','); //put the data into an array and split at a comma-sign.
 
-
+    /*
     if (offset[2] == 'true') {
         var draggedId = offset[3];
         var draggedDiv = document.getElementById(draggedId);
@@ -704,8 +704,9 @@ function drop(ev, target) {
         // weatherStyleToCss(top, left, draggedId);
 
     }
+    */
 
-    else if (offset[2] == 0) {
+   if (offset[2] == 0) {
         console.log("drop else if");
         var locationLeft = ev.pageX - mirror.getBoundingClientRect().left - 50 + 'px';
         var locationTop = ev.pageY - mirror.getBoundingClientRect().top - 25 + 'px';

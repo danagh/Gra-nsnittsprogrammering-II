@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="css/select2.css">
     <link rel="stylesheet" href="css/fonts.css">
     <link rel="stylesheet" href="css/weatherpack1.css">
+    <link rel="stylesheet" href="css/font-awesome.css">
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"
             integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
             crossorigin="anonymous"></script>
@@ -71,12 +72,6 @@
         <a href="index.html" title="Logout">
             <h1 class="logout text-translate" data-translate-key="logout"></h1>
         </a>
-</div>
-    <div class="undo-div">
-        <button class="undo-button">Undo</button>
-    </div>
-    <div class="redo-div">
-        <button class="redo-button">Redo</button>
     </div>
 </div>
 
@@ -192,7 +187,16 @@
         </div>
     </div>
     <div class="middle-side" id="mirror" ondrop="drop(event, this)" ondragover="dragOver(event)">
-
+        <div class="undo-div">
+            <button class="undo-button">
+                <i class="fa fa-undo undo-image" aria-hidden="true" style="color:white"></i>
+            </button>
+        </div>
+        <div class="redo-div">
+            <button class="redo-button">
+                <i class="fa fa-repeat undo-image" aria-hidden="true" style="color:white"></i>
+            </button>
+        </div>
 
     </div>
 

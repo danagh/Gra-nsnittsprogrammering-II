@@ -36,6 +36,7 @@ function addToUndoArray(objectId, objectAction, topPosition, leftPosition, objec
     undoMessageArray.push(objectMessage);
     undoSecondsArray.push(objectSeconds);
     updateUndoArray();
+    //console.log(undoArray);
 }
 
 //This function is called when the undo-button is pressed and it gets the last index of the undo array and its action so that they can be used to undo the latest action

@@ -2,11 +2,17 @@
       HTML, BODY
     ============================================================================= */
 
+ @font-face {
+     font-family: "FontAwesome";
+     src: url("../fonts/fontawesome-webfont.ttf");
+ }
+
 body {
     display: flex;
     flex-direction: column;
     background-color: lightgray;
     margin: 0;
+    font-family: FontAwesome;
 }
 
 .main {
@@ -18,10 +24,7 @@ body {
     height: 95vh;
 }
 
-@font-face {
-    font-family: "FontAwesome";
-    src: url("../fonts/fontawesome-webfont.ttf");
-}
+
 
 /* =============================================================================
   Nav-bar
@@ -200,9 +203,53 @@ body {
     text-decoration: none;
     color: brown;
 }
- .undo-div, .redo-div {
+ .undo-div {
+     background-color: transparent;
      display: inline-block;
-     margin-right: 0;
+     position: absolute;
+     margin-right: 2vh;
+     float: right;
+     margin-top: 3%;
+     right: 5%;
+
+ }
+ .redo-div {
+     display: inline-block;
+     background-color: transparent;
+     position: absolute;
+     margin-right: 2vh;
+     float: right;
+     margin-top: 3%;
+     right: 0;
+ }
+
+ .undo-button, .redo-button {
+     margin      : 0;
+     padding     : 0;
+     border      : 0;
+     background  : transparent;
+     font-family : inherit;
+     font-size   : 1em;
+     cursor      : pointer;
+ }
+
+ .undo-button:active,  .redo-button:active {
+     outline: none;
+     border: 1px solid rgb(81, 204, 164);
+
+ }
+
+.undo-image:hover {
+    color: rgb(81, 255, 24);
+}
+
+ .undo-button:hover, .redo-button:hover {
+     cursor: pointer;
+ }
+
+ .undo-button:focus, .redo-button:focus  {
+     outline:0;
+     /*color: rgb(81, 255, 24);*/
  }
 
 .logout {
