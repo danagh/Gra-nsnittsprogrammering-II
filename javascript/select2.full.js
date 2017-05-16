@@ -4117,7 +4117,7 @@ S2.define('select2/dropdown/attachBody',[
 ], function ($, Utils) {
   function AttachBody (decorated, $element, options) {
     // this.$dropdownParent = options.get('dropdownParent') || $(document.body);
-      this.$dropdownParent = options.get('dropdownParent') || $('.right-side');
+      this.$dropdownParent = options.get('dropdownParent') || $('.text-bubble');
 
     decorated.call(this, $element, options);
   }
@@ -6203,7 +6203,7 @@ S2.define('select2/selection/stopPropagation',[
                 $parent = $elem['offsetParent' in $.fn ? 'offsetParent' : 'parent']();
             if (!$parent.length) {
                 // $parent = $('body');
-                $parent = $('.right-side');
+                $parent = $('.text-bubble');
             }
             return parseInt($parent.css('fontSize'), 10) || parseInt($elem.css('fontSize'), 10) || 16;
         },

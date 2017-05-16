@@ -55,10 +55,10 @@ function createTimeObject(topPosition, leftPosition, divId, objectStyle, objectT
 
         if (objectWidth == "startWidth" && objectHeight == "startHeight") {
             // console.log("startWidthHeight: " + style.getPropertyValue('width') + " " + style.getPropertyValue('height'));
-            // temperatureStyleDiv.style.width = "100px";
-            // temperatureStyleDiv.style.height = "50px";
-            clockDiv.setAttribute('object-width', style.getPropertyValue('width'));
-            clockDiv.setAttribute('object-height', style.getPropertyValue('height'));
+            clockDiv.style.width = "100px";
+            clockDiv.style.height = "50px";
+            clockDiv.setAttribute('object-width', '100px');
+            clockDiv.setAttribute('object-height', '50px');
         }
         else {
             clockDiv.style.width = objectWidth;
@@ -126,6 +126,8 @@ Creates and displays a checkbox where the user can choose the show or hide the s
 function showSecondsChooser() {
     var secondChooserDiv = document.createElement('div');
     secondChooserDiv.className = 'second-chooser-div';
+    var secondChooserDivText = document.createElement('div');
+    secondChooserDivText.className = 'second-chooser-div-text';
     var checkbox = document.createElement('input');
     checkbox.type = "checkbox";
     checkbox.className = 'second-chooser';
@@ -134,21 +136,13 @@ function showSecondsChooser() {
     if (isChecked == 'true') {
         checkbox.setAttribute('checked', 'checked');
     }
-
+    secondChooserDivText.innerHTML = getText('show-seconds');
     secondChooserDiv.appendChild(checkbox);
-    secondChooserDiv.appendChild(document.createTextNode('Show Seconds?'));
-    document.getElementsByClassName('right-side')[0].appendChild(secondChooserDiv);
+    document.getElementsByClassName('text-bubble')[0].appendChild(secondChooserDivText);
+    document.getElementsByClassName('text-bubble')[0].appendChild(secondChooserDiv);
     secondChooserDiv.style.display = 'inline-block';
 }
 
-function hideSecondChooser() {
-    var secondChooserDiv = document.getElementsByClassName('second-chooser-div')[0];
-    if (secondChooserDiv) {
-        secondChooserDiv.style.display = 'none';
-        secondChooserDiv.remove();
-    }
-
-}
 
 function createDateObject (topPosition, leftPosition, divId, objectStyle, objectTime, objectWidth, objectHeight, objectFont) {
     var today = new Date();
@@ -195,10 +189,10 @@ function createDateObject (topPosition, leftPosition, divId, objectStyle, object
 
         if (objectWidth == "startWidth" && objectHeight == "startHeight") {
             // console.log("startWidthHeight: " + style.getPropertyValue('width') + " " + style.getPropertyValue('height'));
-            // temperatureStyleDiv.style.width = "100px";
-            // temperatureStyleDiv.style.height = "50px";
-            dateDiv.setAttribute('object-width', style.getPropertyValue('width'));
-            dateDiv.setAttribute('object-height', style.getPropertyValue('height'));
+            dateDiv.style.width = "100px";
+            dateDiv.style.height = "50px";
+            dateDiv.setAttribute('object-width', '100px');
+            dateDiv.setAttribute('object-height', '50px');
         }
         else {
             dateDiv.style.width = objectWidth;

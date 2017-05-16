@@ -265,26 +265,39 @@ body {
 }
 
 .highlighted {
-    border: 1px solid black;
+    border: 1px solid rgb(81, 204, 164);
 }
 
-.delete-button {
+.delete-div {
     position:absolute;
     text-align: center;
-    border: 1px solid black;
+    border: 1px solid rgb(81, 204, 164);
     bottom: 0;
-    left: 50%;
+    left: 40%;
     width: 20%;
-    display:none;
+    display:inline-block;
+    border-radius: 25px;
+}
+.delete-button {
+    margin      : 0;
+    padding     : 0;
+    border      : 0;
+    background  : transparent;
+    font-family : inherit;
+    font-size   : 1em;
+    cursor      : pointer;
 }
 
 .delete-button:hover {
     cursor: pointer;
 }
 
+.delete-button:focus {
+     outline:0;
+}
+
 .weather-choose-time {
-    display:none;
-    margin-top:40px;
+
 }
 
 .outer-div {
@@ -314,6 +327,7 @@ body {
     min-height: 40px;
     min-width: 40px;
     color: white;
+    word-wrap: break-word;
     /*border: 3px solid green;*/
     /*resize: both;*/
     /*overflow:auto;*/
@@ -410,19 +424,20 @@ body {
 .text-bubble.left {
     position:relative;
     padding:10px 20px;
-    color:white;
-    background:#0B93F6;
+    color:black;
+    background:#E5E5EA;
     border-radius:25px;
-    float: right;}
+    float: right;
+}
 
 .text-bubble.left:before {
          content:"";
          position:absolute;
-         z-index:-1;
+         z-index:0;
          bottom:-2px;
          right:-7px;
          height:20px;
-         border-right:20px solid #0B93F6;
+         border-right:20px solid #E5E5EA;
          border-bottom-left-radius: 16px 14px;
          -webkit-transform:translate(0, -2px);
      }
@@ -435,11 +450,46 @@ body {
           right:-56px;
           width:26px;
           height:20px;
-    background-color: rgba(0,0,0,0.4);
+          background: rgba(137, 153, 147, 1);
     /*opacity: 1;*/
           border-bottom-left-radius: 10px;
           -webkit-transform:translate(-30px, -2px);
 }
+
+ .text-bubble.left-top {
+     position:relative;
+     padding:10px 20px;
+     color:black;
+     background:#E5E5EA;
+     border-radius:25px;
+     float: right;
+ }
+
+ .text-bubble.left-top:before {
+     content:"";
+     position:absolute;
+     z-index:0;
+     bottom:254px;
+     right:-7px;
+     height:20px;
+     border-right:20px solid #E5E5EA;
+     border-bottom-left-radius: 16px 14px;
+     -webkit-transform:translate(0, -2px);
+ }
+
+ .text-bubble.left-top:after {
+     content:"";
+     position:absolute;
+     z-index:1;
+     bottom:254px;
+     right:-56px;
+     width:26px;
+     height:20px;
+     background: rgba(137, 153, 147, 1);
+     /*opacity: 1;*/
+     border-bottom-left-radius: 10px;
+     -webkit-transform:translate(-30px, -2px);
+ }
 
 .text-bubble.right {
     position: relative;
@@ -453,7 +503,7 @@ body {
 .text-bubble.right:before {
      content:"";
      position:absolute;
-     z-index:2;
+     z-index: 0;
      bottom:-2px;
      left:-7px;
      height:20px;
@@ -465,15 +515,49 @@ body {
 .text-bubble.right:after {
      content:"";
      position:absolute;
-     z-index:3;
+     z-index:1;
      bottom:-2px;
      left:4px;
      width:26px;
      height:20px;
-     background:white;
+     background: rgba(137, 153, 147, 1);
      border-bottom-right-radius: 10px;
      -webkit-transform:translate(-30px, -2px);
 }
+
+ .text-bubble.right-top {
+     position: relative;
+     padding: 10px 20px;
+     background: #E5E5EA;
+     border-radius: 25px;
+     color: black;
+     float: left;
+ }
+
+ .text-bubble.right-top:before {
+     content:"";
+     position:absolute;
+     z-index: 0;
+     bottom: 254px;
+     left:-7px;
+     height:20px;
+     border-left:20px solid #E5E5EA;
+     border-bottom-right-radius: 16px 14px;
+     -webkit-transform:translate(0, -2px);
+ }
+
+ .text-bubble.right-top:after {
+     content:"";
+     position:absolute;
+     z-index:1;
+     bottom:254px;
+     left:4px;
+     width:26px;
+     height:20px;
+     background: rgba(137, 153, 147, 1);
+     border-bottom-right-radius: 10px;
+     -webkit-transform:translate(-30px, -2px);
+ }
 
 
 .resize-drag {
@@ -507,23 +591,25 @@ body {
 
  .second-chooser-div {
      display: none;
-     margin-top: 100px;
-     float: left;
+     margin-top: 10px;
+ }
+ .second-chooser-div-text {
+     display: inline-block
  }
 
  .line-time-container {
      display: none;
-     margin-top: 50px;
  }
 
  .time-overlay {
      background-color: rgba(0,0,0,0.4);
+     opacity: 0;
      position: absolute;
-     top: 14%;
+     top: 12%;
      bottom: 0;
      left: 0;
      right: 0;
-     height: 15%;
+     height: 60%;
      z-index: 500;
  }
 

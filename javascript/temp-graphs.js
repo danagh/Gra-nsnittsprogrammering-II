@@ -38,10 +38,10 @@ function createGraphCanvas(apiResponse, topPosition, leftPosition, divId, object
         canvasContainer.setAttribute('object-height', objectHeight);
     }
     else {
-        canvasContainer.style.width = 600;
-        canvasContainer.style.height = 600;
-        canvasContainer.setAttribute('object-width', window.getComputedStyle(canvasContainer).getPropertyValue('width'));
-        canvasContainer.setAttribute('object-height', window.getComputedStyle(canvasContainer).getPropertyValue('height'));
+        canvasContainer.style.width = '300px';
+        canvasContainer.style.height = '300px';
+        canvasContainer.setAttribute('object-width', '300px');
+        canvasContainer.setAttribute('object-height', '300px');
     }
     canvasContainer.appendChild(graphCanvas);
     document.getElementsByClassName('middle-side')[0].appendChild(canvasContainer);
@@ -204,8 +204,8 @@ function calculateIndexesForTimeSpan(apiResponse, givenTimeSpan) {
 }
 
 /*
-This function create all the options that an user can do with a temperature graph. The options
-are displayed on the right side of the screen.
+This function creates all the options that an user can do with a temperature graph. The options
+are displayed in the options div.
  */
 function showLineGraphTimeChooser() {
     var wholeTimeChooserContainer = document.createElement('div');
@@ -219,27 +219,38 @@ function showLineGraphTimeChooser() {
     wholeDayCheckbox.type = "checkbox";
     wholeDayCheckbox.className = "line-checkbox";
 
+    var fromTimeDiv = document.createElement('div');
+    fromTimeDiv.className = 'from-time-div';
+    fromTimeDiv.innerHTML = getText('from-time-explain');
+    fromTimeDiv.innerHTML += "<br>" + getText('from-time');
+    var endTimeDiv = document.createElement('div');
+    endTimeDiv.className = 'end-time-div';
+    endTimeDiv.innerHTML = getText('end-time');
+
     var fromTimeInput = document.createElement('input');
     fromTimeInput.type = "number";
     fromTimeInput.className = "from-time-input";
+    fromTimeInput.setAttribute('placeholder','For example "12"');
 
     var endTimeInput = document.createElement('input');
     endTimeInput.type = "number";
     endTimeInput.className = "end-time-input";
+    endTimeInput.setAttribute('placeholder','For example "18"');
 
     //append everything to the different divs and then to the right side of the page.
     checkboxContainer.appendChild(document.createTextNode('Show whole day?'));
     checkboxContainer.appendChild(wholeDayCheckbox);
     wholeTimeChooserContainer.appendChild(checkboxContainer);
-    inputContainer.appendChild(document.createTextNode('From'));
+    inputContainer.appendChild(fromTimeDiv);
     inputContainer.appendChild(fromTimeInput);
-    inputContainer.appendChild(document.createTextNode('To'));
+    inputContainer.appendChild(endTimeDiv);
     inputContainer.appendChild(endTimeInput);
     wholeTimeChooserContainer.appendChild(inputContainer);
-    document.getElementsByClassName('right-side')[0].appendChild(wholeTimeChooserContainer);
+    document.getElementsByClassName('text-bubble')[0].appendChild(wholeTimeChooserContainer);
     wholeTimeChooserContainer.style.display = "inline-block";
 
     //automatically fill the checkbox if the user has chosen to show the graph for the whole day.
+   //also add an overlay to the input fields so that they cannot be pressed.
     if (currentHighlightedObject.getAttribute('weather-time') == "whole-day") {
         wholeDayCheckbox.setAttribute('checked', 'checked');
         showOrHideInputOverlay();
@@ -267,13 +278,28 @@ function showOrHideInputOverlay() {
     var timeInputOverlay = document.getElementsByClassName('time-overlay')[0];
 
     if (timeInputOverlay) {
-        timeInputOverlay.style.display = 'none';
-        timeInputOverlay.remove()
+        //animate the removal of the overlay
+        anime({
+            targets: timeInputOverlay,
+            opacity: 0,
+            easing: 'easeInOutQuart'
+        });
+        var waitForAnimationToComplete = setTimeout(function() {
+            timeInputOverlay.style.display = 'none';
+            timeInputOverlay.remove()
+        }, 500);
+
     }
     else {
         var timeInputOverlay = document.createElement('div');
         timeInputOverlay.className = 'time-overlay';
         document.getElementsByClassName('line-input-container')[0].appendChild(timeInputOverlay);
+        //animate the adding of the overlay.
+        anime({
+            targets: timeInputOverlay,
+            opacity: 1,
+            easing: 'easeInOutQuart'
+        });
     }
 }
 

@@ -75,19 +75,23 @@ function createEventHandlers() {
     });
     //This eventhandler highlight objects so that more options pops up on the side for the user.
     $('.middle-side').click(function(e){
+        console.log("clicked on:");
+        console.log(e.target);
         hideInputField();
-        hideSecondChooser();
+       // hideSecondChooser();
 
         //if a highlighted object exists and it was a temperature graph we have to check the users changes and adapt accordingly.
         if (currentHighlightedObject) {
             if(currentHighlightedObject.getAttribute('object-style') == "temp-graph") {
-                console.log("unhighlighted graph object");
                 checkInputFields();
             }
         }
 
-        hideLineGraphTimeChooser();
-        if (e.target.classList.contains('icon-middle')) { //If an object div is pressed
+        //The icon should not be unhighlighted if you press specific objects on the screen.
+        if (e.target.classList.contains('select2') || e.target instanceof HTMLButtonElement || e.target instanceof HTMLSelectElement || e.target instanceof HTMLSpanElement || e.target instanceof HTMLInputElement) {
+            return true;
+        }
+        else if (e.target.classList.contains('icon-middle')) { //If an object div is pressed
             currentHighlightedObject = e.target;
         }
         else if (e.target.parentNode.classList.contains('icon-middle')) { //If an child of an object div is pressed still highlight the parent.
@@ -98,42 +102,36 @@ function createEventHandlers() {
         }
 
         if (currentHighlightedObject.classList.contains("icon-middle")) { //if it is a highlightable object
-            // console.log("contains");
             $('.weather-choose-time option').remove();
-            hideInputField();
-            hideFontSelector();
             highLightObject();
 
         }
-        //The icon should not be unhighlighted if you press specific objects on the screen.
-        else if (e.target.classList.contains('hidden-options') || e.target instanceof HTMLButtonElement || e.target instanceof HTMLSelectElement || e.target.classList.contains('resizer') ) {
-            // console.log("else if");
-        }
 
         else { //if anywhere else was pressed on the screen then unhighlight an object if it already is highlighted.
+            removeOptionsDiv();
             $('.icon-middle').each(function() {
                 if ($(this).hasClass('highlighted')) { //remove the previous highlighted object
                     $(this).removeClass('highlighted');
                     currentHighlightedObject = null;
-                    hideDropDown();
-                    hideDeleteButton();
-                    // hideResizer();
-                    hideFontSelector();
-
-
                 }
             });
         }
+        console.log("current highlighted object ");
+        console.log(currentHighlightedObject);
     });
 
-    $( ".weather-choose-time" ).change(function() { //when an option is clicked in the dropdown menu
+    /*
+    $( ".weather-choose-time").change(function() { //when an option is clicked in the dropdown menu
         // var newWeatherTime = $('.weather-choose-time option:selected').text();
+        console.log("changed weather time");
         switchWeatherTime(this);
     });
+    */
+
+    //undo and redo event-listeners
     $(document).on('click', '.undo-button', function() { //undo-button click listener
        checkLatestUndoAction();
     });
-
     $(document).on('click', '.redo-button', function() { //redo-button click listener
         checkLatestRedoAction();
     });
@@ -148,7 +146,6 @@ function createEventHandlers() {
             currentHighlightedObject.setAttribute('seconds', 'false');
 
         }
-
         changeSeconds();
     });
 
@@ -158,7 +155,7 @@ function createEventHandlers() {
             currentHighlightedObject.setAttribute('weather-time','whole-day');
             SMHICall(currentHighlightedObject.style.top, currentHighlightedObject.style.left, currentHighlightedObject.id, currentHighlightedObject.getAttribute('weather-time'), currentHighlightedObject.getAttribute('object-width'),currentHighlightedObject.getAttribute('object-height'), currentHighlightedObject.getAttribute('object-style'), currentHighlightedObject.getAttribute('object-font'));
             currentHighlightedObject.remove();
-            hideLineGraphTimeChooser();
+            removeOptionsDiv();
             showOrHideInputOverlay();
         }
         else { //if checkbox is clicked and unchecked show the input fields
@@ -178,19 +175,12 @@ function createEventHandlers() {
         console.log($(this).val().length);
         checkInputFieldLength(document.getElementsByClassName('end-time-input')[0]);
     });
-
-    // $('.resizer').mousedown(function() {
-    //     console.log(currentHighlightedObject);
-    //    initResize();
-    // });
-
 }
 
 /*
 A function that gives an icon a highlighted effect.
  */
 function highLightObject() {
-
     $('.icon-middle').each(function() {
         if ($(this).hasClass('highlighted')) { //remove the previous highlighted object
             $(this).removeClass('highlighted');
@@ -198,28 +188,152 @@ function highLightObject() {
     });
     currentHighlightedObject.classList.add('highlighted');
 
-    //A different kind of time-chooser will be shown if the user highlights a temperature graph
-    //since the way of choosing time will be different.
-    if (currentHighlightedObject.getAttribute('object-style') == "temp-graph") {
-        showLineGraphTimeChooser();
+    createOptionsDiv(); //show the highlighted object's options
+}
+
+/*
+Create a div where all the options for the object will be displayed. Depending on the highlighted
+objects position the div will appear on the left or right side of the highlighted object.
+ */
+function createOptionsDiv() {
+    //if the user highlights another object the optionsdiv for the current highlighted object has to be removed.
+    var optionsDivAlreadyExists = document.getElementsByClassName('text-bubble')[0];
+    if (optionsDivAlreadyExists) {
+        optionsDivAlreadyExists.style.display = "none";
+        optionsDivAlreadyExists.remove();
     }
-    else showDropDown();
 
-    showDeleteButton();
-    // showResizer();
-    console.log(currentHighlightedObject);
+    //get the position of the parent element so that we know where the optionsdiv should be placed.
+    var leftString = currentHighlightedObject.getAttribute('left');
+    var leftInt = parseFloat(leftString);
+    var topString = currentHighlightedObject.getAttribute('top');
+    var topInt = parseFloat(topString);
+    var rightString = currentHighlightedObject.getAttribute('object-width');
+    var rightInt = parseFloat(rightString);
+    rightInt = rightInt + leftInt;
 
+    //if the left position of the highlighted object is in pixels convert it into percent so that it's adaptable to the screen size.
+    if (leftString.indexOf('px') != -1 && topString.indexOf('px') != -1) { //if the string "px" exists
+        leftString = ((leftInt / mirror.offsetWidth) * 100) + '%';
+        leftInt = parseFloat(leftString);
+        rightString = ((rightInt / mirror.offsetWidth) * 100) + '%';
+        rightInt = parseFloat(rightString);
+        topString = ((topInt / mirror.offsetHeight) * 100) + '%';
+        topInt = parseFloat(topString);
+    }
+
+    var optionsDiv = document.createElement('div');
+
+    //depending on the position of the object the optionsbubble should appear on the left or right side of the object
+    if(leftInt < 45) {
+        var optionsRight = rightInt + 4.5;
+        optionsDiv.style.left = optionsRight + '%';
+
+        //depending on the top-position of the object the text bubble should appear from the top or bottom.
+        if(topInt > 43) {
+            var optionsTop = topInt - 34.5;
+            optionsDiv.className = 'text-bubble right';
+        }
+        else {
+            var optionsTop = topInt - 0.5;
+            optionsDiv.className = 'text-bubble right-top'
+        }
+    }
+    else  {
+        var optionsLeft = leftInt - 40.7;
+        optionsDiv.style.left = optionsLeft + '%';
+
+        if(topInt > 43) {
+            var optionsTop = topInt - 34.5;
+            optionsDiv.className = 'text-bubble left';
+        }
+        else {
+            var optionsTop = topInt - 0.5;
+            optionsDiv.className = 'text-bubble left-top'
+        }
+    }
+
+    optionsDiv.style.top = optionsTop + '%';
+    optionsDiv.style.height = "0px";
+    document.getElementsByClassName('middle-side')[0].appendChild(optionsDiv);
+
+    //animate the "opening" of the optionsdiv.
+    anime({
+        targets:optionsDiv,
+        width: '300px',
+        height: '300px',
+        // display: 'block',
+        easing: 'easeInOutQuart'
+        /*
+        opacity:{
+            value: 1,
+            delay: 1000
+        }
+        */
+    });
+
+    var optionsDivTimer = setTimeout(function() { //wait for the animation to complete before adding the options
+        addOptionsToOptionsDiv();
+    }, 800);
+}
+
+/*
+This function is used to check what kind of object the highlighted object is. Depending on the object different
+options should be displayed for the user.
+ */
+function addOptionsToOptionsDiv() {
+    //depending on the object show the font-selector
     if(currentHighlightedObject.getAttribute('object-style') == "temperature" || currentHighlightedObject.getAttribute('object-style') == "text-message" || currentHighlightedObject.getAttribute('object-style') == "clock" || currentHighlightedObject.getAttribute('object-style') == "date") {
         showFontSelector();
     }
+    //depending on the object show the temeprature graph options
+    if (currentHighlightedObject.getAttribute('object-style') == "temp-graph") {
+        showLineGraphTimeChooser();
+    }
+    //show a time dropdown if it's a temperature or weather object
+    else if (currentHighlightedObject.getAttribute('object-style') == "weather" || currentHighlightedObject.getAttribute('object-style') == "temperature" ) {
+        showDropDown();
+    }
+
+    //always show the delete button
+    showDeleteButton();
+
+    //create an input field if it's a text-message object
     if (currentHighlightedObject.getAttribute('object-style') == "text-message") {
         showInputField(currentHighlightedObject);
     }
 
+    //the user should be able to hide or show the seconds if he/she highlights the clock
     if (currentHighlightedObject.getAttribute('object-style') == "clock") {
         showSecondsChooser();
     }
+}
 
+/*
+This function is called to remove the options bubble.
+ */
+function removeOptionsDiv() {
+    var optionsDiv = document.getElementsByClassName('text-bubble')[0];
+    if (optionsDiv) {
+         anime({
+            targets:optionsDiv,
+            width: '300px',
+            height: '0px',
+            // display: 'block',
+            easing: 'easeInOutQuart'
+            /*
+             opacity:{
+             value: 1,
+             delay: 1000
+             }
+             */
+        });
+        var optionsDivTimer = setTimeout(function() { //wait for the animation to complete before removing the div
+            optionsDiv.style.display = "none";
+            optionsDiv.remove();
+        }, 600);
+
+    }
 }
 //
 //
@@ -302,8 +416,6 @@ interact('.draggable')
         }
     });
 
-<<<<<<< Updated upstream
-=======
 */
 
 // definierar en variabel för fönstret för spegeln
@@ -365,6 +477,7 @@ interact('.resize-drag')
         autoScroll: true,
         onstart: function(event) {
             previousPosition = getPreviousPosition(event);
+            removeOptionsDiv();
         },
         // call this function on every dragmove event
         onmove: function(event) {
@@ -390,6 +503,7 @@ interact('.resize-drag')
 
         onstart: function(event) {
           previousSize = getPreviousSize(event);
+          removeOptionsDiv();
         },
 
         onmove: function(event) {
@@ -417,7 +531,6 @@ interact('.resize-drag')
             // weatherStyleToCss(target.id, target.getAttribute('top'), target.getAttribute('left'), target.getAttribute('object-style'), target.getAttribute('weather-time'), target.getAttribute('object-width'), target.getAttribute('object-height'),target.getAttribute('object-font'));
         },
         onend: function(event) {
-            console.log("resize end");
             var target = event.target;
             var currentWidth = window.getComputedStyle(target).getPropertyValue('width');
             var currentHeight = window.getComputedStyle(target).getPropertyValue('height');
@@ -429,42 +542,14 @@ interact('.resize-drag')
 
             updateObjectSize(target, currentWidth, currentHeight);
         }
-    /*
-    .on('resizemove', function (event) {
-        var target = event.target,
-            x = (parseFloat(target.getAttribute('data-xx')) || 0),
-            y = (parseFloat(target.getAttribute('data-yy')) || 0);
-
-        // update the element's style
-        target.style.width  = event.rect.width + 'px';
-        target.style.height = event.rect.height + 'px';
-        target.style.fontSize = event.rect.height/3 + 'px';
-
-        // translate when resizing from top or left edges
-        x += event.deltaRect.left;
-        y += event.deltaRect.top;
-
-        target.style.webkitTransform = target.style.transform =
-            'translate(' + x + 'px,' + y + 'px)';
-
-        target.setAttribute('data-xx', x);
-        target.setAttribute('data-yy', y);
-        updateObjectSize(target, event.rect.width + 'px', event.rect.height + 'px');
-        // target.setAttribute('object-width', event.rect.width + 'px');
-        // target.setAttribute('object-height', event.rect.height + 'px');
-        // weatherStyleToCss(target.id, target.getAttribute('top'), target.getAttribute('left'), target.getAttribute('object-style'), target.getAttribute('weather-time'), target.getAttribute('object-width'), target.getAttribute('object-height'),target.getAttribute('object-font'));
-
-    })
-    */
     });
 
 
 function updateObjectSize(target, newWidth, newHeight) {
-    console.log(target);
-    console.log(newWidth + newHeight);
-    target.setAttribute('object-width',newWidth);
-    target.setAttribute('object-height',newHeight);
+    target.setAttribute('object-width', newWidth);
+    target.setAttribute('object-height', newHeight);
 
+    /*
     for (var i = 0; i < objectIdArray.length; i++) {
         if (objectIdArray[i] == target.id) {
             objectWidthArray[i] = newWidth;
@@ -474,6 +559,7 @@ function updateObjectSize(target, newWidth, newHeight) {
             break;
         }
     }
+    */
 }
 
 function getPreviousSize(event) {
@@ -484,8 +570,12 @@ function getPreviousSize(event) {
     return [previousWidth, previousHeight];
 }
 
+/*
+Creates a dropdown menu together with its content.
+ */
 function showDropDown() {
-    $('.weather-choose-time').css('display','block');
+    var dropdown = document.createElement('select');
+    dropdown.className = 'weather-choose-time';
     var currentTimeOption = document.createElement('option');
     currentTimeOption.value ="current time";
     currentTimeOption.innerHTML = getText("current-time-option");
@@ -501,13 +591,14 @@ function showDropDown() {
     var eveningOption = document.createElement('option');
     eveningOption.value = "evening";
     eveningOption.innerHTML = getText('evening-option');
-    // $('.weather-choose-time').append(currentTimeOption);
-    var dropdown = document.getElementsByClassName('weather-choose-time')[0];
+
+    //append all the dropdown options to the menu
     dropdown.appendChild(currentTimeOption);
     dropdown.appendChild(morningOption);
     dropdown.appendChild(middayOption);
     dropdown.appendChild(afternoonOption);
     dropdown.appendChild(eveningOption);
+    document.getElementsByClassName('text-bubble')[0].appendChild(dropdown);
 
     /*
     check the weatherTime attribute appeneded to the div. Depending on its' value change the selection in the dropdown.
@@ -518,6 +609,10 @@ function showDropDown() {
             break;
         }
     }
+    //Add a change-eventlistener on the dropdown so that when an user changes the time the icon changes accordingly.
+    dropdown.addEventListener("change", function(ev) {
+        switchWeatherTime(ev.target);
+    });
 
 }
 
@@ -533,62 +628,36 @@ function switchWeatherTime(selectedValue) {
 
     currentHighlightedObject.setAttribute('weather-time', newWeatherTime);
     currentHighlightedObject.remove(); //remove the current object and create a new one in its place.
+    //create a new version of the object but with the correct weather time that the user selected.
     SMHICall(currentHighlightedObject.style.top, currentHighlightedObject.style.left, currentHighlightedObject.id, currentHighlightedObject.getAttribute('weather-time'), currentHighlightedObject.getAttribute('object-width'),currentHighlightedObject.getAttribute('object-height'), currentHighlightedObject.getAttribute('object-style'), currentHighlightedObject.getAttribute('object-font'));
-    hideDropDown();
-    hideDeleteButton();
-    // hideResizer();
-    hideFontSelector();
-    //updateWeatherTimeInformation();
-}
-
-/*
-Update the global array for the weather time attribute and then update the local storage.
- */
-function updateWeatherTimeInformation() {
-    for (var i = 0; i < objectIdArray.length; i++) {
-        if (objectIdArray[i] == currentHighlightedObject.id) {
-            weatherTimeArray[i] = currentHighlightedObject.getAttribute('weather-time');
-            updateLocalStorage();
-        }
-    }
-}
-
-function hideDropDown() {
-    $('.weather-choose-time').css('display','none');
-    $('.weather-choose-time option').remove(); //remove all options from the dropdown, otherwise the function above will add all options again.
-}
-
-function hideDeleteButton() {
-    var deleteButton = document.getElementsByClassName('delete-button')[0];
-    deleteButton.style.display = 'none';
+    removeOptionsDiv(); //remove the optionsDiv since the object has been unhighlighted.
 }
 
 function showDeleteButton() {
-    // if ($('.delete-button').css('display')=='none') {
-    //     console.log("if");
-    //     $('.delete-button').css('display','block');
-    // }
-    // else {
-    //     $('.delete-button').css('display','none');
-    // }
+    var deleteDiv = document.createElement('div');
+    deleteDiv.className = 'delete-div';
+    var deleteButton = document.createElement('button');
+    deleteButton.className = 'delete-button';
+    deleteButton.innerHTML = getText('delete-button');
 
-    var deleteButton = document.getElementsByClassName('delete-button')[0];
-    deleteButton.style.display = 'block';
+    document.getElementsByClassName('text-bubble')[0].appendChild(deleteDiv);
+    deleteDiv.appendChild(deleteButton);
 
     deleteButton.addEventListener('click', function() {
         // console.log(highlightedObject.id);
         // console.log(objectIdArray);
         addToUndoArray(currentHighlightedObject.id, "deleteObject", currentHighlightedObject.getAttribute('top'), currentHighlightedObject.getAttribute('left'), currentHighlightedObject.getAttribute('object-style'), currentHighlightedObject.getAttribute('weather-time'), currentHighlightedObject.getAttribute('object-width'), currentHighlightedObject.getAttribute('object-height'), currentHighlightedObject.getAttribute('object-font'));
         deleteObject(currentHighlightedObject.id);
+        removeOptionsDiv();
 
     });
 
 }
 /*
-This function takes the specified object and deletes it, together with hiding the different right-side options.
+This function takes the specified object and deletes it, together with hiding the different options.
  */
 function deleteObject(objectId) {
-    //if the deleted object is a time or date object the timer has to be removed or else they will keep on showing
+    //if the deleted object is a time or date object the timer has to be removed or else they will keep on being rendered.
     //up on the screen
     if (document.getElementById(objectId).getAttribute('object-style') == "clock") {
         clearTimeout(clockTimer);
@@ -596,14 +665,14 @@ function deleteObject(objectId) {
     else if (document.getElementById(objectId).getAttribute('object-style') == "date") {
         clearTimeout(dateTimer);
     }
-    hideDeleteButton();
-    hideDropDown();
-    hideFontSelector();
-    hideSecondChooser();
-    // hideResizer();
+    removeOptionsDiv();
     document.getElementById(objectId).remove();
 }
 
+/*
+This function adds a specific ID to each object on the left side of the screen so that when an user
+drops an object to the middle we can check which object exactly it was and render it accordingly.
+ */
 function addAttributesToWeatherOptionDiv() {
     var numberOfDivs = document.querySelectorAll('.weather-option').length;
     for (var i=0;i<numberOfDivs;i++) {
@@ -649,17 +718,6 @@ function drag(ev) {
         ',' + (parseInt(style.getPropertyValue("top"), 10) - ev.clientY) + ',' + ev.target.getAttribute('weatherId'));
 }
 
-// function drag2(event) {
-//     // var oldResizer = document.getElementsByClassName('resizer')[0];
-//     // if (oldResizer) {
-//     //     oldResizer.style.display = "none";
-//     //     oldResizer.remove();
-//     // }
-//     var style = window.getComputedStyle(event.target, null);
-//     event.dataTransfer.setData("text/plain",
-//         (parseInt(style.getPropertyValue("left"),10) - event.clientX) + ',' + (parseInt(style.getPropertyValue("top"),10) - event.clientY) + ',' + event.target.getAttribute('fromleft') + ',' + event.target.getAttribute('id'));
-// }
-
 /*
  Allows an option to be dropped into the middle side of the page. If this
  function is not called it won't be droppable.
@@ -684,27 +742,6 @@ function drop(ev, target) {
 
     var dropCallsString = dropCalls.toString(); //change the id into a string so that it can be parsed.
     var offset = ev.dataTransfer.getData("text/plain").split(','); //put the data into an array and split at a comma-sign.
-
-    /*
-    if (offset[2] == 'true') {
-        var draggedId = offset[3];
-        var draggedDiv = document.getElementById(draggedId);
-        draggedDiv.style.left = (event.clientX + parseInt(offset[0],10)) + 'px';
-        draggedDiv.style.top = (event.clientY + parseInt(offset[1],10)) + 'px';
-
-        var style = window.getComputedStyle(draggedDiv);
-        var top = style.getPropertyValue('top');
-        draggedDiv.setAttribute('top',top);
-        var left = style.getPropertyValue('left');
-        draggedDiv.setAttribute('left',left);
-
-
-     //   weatherStyleToCss(draggedId, top, left, draggedDiv.getAttribute('object-style'), draggedDiv.getAttribute("weather-time"));
-
-        // weatherStyleToCss(top, left, draggedId);
-
-    }
-    */
 
    if (offset[2] == 0) {
         console.log("drop else if");
@@ -896,7 +933,6 @@ function createWeatherStyle(apiResponse, locationTop, locationLeft, divId, weath
     weatherStyleDiv.style.fontSize = fontSize/3 + 'px';
 
     if (functionCaller == "drop") { //the object should only be added to the undo array if the user made the drop-action
-        console.log("drop function caller");
         addToUndoArray(weatherStyleDiv.id, "addObject", top, left, weatherStyleDiv.getAttribute('object-style'), weatherTime, weatherStyleDiv.getAttribute('object-width'), weatherStyleDiv.getAttribute('object-height'),"noFont", "noMessage");
     }
 
@@ -1001,7 +1037,6 @@ function checkIfLocalStorageExists() {
     if (objectIds !== null) { //if there is something in the local storage
         // console.log("localStorage exists");
         var fontFamilies = JSON.parse(localStorage.getItem('font-families')); //Do not create the fontfamilies if there is no local storage because it will mess with some other functions.
-        console.log("checkif: " + fontFamilies);
 
         WebFontConfig = { //these rows adds the font families to a google call so that they can be shown to the user.
             google: {
@@ -1133,7 +1168,6 @@ function getLocation() {
 The function works but it is very slow in getting the coordinates and the API will therefore give an error message.
  */
 function showPosition(position) {
-    console.log(position.coords);
     // if (position.coords == null) {
     //     console.log("timeout");
     //     setTimeout(function(){
@@ -1153,7 +1187,6 @@ function showPosition(position) {
 function SMHICall(topPosition, leftPosition, divId, objectTime, objectWidth, objectHeight, objectStyle, objectFont) {
     userLongitude = "17.6389";
     userLatitude = "59.8586";
-    console.log(objectTime);
     var functionCaller = arguments.callee.caller.name;
     // var endPoint = "http://opendata-download-metfcst.smhi.se/api/category/pmp2g/version/2/geotype/point/lon/17.6389/lat/59.8586/data.json";
     var endPoint = "http://opendata-download-metfcst.smhi.se/api/category/pmp2g/version/2/geotype/point/lon/" + userLongitude + "/lat/" + userLatitude +"/data.json";

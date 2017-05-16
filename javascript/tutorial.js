@@ -81,6 +81,7 @@ function psstMessage() {
         opacity: 1,
         delay: 1000
     });
+    showFontSelector();
 }
 
 /*

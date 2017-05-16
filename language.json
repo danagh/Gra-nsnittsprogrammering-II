@@ -86,5 +86,21 @@
   "text-message-placeholder": {
     "en":"Insert text here",
     "se":"Skriv ditt meddelande här"
+  },
+  "from-time-explain": {
+    "en":"Choose time span for temperature graph",
+    "se":"Välj tidsperiod för temperaturgrafen"
+  },
+  "from-time": {
+    "en":"From:",
+    "se":"Från:"
+  },
+  "end-time": {
+    "en":"To:",
+    "se":"Till:"
+  },
+  "show-seconds": {
+    "en":"Show seconds?",
+    "se":"Visa sekunder?"
   }
 }
