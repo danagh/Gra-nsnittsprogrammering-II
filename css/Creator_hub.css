@@ -10,7 +10,7 @@
 body {
     display: flex;
     flex-direction: column;
-    background-color: rgb(203,255,207);
+    background-color:  rgba(81, 204, 164, 0.13);
     margin: 0;
     font-family: FontAwesome;
 }

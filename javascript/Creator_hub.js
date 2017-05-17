@@ -19,13 +19,13 @@ $(document).ready(function() {
     //console.log("creator: " + fontFamilies2);
 
 
-     localStorage.clear();
+     /*localStorage.clear();
      for (var k = 0; k < objectIdArray.length; k++) {
         delete topPositionArray[k];
          delete leftPositionArray[k];
          delete  objectStyleArray[k];
          delete  objectIdArray[k];
-     }
+     }*/
 
 
     // tutorialEventHandlers();
@@ -1027,6 +1027,9 @@ function updateLocalStorage() {
 }
 
 function checkIfLocalStorageExists() {
+    if (mirror === undefined){
+        mirror = document.getElementById("mirror");
+    }
     var objectIds = JSON.parse(localStorage.getItem('object-id'));
     var objectStyles = JSON.parse(localStorage.getItem('object-style'));
     var objectTopPositions = JSON.parse(localStorage.getItem('top'));
