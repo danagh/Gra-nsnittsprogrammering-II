@@ -9,6 +9,7 @@ function createTimeObject(topPosition, leftPosition, divId, objectStyle, objectT
     min = checkTime(min);
     sec = checkTime(sec);
 
+
     if(document.getElementsByClassName('clock')[0]) {
         var clockDiv = document.getElementsByClassName('clock')[0];
         var showSeconds = clockDiv.getAttribute('seconds');
@@ -22,8 +23,10 @@ function createTimeObject(topPosition, leftPosition, divId, objectStyle, objectT
     }
     else {
         var clockDiv = document.createElement('div');
+        clockDiv.style.color = 'white';
         clockDiv.setAttribute('id', divId);
         clockDiv.setAttribute('class', 'icon-middle sunny resize-drag clock');
+        //clockDiv.setAttribute('class', 'white');
 
         clockDiv.setAttribute('seconds', secondShower);
 
@@ -125,8 +128,10 @@ Creates and displays a checkbox where the user can choose the show or hide the s
  */
 function showSecondsChooser() {
     var secondChooserDiv = document.createElement('div');
+    secondChooserDiv.style.color = 'white';
     secondChooserDiv.className = 'second-chooser-div';
     var secondChooserDivText = document.createElement('div');
+    secondChooserDivText.style.color = 'white';
     secondChooserDivText.className = 'second-chooser-div-text';
     var checkbox = document.createElement('input');
     checkbox.type = "checkbox";
@@ -162,6 +167,7 @@ function createDateObject (topPosition, leftPosition, divId, objectStyle, object
     else {
 
         var dateDiv = document.createElement('div');
+        dateDiv.style.color = 'white';
         dateDiv.setAttribute('id', divId);
         dateDiv.setAttribute('class', 'icon-middle sunny resize-drag date');
 

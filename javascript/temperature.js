@@ -92,6 +92,7 @@ function createTemperatureStyle(apiResponse, topPosition, leftPosition, divId, t
     if (temperatureTime !== "notExist") {
       //  weatherStyleToCss(divId, top, left, temperatureStyleDiv.getAttribute('object-style'), temperatureTime, temperatureStyleDiv.getAttribute('object-width'), temperatureStyleDiv.getAttribute('object-height'),temperatureStyleDiv.getAttribute('object-font'));
     }
+    temperatureStyleDiv.style.color = 'white';
   //  else weatherStyleToCss(divId, top, left, temperatureStyleDiv.getAttribute('object-style'), "current time", temperatureStyleDiv.getAttribute('object-width'), temperatureStyleDiv.getAttribute('object-height'),temperatureStyleDiv.getAttribute('object-font'));
 }
 
@@ -147,6 +148,7 @@ function createTextMessage(locationTop, locationLeft, divId, messageTime, object
     var textMessageDiv = document.createElement('div');
     textMessageDiv.setAttribute('id',divId);
     textMessageDiv.setAttribute('class','icon-middle sunny resize-drag');
+    textMessageDiv.style.color = 'white';
     // textMessageDiv.setAttribute('draggable','true'); //the object has to be able to be moved later on by the user.
     // textMessageDiv.setAttribute('fromleft','true');
     // textMessageDiv.addEventListener('dragstart', drag2, false);
