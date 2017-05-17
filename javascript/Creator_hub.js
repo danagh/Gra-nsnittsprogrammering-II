@@ -19,17 +19,25 @@ $(document).ready(function() {
     //console.log("creator: " + fontFamilies2);
 
 
-     /*localStorage.clear();
+
+
+    /*
+     localStorage.clear();
+>>>>>>> Stashed changes
      for (var k = 0; k < objectIdArray.length; k++) {
         delete topPositionArray[k];
          delete leftPositionArray[k];
          delete  objectStyleArray[k];
          delete  objectIdArray[k];
-     }*/
+
+     }
+     */
+
 
 
     // tutorialEventHandlers();
     // createWholeOverlay();
+    YOURFUNCTION();
     createLoadingCanvas();
     getLocation();
      /*
@@ -1041,14 +1049,19 @@ function checkIfLocalStorageExists() {
     var textMessages = JSON.parse(localStorage.getItem('object-message'));
     var showSeconds = JSON.parse(localStorage.getItem('seconds'));
 
+    console.log("object font array: ");
+    console.log(objectFont);
 
     if (objectIds !== null) { //if there is something in the local storage
         // console.log("localStorage exists");
         var fontFamilies = JSON.parse(localStorage.getItem('font-families')); //Do not create the fontfamilies if there is no local storage because it will mess with some other functions.
+        console.log("checkiflocalstorage exists");
+        console.log(fontFamilies);
 
-        WebFontConfig = { //these rows adds the font families to a google call so that they can be shown to the user.
+
+        WebFontConfig= { //these rows adds the font families to a google call so that they can be shown to the user.
             google: {
-                families: fontFamilies
+                families: ['Aclonica', 'Acme']
             }
         };
 

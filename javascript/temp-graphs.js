@@ -124,7 +124,7 @@ function createLineGraph(apiResponse, graphCanvas, canvasContainer) {
                     },
                     scaleLabel: { //add label to x-axis
                         display: true,
-                        labelString: 'Time',
+                        labelString: getText("time"),
                         fontColor: "rgba(255,255,255,1)"
                     },
                     display:true,
@@ -140,7 +140,7 @@ function createLineGraph(apiResponse, graphCanvas, canvasContainer) {
                     },
                     scaleLabel: {
                         display: true,
-                        labelString: 'Temperature (\u00B0C)',
+                        labelString: getText("temperature") + '( \u00B0C)',
                         fontColor: "rgba(255,255,255,1)"
                     },
                     display:true,

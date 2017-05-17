@@ -2,7 +2,7 @@
 
 $(document).ready(function() {
     // console.log("temperature " + fontFamilies);
-    YOURFUNCTION();
+    // YOURFUNCTION();
 });
 
 /*
@@ -11,12 +11,13 @@ and then reload the page.
  */
 function YOURFUNCTION() {
     var wf = document.createElement('script');
-    wf.src = ('https:' == document.location.protocol ? 'https' : 'http') + '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+    wf.src = ('https:' == document.location.protocol ? 'https' : 'http') + '://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js';
     wf.type = 'text/javascript';
     wf.async = 'true';
     var s = document.getElementsByTagName('script')[0];
     s.parentNode.insertBefore(wf, s);
 }
+
 
 function createTemperatureStyle(apiResponse, topPosition, leftPosition, divId, temperatureTime, objectWidth, objectHeight, objectFont, functionCaller) {
     var temperatureStyleDiv = document.createElement('div');
@@ -139,7 +140,7 @@ function showFontSelector() {
             addToUndoArray(currentHighlightedObject.id, "changedFont", currentHighlightedObject.getAttribute('top'), currentHighlightedObject.getAttribute('left'),currentHighlightedObject.getAttribute('object-style'), currentHighlightedObject.getAttribute('weather-time'), currentHighlightedObject.getAttribute('object-width'), currentHighlightedObject.getAttribute('object-height'), currentFontFamily, currentHighlightedObject.getAttribute('text-message'));
             currentHighlightedObject.style.fontFamily = e;
             currentHighlightedObject.setAttribute('object-font',e);
-            //updateObjectFont();
+            updateObjectFont();
 
         }
     });
@@ -147,7 +148,7 @@ function showFontSelector() {
 }
 
 function updateObjectFont() {
-
+    console.log("update object font:");
     console.log(fontFamilies2);
     // console.log(topPositionArray);
     fontFamilies2.push(currentHighlightedObject.getAttribute('object-font')); //add the font to a global variable
@@ -175,6 +176,8 @@ function hideFontSelector() { //hide the font selector
 }
 
 function createTextMessage(locationTop, locationLeft, divId, messageTime, objectWidth, objectHeight, objectStyle, objectFont, textMessage) {
+    console.log("object font given");
+    console.log(objectFont);
     var textMessageDiv = document.createElement('div');
     textMessageDiv.setAttribute('id',divId);
     textMessageDiv.setAttribute('class','icon-middle sunny resize-drag');
@@ -208,7 +211,6 @@ function createTextMessage(locationTop, locationLeft, divId, messageTime, object
 
     if(objectFont !== "noFont") {
         fontFamilies2.push(objectFont); //add the font if there is a selected font
-        console.log("ifFont");
         textMessageDiv.setAttribute('object-font',objectFont);
 
         textMessageDiv.style.fontFamily = objectFont;
