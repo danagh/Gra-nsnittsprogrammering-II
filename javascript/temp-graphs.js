@@ -215,42 +215,20 @@ function showLineGraphTimeChooser() {
     wholeTimeChooserContainer.className = 'line-time-container';
     var checkboxContainer = document.createElement('div');
     checkboxContainer.className = 'line-check-container';
-    var inputContainer = document.createElement('div');
-    inputContainer.className = 'line-input-container';
 
     var wholeDayCheckbox = document.createElement('input');
     wholeDayCheckbox.type = "checkbox";
     wholeDayCheckbox.className = "line-checkbox";
 
-    var fromTimeDiv = document.createElement('div');
-    fromTimeDiv.className = 'from-time-div';
-    fromTimeDiv.innerHTML = getText('from-time-explain');
-    fromTimeDiv.innerHTML += "<br>" + getText('from-time');
-    var endTimeDiv = document.createElement('div');
-    endTimeDiv.className = 'end-time-div';
-    endTimeDiv.innerHTML = getText('end-time');
-
-    var fromTimeInput = document.createElement('input');
-    fromTimeInput.type = "number";
-    fromTimeInput.className = "from-time-input";
-    var fromTimePlaceholder = getText('from-time-place');
-    fromTimeInput.setAttribute('placeholder', fromTimePlaceholder);
-
-    var endTimeInput = document.createElement('input');
-    endTimeInput.type = "number";
-    endTimeInput.className = "end-time-input";
-    var endTimePlaceholder = getText('end-time-place');
-    endTimeInput.setAttribute('placeholder', endTimePlaceholder);
-
     //append everything to the different divs and then to the right side of the page.
     checkboxContainer.innerHTML = getText('graph-checkbox');
     checkboxContainer.appendChild(wholeDayCheckbox);
     wholeTimeChooserContainer.appendChild(checkboxContainer);
-    inputContainer.appendChild(fromTimeDiv);
-    inputContainer.appendChild(fromTimeInput);
-    inputContainer.appendChild(endTimeDiv);
-    inputContainer.appendChild(endTimeInput);
-    wholeTimeChooserContainer.appendChild(inputContainer);
+    // inputContainer.appendChild(fromTimeDiv);
+    // inputContainer.appendChild(fromTimeInput);
+    // inputContainer.appendChild(endTimeDiv);
+    // inputContainer.appendChild(endTimeInput);
+    // wholeTimeChooserContainer.appendChild(inputContainer);
     document.getElementsByClassName('text-bubble')[0].appendChild(wholeTimeChooserContainer);
     wholeTimeChooserContainer.style.display = "inline-block";
 
@@ -258,20 +236,21 @@ function showLineGraphTimeChooser() {
    //also add an overlay to the input fields so that they cannot be pressed.
     if (currentHighlightedObject.getAttribute('weather-time') == "whole-day") {
         wholeDayCheckbox.setAttribute('checked', 'checked');
-        showOrHideInputOverlay();
+        //showOrHideInputOverlay();
         //disable the input fields
         //fromTimeInput.setAttribute('disabled', 'true');
         //endTimeInput.setAttribute('disabled', 'true');
     }
     //if the user has specified a time span
     else {
+        showOrHideInputOverlay();
         //get the time span from the weather-time attribute and split them up into two variables
         var givenTimeSpan = currentHighlightedObject.getAttribute('weather-time');
         var indexOfSplit = givenTimeSpan.indexOf("-");
         var startTime = givenTimeSpan.substr(0,indexOfSplit);
         var endTime = givenTimeSpan.substr(indexOfSplit + 1, givenTimeSpan.length);
-        fromTimeInput.value = startTime;
-        endTimeInput.value = endTime;
+        document.getElementsByClassName('from-time-input')[0].value = startTime;
+        document.getElementsByClassName('end-time-input')[0].value = endTime;
     }
 }
 
@@ -280,32 +259,63 @@ Depending on the weather-time attribute and the "show whole day"-checkbox this f
 grey out the input field or make them clickable
  */
 function showOrHideInputOverlay() {
-    var timeInputOverlay = document.getElementsByClassName('time-overlay')[0];
 
-    if (timeInputOverlay) {
+    var inputContainer = document.getElementsByClassName('line-input-container')[0];
+
+    if (inputContainer) {
         //animate the removal of the overlay
         anime({
-            targets: timeInputOverlay,
+            targets: inputContainer,
             opacity: 0,
             easing: 'easeInOutQuart'
         });
         var waitForAnimationToComplete = setTimeout(function() {
-            timeInputOverlay.style.display = 'none';
-            timeInputOverlay.remove()
+            inputContainer.style.display = 'none';
+            inputContainer.remove()
         }, 500);
 
     }
     else {
-        var timeInputOverlay = document.createElement('div');
-        timeInputOverlay.className = 'time-overlay';
-        document.getElementsByClassName('line-input-container')[0].appendChild(timeInputOverlay);
+        var inputContainer = document.createElement('div');
+        inputContainer.className = 'line-input-container';
+        inputContainer.style.opacity = "0";
+
+        var fromTimeDiv = document.createElement('div');
+        fromTimeDiv.className = 'from-time-div';
+        fromTimeDiv.innerHTML = getText('from-time-explain');
+        fromTimeDiv.innerHTML += "<br>" + getText('from-time');
+
+        var endTimeDiv = document.createElement('div');
+        endTimeDiv.className = 'end-time-div';
+        endTimeDiv.innerHTML = getText('end-time');
+
+        var fromTimeInput = document.createElement('input');
+        fromTimeInput.type = "number";
+        fromTimeInput.className = "from-time-input";
+        var fromTimePlaceholder = getText('from-time-place');
+        fromTimeInput.setAttribute('placeholder', fromTimePlaceholder);
+
+        var endTimeInput = document.createElement('input');
+        endTimeInput.type = "number";
+        endTimeInput.className = "end-time-input";
+        var endTimePlaceholder = getText('end-time-place');
+        endTimeInput.setAttribute('placeholder', endTimePlaceholder);
+
+        inputContainer.appendChild(fromTimeDiv);
+        inputContainer.appendChild(fromTimeInput);
+        inputContainer.appendChild(endTimeDiv);
+        inputContainer.appendChild(endTimeInput);
+        document.getElementsByClassName('line-time-container')[0].appendChild(inputContainer);
         //animate the adding of the overlay.
         anime({
-            targets: timeInputOverlay,
+            targets: inputContainer,
             opacity: 1,
             easing: 'easeInOutQuart'
         });
     }
+
+
+
 }
 
 /*

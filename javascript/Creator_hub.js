@@ -101,7 +101,7 @@ function createEventHandlers() {
         }
 
         //The icon should not be unhighlighted if you press specific objects on the screen.
-        if (e.target.classList.contains('select2') || e.target instanceof HTMLButtonElement || e.target instanceof HTMLSelectElement || e.target instanceof HTMLSpanElement || e.target instanceof HTMLInputElement) {
+        if (e.target.classList.contains('text-bubble') || e.target instanceof HTMLButtonElement || e.target instanceof HTMLSelectElement || e.target instanceof HTMLSpanElement || e.target instanceof HTMLInputElement) {
             return true;
         }
         else if (e.target.classList.contains('icon-middle')) { //If an object div is pressed
@@ -656,7 +656,7 @@ function showDeleteButton() {
     document.getElementsByClassName('text-bubble')[0].appendChild(deleteDiv);
     deleteDiv.appendChild(deleteButton);
 
-    deleteButton.addEventListener('click', function() {
+    deleteDiv.addEventListener('click', function() {
         // console.log(highlightedObject.id);
         // console.log(objectIdArray);
         addToUndoArray(currentHighlightedObject.id, "deleteObject", currentHighlightedObject.getAttribute('top'), currentHighlightedObject.getAttribute('left'), currentHighlightedObject.getAttribute('object-style'), currentHighlightedObject.getAttribute('weather-time'), currentHighlightedObject.getAttribute('object-width'), currentHighlightedObject.getAttribute('object-height'), currentHighlightedObject.getAttribute('object-font'));
