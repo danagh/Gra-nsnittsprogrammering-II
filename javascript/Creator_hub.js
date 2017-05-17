@@ -832,7 +832,7 @@ function createWeatherStyle(apiResponse, locationTop, locationLeft, divId, weath
         // weatherStyleDiv.src= "weathericons/simple_weather_icon_04.png";
         // weatherStyleDiv.style.content= "url(weathericons/simple_weather_icon_04.png)";
         weatherStyleDiv.appendChild(cloud);
-        cloud.appendChild(cloud2);
+        weatherStyleDiv.appendChild(cloud2);
     }
 
     else if (currentWeather == 8) { //rain showers
