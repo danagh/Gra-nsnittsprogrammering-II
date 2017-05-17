@@ -83,6 +83,22 @@
     "en":"Temperature",
     "se":"Temperatur"
   },
+  "time": {
+    "en":"Time",
+    "se":"Tid"
+  },
+  "text": {
+    "en":"Text",
+    "se":"Text"
+  },
+  "date": {
+    "en":"Date",
+    "se":"Datum"
+  },
+  "weather-graph": {
+    "en":"Weather Graph",
+    "se":"Vädergraf"
+  },
   "text-message-placeholder": {
     "en":"Insert text here",
     "se":"Skriv ditt meddelande här"
