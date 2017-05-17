@@ -96,20 +96,50 @@ function createTemperatureStyle(apiResponse, topPosition, leftPosition, divId, t
   //  else weatherStyleToCss(divId, top, left, temperatureStyleDiv.getAttribute('object-style'), "current time", temperatureStyleDiv.getAttribute('object-width'), temperatureStyleDiv.getAttribute('object-height'),temperatureStyleDiv.getAttribute('object-font'));
 }
 
+/*
+function taken from http://stackoverflow.com/questions/5525071/how-to-wait-until-an-element-exists
+this function waits for a specific DOM-element to pop up before changing the font of the speicifc element
+ */
+function waitForElementToDisplay(selector, time) {
+    if(document.getElementById(selector)!=null) {
+        if(currentHighlightedObject.getAttribute('object-font') != "noFont") {
+            document.getElementById(selector).innerHTML = currentHighlightedObject.getAttribute('object-font');
+            document.getElementById(selector).style.fontFamily = currentHighlightedObject.getAttribute('object-font');
+        }
+        return;
+    }
+    else {
+        setTimeout(function() {
+            waitForElementToDisplay(selector, time);
+        }, time);
+    }
+}
+
+/*
+THis function shows the font selector that https://github.com/saadqbal/HiGoogleFonts has created
+ */
 function showFontSelector() {
     var selector = document.createElement('select');
     selector.id = "select_fontfamily";
+
     document.getElementsByClassName('text-bubble')[0].appendChild(selector);
+
+    waitForElementToDisplay('select2-select_fontfamily-container', 5000); //wait for the element to appear.
+    //ar selectorText = document.getElementById();
+    //console.log(selectorText);
+    //selectorText.innerHTML = currentHighlightedObject.getAttribute('object-font');
+
+
     $("#select_fontfamily").higooglefonts({
 
-        loadedCallback:function(e){ //another function that adds the selected font
+        loadedCallback:function(e){ //another function that adds the selected font to the object and stores the old font in the undo-array
             // console.log(e);
+
             var currentFontFamily = window.getComputedStyle(currentHighlightedObject).getPropertyValue('font-family');
             addToUndoArray(currentHighlightedObject.id, "changedFont", currentHighlightedObject.getAttribute('top'), currentHighlightedObject.getAttribute('left'),currentHighlightedObject.getAttribute('object-style'), currentHighlightedObject.getAttribute('weather-time'), currentHighlightedObject.getAttribute('object-width'), currentHighlightedObject.getAttribute('object-height'), currentFontFamily, currentHighlightedObject.getAttribute('text-message'));
             currentHighlightedObject.style.fontFamily = e;
             currentHighlightedObject.setAttribute('object-font',e);
-            console.log("blabla: " + currentHighlightedObject.getAttribute('object-font'));
-            updateObjectFont();
+            //updateObjectFont();
 
         }
     });

@@ -118,5 +118,9 @@
   "end-time-place": {
     "en": "For example '21'",
     "se": "Till exempel '21'"
+  },
+  "loading-text": {
+    "en": "We are loading everything for you",
+    "se": "Vi laddar allt för dig"
   }
 }

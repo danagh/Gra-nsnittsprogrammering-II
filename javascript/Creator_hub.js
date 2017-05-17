@@ -30,11 +30,16 @@ $(document).ready(function() {
 
     // tutorialEventHandlers();
     // createWholeOverlay();
-
+    createLoadingCanvas();
     getLocation();
-    setTimeout(checkIfLocalStorageExists(), 5000); //The timeouts are not working correctly and this has to be fixed later on in the project.
-    setTimeout(addAttributesToWeatherOptionDiv(), 5000);
-    setTimeout(createEventHandlers(), 5000);
+     /*
+    setTimeout(function () {
+        checkIfLocalStorageExists(); //The timeouts are not working correctly and this has to be fixed later on in the project.
+        addAttributesToWeatherOptionDiv();
+        createEventHandlers();
+    }, 5000);
+    */
+
 });
 
 function createEventHandlers() {
@@ -261,7 +266,7 @@ function createOptionsDiv() {
     anime({
         targets:optionsDiv,
         width: '300px',
-        height: '300px',
+        height: '250px',
         // display: 'block',
         easing: 'easeInOutQuart'
         /*
@@ -1153,40 +1158,84 @@ function calculateDateAndTimeDifference(apiResponse, selectedWeatherTime) {
 
 }
 
+function createLoadingCanvas() {
+    var loadingCanvas = document.createElement('div');
+    loadingCanvas.className = "loading-canvas";
+    loadingCanvas.style.width = '100%';
+    loadingCanvas.style.height = '100%';
+    loadingCanvas.style.background = "black";
+    loadingCanvas.style.zIndex = '1000';
+    loadingCanvas.style.position = 'absolute';
+    document.body.appendChild(loadingCanvas);
+
+    var sun = document.createElement('div');
+    sun.className = 'sun';
+    var rays = document.createElement('div');
+    rays.className = 'rays';
+    sun.appendChild(rays);
+    loadingCanvas.appendChild(sun);
+
+
+
+}
+
+function hideLoadingCanvas() {
+    var loadingCanvas = document.getElementsByClassName('loading-canvas')[0];
+    anime({
+        targets: loadingCanvas,
+        opacity: 0,
+        easing: 'easeInOutQuart'
+    });
+    setTimeout(function() {
+        loadingCanvas.style.display = "none";
+        loadingCanvas.remove();
+    }, 800);
+
+}
+
+/*
+The getlocation and showposition functions are taken from http://stackoverflow.com/questions/2577305/get-gps-location-from-the-web-browser
+They are used to get the user's position so that we can give them to the SMHI-API call so that the weather for the user's current position is shown
+ */
 function getLocation() {
     if(navigator.geolocation) {
+        console.log("geolocation if call");
         navigator.geolocation.getCurrentPosition(showPosition);
+        console.log("after function call");
 
     }
     else {
-        alert("geolocation not supported by this browser");
-        // userLongitude = "17.6389";
-        // userLatitude = "59.8586";
+        console.log("geolocation not supported by this browser");
+        userLongitude = "17.6389";
+        userLatitude = "59.8586";
     }
 }
 /*
 The function works but it is very slow in getting the coordinates and the API will therefore give an error message.
  */
 function showPosition(position) {
-    // if (position.coords == null) {
-    //     console.log("timeout");
-    //     setTimeout(function(){
-    //         showPosition(position); }, 500);
-    //     return false;
-    // }
-    // else {
+        console.log("show position function call");
         userLatitude = position.coords.latitude;
         userLongitude = position.coords.longitude;
-        userLatitude.toString();
-        userLongitude.toString();
-        // console.log(userLatitude);
-        // console.log(userLongitude);
-    // }
+        userLatitude = userLatitude.toFixed(4);
+        userLongitude = userLongitude.toFixed(4);
+
+    hideLoadingCanvas();
+    checkIfLocalStorageExists(); //The timeouts are not working correctly and this has to be fixed later on in the project.
+    addAttributesToWeatherOptionDiv();
+    createEventHandlers();
+
 }
 
 function SMHICall(topPosition, leftPosition, divId, objectTime, objectWidth, objectHeight, objectStyle, objectFont) {
-    userLongitude = "17.6389";
-    userLatitude = "59.8586";
+    if (userLongitude == undefined && userLatitude == undefined) {
+        userLongitude = "17.6389";
+        userLatitude = "59.8586";
+    }
+
+    console.log("user lat: " + userLatitude);
+    console.log("user long: " + userLongitude);
+
     var functionCaller = arguments.callee.caller.name;
     // var endPoint = "http://opendata-download-metfcst.smhi.se/api/category/pmp2g/version/2/geotype/point/lon/17.6389/lat/59.8586/data.json";
     var endPoint = "http://opendata-download-metfcst.smhi.se/api/category/pmp2g/version/2/geotype/point/lon/" + userLongitude + "/lat/" + userLatitude +"/data.json";

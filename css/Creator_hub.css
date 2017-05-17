@@ -498,7 +498,7 @@ body {
      content:"";
      position:absolute;
      z-index:0;
-     bottom:254px;
+     bottom:200px;
      right:-7px;
      height:20px;
      border-right:20px solid #E5E5EA;
@@ -510,7 +510,7 @@ body {
      content:"";
      position:absolute;
      z-index:1;
-     bottom:254px;
+     bottom:200px;
      right:-56px;
      width:26px;
      height:20px;
@@ -567,7 +567,7 @@ body {
      content:"";
      position:absolute;
      z-index: 0;
-     bottom: 254px;
+     bottom: 200px;
      left:-7px;
      height:20px;
      border-left:20px solid #E5E5EA;
@@ -579,7 +579,7 @@ body {
      content:"";
      position:absolute;
      z-index:1;
-     bottom:254px;
+     bottom:200px;
      left:4px;
      width:26px;
      height:20px;
