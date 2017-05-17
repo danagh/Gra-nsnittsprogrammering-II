@@ -14,6 +14,7 @@
 
 //global variable that stores the current language - needed to be accessed from all scripts
 var lang = getParameterByName("lang");
+console.log(lang);
 //the lexicon containing all strings to be translated - needed to be accessed from all scripts
 var lexicon;
 
@@ -26,7 +27,7 @@ $(document).ready(function() {
     $.getJSON("./language.json", function(data) {
         lexicon = data;
         translateText();
-        changeLoginButton();
+        //changeLoginButton();
         setLangButtonImage();
     });
 });
@@ -87,9 +88,11 @@ function getParameterByName(name, url) {
     if (!url) {
         url = window.location.href;
     }
+    console.log(url);
     name = name.replace(/[\[\]]/g, "\\$&");
     var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
         results = regex.exec(url);
+    console.log(results);
     if (!results) return null;
     if (!results[2]) return '';
     return decodeURIComponent(results[2].replace(/\+/g, " "));
@@ -106,8 +109,8 @@ function translateText(){
         var arg = div.getAttribute("data-translate-key");
         div.innerHTML = getText(arg);
     }
-    $('.username-field').attr('placeholder', getText('username'));
-    $('.password-field').attr('placeholder', getText('password'));
+    //$('.username-field').attr('placeholder', getText('username'));
+    // $('.password-field').attr('placeholder', getText('password'));
 }
 
 function getLangSwapImgSrc(){
@@ -118,6 +121,7 @@ function getLangSwapImgSrc(){
 }
 
 function setLangButtonImage(){
+    console.log('setting image');
     var button = document.getElementsByClassName("language")[0];
     if( lang != "se"){
         button.innerHTML ="<img id = 'lang-swap-img' src='resources/se-flag.png' height='40px' width='80px' class='lan-swap-img' draggable = 'false'>";

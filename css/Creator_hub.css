@@ -187,8 +187,34 @@ body {
 }
 
 .right-navigation {
-    float: right;
+    vertical-align: top;
+    position:fixed;
+    height:40px;
+    margin: 5px 5px 0 0;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    overflow: hidden;
+    color: white;
+    padding: 0;
+    cursor:pointer;
+    left: 90%;
 }
+
+ .language {
+     vertical-align: top;
+     position:fixed;
+     height:40px;
+     margin: 5px 5px 0 0;
+     font-size: 18px;
+     border: none;
+     border-radius: 5px;
+     overflow: hidden;
+     color: white;
+     padding: 0;
+     cursor:pointer;
+     left: 80%;
+ }
 
 .header-text {
     color:black;
@@ -257,11 +283,12 @@ body {
     color:black;
     font-size: 16px;
     text-decoration: underline;
-    position:relative;
-    margin: 5px 100px 0 0;
+    position:fixed;
+    margin: 0 0 0 0;
     overflow: hidden;
     display:inline-block;
     transition: all 0.3s;
+    top: 0.5%;
 }
 
 .highlighted {
@@ -271,10 +298,12 @@ body {
 .delete-div {
     position:absolute;
     text-align: center;
-    border: 1px solid rgb(81, 204, 164);
+    border: 2px solid rgb(81, 204, 164);
+    background: rgb(81, 204, 164);
     bottom: 0;
-    left: 40%;
-    width: 20%;
+    left: 27%;
+    width: 50%;
+    margin-bottom: 5px;
     display:inline-block;
     border-radius: 25px;
 }

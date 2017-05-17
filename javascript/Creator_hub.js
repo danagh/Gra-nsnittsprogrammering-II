@@ -817,7 +817,7 @@ function createWeatherStyle(apiResponse, locationTop, locationLeft, divId, weath
         rays.className = 'rays';
         // var sun = document.createElement('img');
         // sun.addEventListener('dragstart', drag2, false);
-        weatherStyleDiv.src="weathericons/simple_weather_icon_01.png";
+        //weatherStyleDiv.src="weathericons/simple_weather_icon_01.png";
         // weatherStyleDiv.style.content="url(weathericons/simple_weather_icon_01.png)";
         weatherStyleDiv.appendChild(sun);
         sun.appendChild(rays);

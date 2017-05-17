@@ -48,8 +48,8 @@
     "se":"Välj"
   },
   "logout": {
-    "en":"Logout",
-    "se":"Logga ut"
+    "en":"LOGOUT",
+    "se":"LOGGA UT"
   },
   "delete-button": {
     "en":"Delete",
@@ -102,5 +102,21 @@
   "show-seconds": {
     "en":"Show seconds?",
     "se":"Visa sekunder?"
+  },
+  "lang-swap":{
+    "en":"Svenska",
+    "se":"English"
+  },
+  "graph-checkbox": {
+    "en": "Show for the whole day?",
+    "se": "Visa för hela dagen?"
+  },
+  "from-time-place": {
+    "en": "For example '12'",
+    "se": "Till exempel '12'"
+  },
+  "end-time-place": {
+    "en": "For example '21'",
+    "se": "Till exempel '21'"
   }
 }

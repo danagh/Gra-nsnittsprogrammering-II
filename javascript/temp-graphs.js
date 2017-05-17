@@ -52,6 +52,9 @@ function createGraphCanvas(apiResponse, topPosition, leftPosition, divId, object
 
 }
 
+/*
+THis function creates the whole line graph by getting the time span that the user has chosen and then calls another function to draw the graph.
+ */
 function createLineGraph(apiResponse, graphCanvas, canvasContainer) {
     //get the time span for which we want to show the graph
     var timeSpanIndexes = calculateIndexesForTimeSpan(apiResponse, canvasContainer.getAttribute('weather-time'));
@@ -230,15 +233,17 @@ function showLineGraphTimeChooser() {
     var fromTimeInput = document.createElement('input');
     fromTimeInput.type = "number";
     fromTimeInput.className = "from-time-input";
-    fromTimeInput.setAttribute('placeholder','For example "12"');
+    var fromTimePlaceholder = getText('from-time-place');
+    fromTimeInput.setAttribute('placeholder', fromTimePlaceholder);
 
     var endTimeInput = document.createElement('input');
     endTimeInput.type = "number";
     endTimeInput.className = "end-time-input";
-    endTimeInput.setAttribute('placeholder','For example "18"');
+    var endTimePlaceholder = getText('end-time-place');
+    endTimeInput.setAttribute('placeholder', endTimePlaceholder);
 
     //append everything to the different divs and then to the right side of the page.
-    checkboxContainer.appendChild(document.createTextNode('Show whole day?'));
+    checkboxContainer.innerHTML = getText('graph-checkbox');
     checkboxContainer.appendChild(wholeDayCheckbox);
     wholeTimeChooserContainer.appendChild(checkboxContainer);
     inputContainer.appendChild(fromTimeDiv);
