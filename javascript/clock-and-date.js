@@ -128,10 +128,10 @@ Creates and displays a checkbox where the user can choose the show or hide the s
  */
 function showSecondsChooser() {
     var secondChooserDiv = document.createElement('div');
-    secondChooserDiv.style.color = 'white';
+    secondChooserDiv.style.color = 'black';
     secondChooserDiv.className = 'second-chooser-div';
     var secondChooserDivText = document.createElement('div');
-    secondChooserDivText.style.color = 'white';
+    secondChooserDivText.style.color = 'black';
     secondChooserDivText.className = 'second-chooser-div-text';
     var checkbox = document.createElement('input');
     checkbox.type = "checkbox";
