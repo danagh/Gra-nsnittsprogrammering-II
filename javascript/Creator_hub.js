@@ -38,15 +38,13 @@ $(document).ready(function() {
     // tutorialEventHandlers();
     // createWholeOverlay();
     YOURFUNCTION();
-    createLoadingCanvas();
+   // createLoadingCanvas();
     getLocation();
-     /*
-    setTimeout(function () {
+
         checkIfLocalStorageExists(); //The timeouts are not working correctly and this has to be fixed later on in the project.
         addAttributesToWeatherOptionDiv();
         createEventHandlers();
-    }, 5000);
-    */
+
 
 });
 
@@ -91,20 +89,21 @@ function createEventHandlers() {
         console.log("clicked on:");
         console.log(e.target);
         hideInputField();
-       // hideSecondChooser();
-
-        //if a highlighted object exists and it was a temperature graph we have to check the users changes and adapt accordingly.
-        if (currentHighlightedObject) {
-            if(currentHighlightedObject.getAttribute('object-style') == "temp-graph") {
-                checkInputFields();
-            }
-        }
 
         //The icon should not be unhighlighted if you press specific objects on the screen.
         if (e.target.classList.contains('text-bubble') || e.target instanceof HTMLButtonElement || e.target instanceof HTMLSelectElement || e.target instanceof HTMLSpanElement || e.target instanceof HTMLInputElement) {
             return true;
         }
-        else if (e.target.classList.contains('icon-middle')) { //If an object div is pressed
+
+        //if a highlighted object exists and it was a temperature graph we have to check the users changes and adapt accordingly.
+        if(currentHighlightedObject) {
+            if (currentHighlightedObject.getAttribute('object-style') == "temp-graph") {
+                console.log("previous highlighted object was temperature graph");
+                checkInputFields();
+            }
+        }
+
+        if (e.target.classList.contains('icon-middle')) { //If an object div is pressed
             currentHighlightedObject = e.target;
         }
         else if (e.target.parentNode.classList.contains('icon-middle')) { //If an child of an object div is pressed still highlight the parent.
@@ -113,6 +112,9 @@ function createEventHandlers() {
         else { //still highlight an object even if an object wasn't pressed
             currentHighlightedObject = e.target;
         }
+
+
+
 
         if (currentHighlightedObject.classList.contains("icon-middle")) { //if it is a highlightable object
             $('.weather-choose-time option').remove();
@@ -129,6 +131,9 @@ function createEventHandlers() {
                 }
             });
         }
+
+
+
         console.log("current highlighted object ");
         console.log(currentHighlightedObject);
     });
@@ -180,12 +185,10 @@ function createEventHandlers() {
 
     //eventhandler that chekcs each time the user writes something in one of the two input fields in the temperature graph
     $(document).on('keypress', '.from-time-input', function() {
-        console.log($(this).val().length);
         checkInputFieldLength(document.getElementsByClassName('from-time-input')[0]);
     });
 
     $(document).on('keypress', '.end-time-input', function() {
-        console.log($(this).val().length);
         checkInputFieldLength(document.getElementsByClassName('end-time-input')[0]);
     });
 }
@@ -662,6 +665,7 @@ function showDeleteButton() {
         addToUndoArray(currentHighlightedObject.id, "deleteObject", currentHighlightedObject.getAttribute('top'), currentHighlightedObject.getAttribute('left'), currentHighlightedObject.getAttribute('object-style'), currentHighlightedObject.getAttribute('weather-time'), currentHighlightedObject.getAttribute('object-width'), currentHighlightedObject.getAttribute('object-height'), currentHighlightedObject.getAttribute('object-font'));
         deleteObject(currentHighlightedObject.id);
         removeOptionsDiv();
+        currentHighlightedObject = null;
 
     });
 
@@ -1173,7 +1177,7 @@ function calculateDateAndTimeDifference(apiResponse, selectedWeatherTime) {
     }
 
 }
-
+/*
 function createLoadingCanvas() {
     var loadingCanvas = document.createElement('div');
     loadingCanvas.className = "loading-canvas";
@@ -1208,6 +1212,7 @@ function hideLoadingCanvas() {
     }, 800);
 
 }
+*/
 
 /*
 The getlocation and showposition functions are taken from http://stackoverflow.com/questions/2577305/get-gps-location-from-the-web-browser
@@ -1215,13 +1220,10 @@ They are used to get the user's position so that we can give them to the SMHI-AP
  */
 function getLocation() {
     if(navigator.geolocation) {
-        console.log("geolocation if call");
         navigator.geolocation.getCurrentPosition(showPosition);
-        console.log("after function call");
 
     }
     else {
-        console.log("geolocation not supported by this browser");
         userLongitude = "17.6389";
         userLatitude = "59.8586";
     }
@@ -1230,16 +1232,17 @@ function getLocation() {
 The function works but it is very slow in getting the coordinates and the API will therefore give an error message.
  */
 function showPosition(position) {
-        console.log("show position function call");
         userLatitude = position.coords.latitude;
         userLongitude = position.coords.longitude;
-        userLatitude = userLatitude.toFixed(4);
+        userLatitude = userLatitude.toFixed(4); //take only the four first decimals.
         userLongitude = userLongitude.toFixed(4);
 
+    /*
     hideLoadingCanvas();
     checkIfLocalStorageExists(); //The timeouts are not working correctly and this has to be fixed later on in the project.
     addAttributesToWeatherOptionDiv();
     createEventHandlers();
+    */
 
 }
 

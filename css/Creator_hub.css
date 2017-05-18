@@ -706,6 +706,16 @@ body {
      .drag-window:hover .weather-options {
          display: flex;
      }
+
+     .text-message-field {
+         color: transparent;
+         background: white;
+         border:none;
+     }
+
+     .text-message-field:focus {
+         outline: 0;
+     }
  }
 
 
