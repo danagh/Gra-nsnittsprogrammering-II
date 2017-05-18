@@ -392,7 +392,7 @@ body {
     top:50px;
     display:none;
     position: fixed;
-    width: 0%;
+    width: 11.3%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.4);
 }
@@ -401,9 +401,8 @@ body {
     top:50px;
     display:none;
     position: fixed;
-    width: calc(25vw + 7px);
-    max-width: 207px;
-    min-width: 157px;
+    left: 11.3%;
+    width: 13.4%;
     height: 43.6%;
     background-color: rgba(0, 0, 0, 0.4);
     /*z-index: 1000;*/
@@ -412,9 +411,8 @@ body {
 #o3 {
     display:none;
     position: fixed;
-    width: calc(25vw + 7px);
-    max-width: 207px;
-    min-width: 157px;
+    left: 11.3%;
+    width: 13.4%;
     top: 50%;
     height: 50%;
     background-color: rgba(0, 0, 0, 0.4);
@@ -426,7 +424,7 @@ body {
     position: fixed;
     top:50px;
     left: 24.8%;
-    width: 0%;
+    width: 50.5%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.4);
     /*z-index: 1000;*/
@@ -436,8 +434,8 @@ body {
     top:50px;
     display:none;
     position: fixed;
-    left:816px;
-    width: 100%;
+    left:75.3%;
+    width: 13.5%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.4);
     /*z-index: 1000;*/
@@ -448,7 +446,7 @@ body {
     display:none;
     position: fixed;
     left:88.8%;
-    width: 0%;
+    width: 11.3%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.4);
 }
@@ -713,58 +711,78 @@ body {
   Media - bör vara längst ner
 ============================================================================= */
 
-@media all and (max-width: 1000px) {
-    .left-side {
-        width: 0;
-        min-width: 0;
-        overflow: hidden;
+@media all and (width: 1024px) {
+    #o0 {
+        top:50px;
+        z-index: 1000;
     }
 
-    .right-side {
-        width: 0;
-        min-width: 0;
-        overflow: hidden;
+    #o1 {
+        top:50px;
+        display:none;
+        position: fixed;
+        width: 0%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.4);
     }
 
-    .middle-side {
+    #o2 {
+        top:50px;
+        display:none;
+        position: fixed;
+        width: calc(25vw + 7px);
+        max-width: 207px;
+        min-width: 157px;
+        height: 43.6%;
+        left: 0%;
+        background-color: rgba(0, 0, 0, 0.4);
+        /*z-index: 1000;*/
     }
 
-    /* =============================================================================
-    Dropdown
-   ============================================================================= */
-    .drag-window {
-        display: flex;
-        position: absolute;
-        top: 7vh;
-        z-index: 2;
-        height: 30px;
-        width: 30px;
-        background-color: white;
-        margin-left: 2vh;
+    #o3 {
+        display:none;
+        position: fixed;
+        width: calc(25vw + 7px);
+        max-width: 207px;
+        min-width: 157px;
+        left: 0%;
+        top: 50%;
+        height: 50%;
+        background-color: rgba(0, 0, 0, 0.4);
+        /*z-index: 1000;*/
     }
 
-    .weather-options {
-        display: none;
-        background-color: white;
-        margin-top: 0;
+    #o4 {
+        display:none;
+        position: fixed;
+        top:50px;
+        left: 24.8%;
+        width: 0%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.4);
+        /*z-index: 1000;*/
     }
 
-    .weather-option {
-        height: 20px;
+    #o5 {
+        top:50px;
+        display:none;
+        position: fixed;
+        left:816px;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.4);
+        /*z-index: 1000;*/
     }
 
-    .drag-window:hover {
-        height: 240px;
-        width: 130px;
-        opacity: 0.5;
-        overflow-y: scroll;
+    #o6 {
+        top:50px;
+        display:none;
+        position: fixed;
+        left:88.8%;
+        width: 0%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.4);
     }
-
-    .drag-window:hover .weather-options {
-        display: flex;
-    }
-
-
 }
 
 .text-message-field {
