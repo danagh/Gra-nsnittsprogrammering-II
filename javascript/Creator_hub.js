@@ -21,17 +21,16 @@ $(document).ready(function() {
 
 
 
-    /*
+/*
      localStorage.clear();
->>>>>>> Stashed changes
      for (var k = 0; k < objectIdArray.length; k++) {
         delete topPositionArray[k];
          delete leftPositionArray[k];
          delete  objectStyleArray[k];
          delete  objectIdArray[k];
 
-     }
-     */
+     }*/
+
 
 
 

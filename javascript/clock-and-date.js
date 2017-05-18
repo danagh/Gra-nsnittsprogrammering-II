@@ -148,15 +148,25 @@ function showSecondsChooser() {
     secondChooserDiv.style.display = 'inline-block';
 }
 
-
+var lang = getParameterByName("lang");
 function createDateObject (topPosition, leftPosition, divId, objectStyle, objectTime, objectWidth, objectHeight, objectFont) {
     var today = new Date();
     var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-    var curWeekDay = days[today.getDay()];
+    var sweMonths = ['Januari', 'Februari', 'Mars', 'April', 'Maj', 'Juni', 'Juli', 'Augusti', 'September', 'Oktober', 'November', 'December'];
+    var sweDays = ['Sön', 'Mån', 'Tis', 'Ons', 'Tor', 'Fre', 'Lör', 'Sön'];
     var curDay = today.getDate();
-    var curMonth = months[today.getMonth()];
     var curYear = today.getFullYear();
+
+
+    if(lang == "se") {
+        var curWeekDay = sweDays[today.getDay()];
+        var curMonth = sweMonths[today.getMonth()];
+    }
+    else {
+        var curWeekDay = days[today.getDay()];
+        var curMonth = months[today.getMonth()];
+    }
 
     if(document.getElementsByClassName('date')[0]) {
         var dateDiv = document.getElementsByClassName('date')[0];
