@@ -40,7 +40,7 @@ $(document).ready(function() {
    // createLoadingCanvas();
     getLocation();
 
-        checkIfLocalStorageExists(); //The timeouts are not working correctly and this has to be fixed later on in the project.
+        checkIfLocalStorageExists();
         addAttributesToWeatherOptionDiv();
         createEventHandlers();
 
@@ -456,13 +456,14 @@ function dragMoveListener (event) {
 
      target.style.left = ((x / mirror.offsetWidth) * 100) + '%';
      target.style.top = ((y / mirror.offsetHeight) * 100) + '%';
-    // Danas gla kod
-    // target.style.left = x + 'px';
-    // target.style.top = y + 'px';
 
-    // update the posiion attributes
+    // update the position attributes
     target.setAttribute('data-x', x);
     target.setAttribute('data-y', y);
+
+
+    // target.setAttribute('top', ((y / mirror.offsetWidth) * 100) + '%');
+    // target.setAttribute('left', ((x / mirror.offsetWidth) * 100) + '%');
     target.setAttribute('top', y + 'px');
     target.setAttribute('left', x + 'px');
 }

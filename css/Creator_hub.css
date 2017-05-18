@@ -331,6 +331,13 @@ body {
 }
 
 .weather-choose-time {
+    background-color: #f7f7f7;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    outline: 0;
+    background-image: -webkit-linear-gradient(top, white 50%, #eeeeee 100%);
+    background-image: -o-linear-gradient(top, white 50%, #eeeeee 100%);
+    background-image: linear-gradient(to bottom, white 50%, #eeeeee 100%);
 
 }
 

@@ -74,7 +74,7 @@ body {
 ============================================================================= */
 
 .header {
-    background: #FFF;
+    background: rgb(81,204,164);
     height: 100px;
     width: 100%;
     line-height:90px;
@@ -100,7 +100,7 @@ body {
 /*}*/
 
 .header-text {
-    color:brown;
+    color:black;
     display:inline-block;
     margin-top:0;
     margin-left:5px;
