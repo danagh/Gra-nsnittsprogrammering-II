@@ -40,9 +40,7 @@ function addWelcomingMessage() {
     });
     var welcomingPar = document.createElement('p');
     welcomingPar.className = "welcoming-par";
-    var welcomingText = "Hi and welcome to Lifeganizer! " +
-        "This tutorial will take you through the website and show you " +
-        "how easy it is to use.";
+    var welcomingText = getText("tut-welcome");
 
     welcomingPar.innerHTML = welcomingText;
     welcomingPar.style.opacity ="0";
@@ -61,7 +59,7 @@ function addWelcomingMessage() {
 function psstMessage() {
     var welcomingPar = document.getElementsByClassName("welcoming-par")[0];
     welcomingPar.style.opacity= "0";
-    var psstText = "Psst... Click anywhere to continue";
+    var psstText = getText("tut-psst");
 
     var textbubble = document.getElementsByClassName('text-bubble-tutorial')[0];
 
@@ -139,7 +137,7 @@ as changes its' size.
 function showFirstMessage() {
     var textbubble = document.getElementsByClassName('text-bubble-tutorial')[0];
     var textPar = document.getElementsByClassName("welcoming-par")[0];
-    var dragNDropMessage = "First of, let's try to add a weather icon to your design. ";
+    var dragNDropMessage = getText("tut-firstof");
     textPar.innerHTML = dragNDropMessage;
     textPar.style.opacity = "0";
 
@@ -179,7 +177,7 @@ function tryItOutNow() {
 
     var textbubble = document.getElementsByClassName('text-bubble-tutorial')[0];
     var textPar = document.getElementsByClassName("welcoming-par")[0];
-    var dragNDropMessage3 = "Try it out now!";
+    var dragNDropMessage3 = getText("tut-try");
 
     // textPar.innerHTML = dragNDropMessage2;
     textPar.style.opacity = "0";
@@ -291,8 +289,7 @@ function afterDroppingWeatherObject() {
     });
     var welcomingPar = document.createElement('p');
     welcomingPar.className = "welcoming-par";
-    var welcomingText = "Good job! To add more icons you just drag them from the left side" +
-        " and drop them down where you want them!";
+    var welcomingText = getText("tut-addmore");
 
     welcomingPar.innerHTML = welcomingText;
     welcomingPar.style.opacity ="0";
@@ -341,7 +338,7 @@ function firstHighlight() {
     // textPar.appendChild(textbubble);
     var textPar = document.getElementsByClassName('welcoming-par')[0];
 
-    var dragNDropMessage4 = "Did you see how more options came up next to the object?";
+    var dragNDropMessage4 = getText("tut-high");
 
     textPar.style.opacity = "0";
 
@@ -401,7 +398,7 @@ function afterChangeWeatherTime() {
     });
     var welcomingPar = document.createElement('p');
     welcomingPar.className = "welcoming-par";
-    var welcomingText = "Good job! You can also change the size of the weather icon by dragging its' top or left side";
+    var welcomingText = getText("tut-time");
 
     welcomingPar.innerHTML = welcomingText;
     welcomingPar.style.opacity ="0";
@@ -434,8 +431,7 @@ function tutorialEventHandlers() {
             }
             else if(tutorialClicks == 2) {
                 // showFirstMessageSecond();
-                showNewMessageAndAnimateBubble("You can do this by selecting 'weather' from the left side of the screen," +
-                    " dragging it to the frame in the middle and then dropping it.", '165', null);
+                showNewMessageAndAnimateBubble(getText("tut-selwe"), '165', null);
             }
 
             else if (tutorialClicks == 3) {
@@ -445,33 +441,33 @@ function tutorialEventHandlers() {
                 // showSecondMessage();
                 //console.log("fourth tutorial click");
                 //createAnotherMessage();
-                showNewMessageAndAnimateBubble("You can highlight a weather icon by clicking on it. By" +
-                    " doing so more options comes up on the right side of the screen.", '150', null);
+                showNewMessageAndAnimateBubble(getText("tut-highlight"), '150', null);
             }
             else if (tutorialClicks ==5) {
                 tryItOutNow();
             }
             else if (tutorialClicks ==6) {
                 // showSecondMessageSecond();
-                showNewMessageAndAnimateBubble("With the options you can change for which time of the day you want to" +
-                    " show the weather.", '150', '220');
+                showNewMessageAndAnimateBubble(getText('tut-options'), '150', '220');
             }
             else if (tutorialClicks == 7) {
                 tryItOutNow();
             }
             else if (tutorialClicks == 8) {
                 // showThirdMessage();
-                showNewMessageAndAnimateBubble("Finally, you can delete the weather icon by pressing" +
-                    " the delete-button in the options that popped up.", '150', '240');
+                showNewMessageAndAnimateBubble(getText("tut-finally"), '170', '240');
             }
 
             else if (tutorialClicks == 9) {
                 // showFinalMessage();
-                showNewMessageAndAnimateBubble("That's pretty much it. Now we'll let you explore the endless possibilites" +
-                    " with Lifeganizer!", '160', '240');
+                showNewMessageAndAnimateBubble(getText("tut-last"), '160', '240');
             }
             else if (tutorialClicks == 10) {
-                window.location.href = "Creator_hub2.html?lang=en";
+                if (lang=="se") {
+                    window.location.href = "Creator_hub2.html?lang=se";
+                }
+                else window.location.href = "Creator_hub2.html?lang=en";
+
             }
         }
 

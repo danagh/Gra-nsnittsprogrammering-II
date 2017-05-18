@@ -48,8 +48,8 @@
     "se":"Välj"
   },
   "logout": {
-    "en":"LOGOUT",
-    "se":"LOGGA UT"
+    "en":"Logout",
+    "se":"Logga ut"
   },
   "delete-button": {
     "en":"Delete",
@@ -138,5 +138,63 @@
   "loading-text": {
     "en": "We are loading everything for you",
     "se": "Vi laddar allt för dig"
+  },
+  "tut-welcome": {
+    "en": "Hi and welcome to Lifeganizer! This tutorial will take you through the website and show you how easy it is to use.",
+    "se": "Hej och välkommen till Lifeganizer! Den här genomgången kommer visa hur enkelt det är att använda hemsidan"
+  },
+  "tut-psst": {
+    "en": "Psst... Click anywhere to continue",
+    "se": "Psst... Klicka var som helst för att fortsätta"
+  },
+  "tut-firstof": {
+    "en": "First of, let's try to add a weather icon to your design.",
+    "se": "Låt oss först lägga till en väderikon till din design"
+  },
+  "tut-try": {
+    "en": "Try it out now!",
+    "se": "Testa det nu!"
+  },
+  "tut-addmore": {
+    "en": "Good job! To add more icons you just drag them from the left side and drop them down where you want them!",
+    "se": "Bra jobbat! För att lägga till fler likoner drar du dem bara från den vänsta sidan och släpper dem var du vill ha dem!"
+  },
+  "tut-high": {
+    "en": "Did you see how more options came up next to the object?",
+    "se": "Såg du hur fler alternativ kom upp bredvid objektet?"
+  },
+  "tut-time": {
+    "en": "Good job! You can also change the size of the weather icon by dragging its' top or left side",
+    "se": "Bra jobbat! Du kan också ändra ikonens storlek genom att dra i dens vänstra- eller nedresida"
+  },
+  "tut-selwe": {
+    "en": "You can do this by selecting 'weather' from the left side of the screen, dragging it to the frame in the middle and then dropping it.",
+    "se": "Du kan göra det genom att välja 'väder' från den vänsta sidan av skärmen, dra den till ramen i mitten och släppa taget av den"
+  },
+  "tut-highlight": {
+    "en": "You can highlight a weather icon by clicking on it. By doing so more options will come up next to the object.",
+    "se": "Du kan markera en väderikon genom att klicka på den. Då kommer fler alternativ komma upp bredvid objektet."
+  },
+  "tut-options": {
+    "en": "With the options you can change for which time of the day you want to show the weather.",
+    "se": "Du kan med alternativen bestämma för vilken tid av dygnet väderikonen ska gestalta"
+  },
+  "tut-finally": {
+    "en": "Finally, you can delete the weather icon by pressing the delete-button in the options that popped up.",
+    "se": "Du kan slutligen radera väderikonen genom att klicka på radera-knappen som fanns bland alterantiven som kom upp"
+  },
+  "tut-last": {
+    "en": "That's pretty much it. Now we'll let you explore the endless possibilites with Lifeganizer!",
+    "se": "Det är i princip allt. Vi ska nu låta dig utforka de nästintill oändliga möjligheterna med Lifeganizer!"
+  },
+  "cancel-tut": {
+    "en": "Skip tutorial",
+    "se": "Hoppa över "
   }
+
+
+
+
+
+
 }

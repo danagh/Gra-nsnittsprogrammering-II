@@ -451,6 +451,35 @@ body {
     background-color: rgba(0, 0, 0, 0.4);
 }
 
+.cancel-tutorial-div {
+    position:absolute;
+    display:inline-block;
+    left:50%;
+    /*border: 1px solid black;*/
+    /*border-radius: 25px;*/
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-top: 4px;
+
+}
+
+.cancel-tutorial {
+    margin      : 0;
+    padding     : 0;
+    border      : 0;
+    background  : transparent;
+    font-family : inherit;
+    font-size   : 1em;
+    cursor      : pointer;
+    display: inline-block;
+    text-decoration: underline;
+    font-size: 16px;
+
+}
+
+.cancel-tutorial:focus {
+    outline:0
+}
 
 .text-bubble {
     max-width: 255px;

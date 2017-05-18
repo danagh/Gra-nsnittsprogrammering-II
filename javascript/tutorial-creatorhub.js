@@ -161,6 +161,25 @@ function createEventHandlers() {
     $(document).on('keypress', '.end-time-input', function() {
         checkInputFieldLength(document.getElementsByClassName('end-time-input')[0]);
     });
+
+    $('.cancel-tutorial-div').on('mouseenter',function(e) {
+        var maxX = $(window).width() - 20 - $(this).width();
+
+        $(this).css({
+            'left': getRandomInt(20, maxX)
+        });
+    });
+
+    $('.cancel-tutorial-div').on('click', function() {
+        if (lang == "se") {
+            window.location.href = "Creator_hub2.html?lang=se";
+        }
+        else window.location.href = "Creator_hub2.html?lang=en";
+    });
+}
+
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 /*
