@@ -263,9 +263,9 @@ function showInputField() {
     // inputField.style.fontSize = currentHighlightedObject.getAttribute('object-height');
     inputField.style.width = currentHighlightedObject.getAttribute('object-width');
     inputField.style.height = currentHighlightedObject.getAttribute('object-height');
-    inputField.style.background = "transparent";
-    inputField.style.color = "white";
-    inputField.style.border = "none";
+    // inputField.style.background = "transparent";
+    // inputField.style.color = "white";
+    // inputField.style.border = "none";
     currentHighlightedObject.appendChild(inputField);
     inputField.focus();
     inputField.select();

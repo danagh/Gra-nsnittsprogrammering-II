@@ -128,12 +128,12 @@
     "se": "Visa för hela dagen?"
   },
   "from-time-place": {
-    "en": "For example '12'",
-    "se": "Till exempel '12'"
+    "en": "E.g. 12",
+    "se": "E.g. 12"
   },
   "end-time-place": {
-    "en": "For example '21'",
-    "se": "Till exempel '21'"
+    "en": "E.g. 21",
+    "se": "E.g. 21"
   },
   "loading-text": {
     "en": "We are loading everything for you",

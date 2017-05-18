@@ -281,9 +281,12 @@ function showOrHideInputOverlay() {
         inputContainer.style.opacity = "0";
 
         var fromTimeDiv = document.createElement('div');
-        fromTimeDiv.className = 'from-time-div';
+        fromTimeDiv.className = 'from-time-div1';
         fromTimeDiv.innerHTML = getText('from-time-explain');
-        fromTimeDiv.innerHTML += "<br>" + getText('from-time');
+
+        var fromTimeDiv2 = document.createElement('div');
+        fromTimeDiv2.className = 'from-time-div';
+        fromTimeDiv2.innerHTML = getText('from-time');
 
         var endTimeDiv = document.createElement('div');
         endTimeDiv.className = 'end-time-div';
@@ -302,6 +305,7 @@ function showOrHideInputOverlay() {
         endTimeInput.setAttribute('placeholder', endTimePlaceholder);
 
         inputContainer.appendChild(fromTimeDiv);
+        inputContainer.appendChild(fromTimeDiv2);
         inputContainer.appendChild(fromTimeInput);
         inputContainer.appendChild(endTimeDiv);
         inputContainer.appendChild(endTimeInput);

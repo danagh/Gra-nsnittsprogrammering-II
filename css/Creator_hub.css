@@ -296,7 +296,7 @@ body {
 }
 
 .highlighted {
-    border: 1px solid rgb(81, 204, 164);
+    border: 2px solid rgb(81, 204, 164);
 }
 
 .delete-div {
@@ -707,18 +707,45 @@ body {
          display: flex;
      }
 
-     .text-message-field {
-         color: transparent;
-         background: white;
-         border:none;
-     }
 
-     .text-message-field:focus {
-         outline: 0;
-     }
  }
 
+ .text-message-field {
+     color: transparent;
+     background: white;
+     border:none;
+ }
 
+ .text-message-field:focus {
+     outline: none;
+     border:none;
+     background: transparent;
+ }
+
+ .from-time-input, .end-time-input {
+     border: 2px solid rgb(81, 204, 164);
+     width: 53px;
+     border-radius: 25px;
+     margin-right: 100px;
+ }
+
+ .from-time-input:focus, .end-time-input:focus {
+     outline:none;
+ }
+
+ .from-time-div, .end-time-div {
+     display: inline-block;
+     margin-right: 5px;
+ }
+
+ .end-time-div {
+     margin-right: 23px;
+ }
+
+ .from-time-div1 {
+     margin-top: 5px;
+     margin-bottom: 10px;
+ }
 
 
 
