@@ -505,7 +505,14 @@ interact('.resize-drag')
     .resizable({
         preserveAspectRatio: true,
         edges: { left: false, right: true, bottom: true, top: false },
-
+        restrict: {
+            resize: 'parent',
+            elementRect: { top: 1, left: 1, bottom: 1, right: 1 }
+        },
+        restrictSize: {
+            min: { width: -600, height: -600 },
+            max: { width:  300, height:  300 }
+        },
         onstart: function(event) {
           previousSize = getPreviousSize(event);
           removeOptionsDiv();
@@ -517,9 +524,22 @@ interact('.resize-drag')
                  y = (parseFloat(target.getAttribute('data-yy')) || 0);
 
             // update the element's style
-            target.style.width  = event.rect.width + 'px';
-            target.style.height = event.rect.height + 'px';
+            console.log(event.rect.width);
+            if(event.rect.width > 300) {
+                target.style.width = '300px';
+            }
+            else target.style.width  = event.rect.width + 'px';
+
+            if (event.rect.height > 300) {
+                target.style.height = '300px';
+            }
+            else target.style.height = event.rect.height + 'px';
+
             target.style.fontSize = event.rect.height/3 + 'px';
+
+
+
+
 
             // translate when resizing from top or left edges
             x += event.deltaRect.left;
@@ -546,7 +566,7 @@ interact('.resize-drag')
             addToUndoArray(target.id, "resizedObject", target.getAttribute('top'), target.getAttribute('left'), target.getAttribute('object-style'), target.getAttribute('weather-time'), previousWidth, previousHeight, target.getAttribute('object-font'), "noMessage");
 
             updateObjectSize(target, currentWidth, currentHeight);
-        }
+        },
     });
 
 
