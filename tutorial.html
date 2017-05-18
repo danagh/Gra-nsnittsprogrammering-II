@@ -2,22 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Tutorial</title>
+    <title>Lifeganizer tutorial</title>
 
-    <link rel="stylesheet" href="css/Creator_hub.css">
+    <link rel="stylesheet" href="css/tutorial.css">
     <link rel="stylesheet" href="css/select2.css">
     <link rel="stylesheet" href="css/fonts.css">
-    <!--<link rel="stylesheet" href="css/weatherpack1.css">-->
+    <link rel="stylesheet" href="css/weatherpack1.css">
+    <link rel="stylesheet" href="css/font-awesome.css">
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"
             integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
             crossorigin="anonymous"></script>
     <script src="javascript/jquery.js"></script>
     <script src="javascript/select2.full.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
     <script src="javascript/fonts.js"></script>
     <script src="javascript/anime.min.js"></script>
-    <script src="javascript/tutorial.js"></script>
-    <!--<script src="http://code.interactjs.io/v1.2.6/interact.js"></script>-->
+    <!--<script src="javascript/tutorial.js"></script>-->
+    <script src="javascript/interact.js"></script>
+    <script src="javascript/Chart.bundle.js"></script>
     <script type='text/javascript' >
         //        initiate global variables
         var tutorialClicks = 0;
@@ -37,23 +39,30 @@
         var objectFontArray = [];
         var WebFontConfig;
         var objectTextMessages = [];
+        var showSecondsArray = [];
+        var clockTimer;
+        var dateTimer;
+        var undoArray = [];
+        var redoArray = [];
+        var previousPosition = [];
+        var previousSize = [];
     </script>
     <script type="text/javascript">
         var fontFamilies2 = [];
-        //        console.log(fontFamilies2);
     </script>
 
-
-    <script src="javascript/tutorial-creatorhub.js"></script>
-    <script src="javascript/temperature.js"></script>
     <script src="javascript/translator.js"></script>
-
+    <script src="javascript/tutorial-creatorhub.js"></script>
+    <script src="javascript/tutorial.js"></script>
+    <script src="javascript/temperature.js"></script>
+    <script src="javascript/clock-and-date.js"></script>
+    <script src="javascript/undo-redo.js"></script>
+    <script src="javascript/temp-graphs.js"></script>
 
     <link href="https://fonts.googleapis.com/css?family=Lobster|Open+Sans:400,600" rel="stylesheet">
 </head>
+
 <body>
-
-
 <div class = "overlay eventClickable" id="o1">
 </div>
 <div class = "overlay eventClickable" id="o2">
@@ -66,10 +75,8 @@
 </div>
 <div class = "overlay eventClickable" id="o6">
 </div>
-
 <div class = "overlay eventClickable" id="o0">
 </div>
-
 
 <div class="header" id="top">
     <a href="#" title="Go to the main page">
@@ -80,11 +87,17 @@
             <h1 class="logout text-translate" data-translate-key="logout"></h1>
         </a>
     </div>
+
+    <script>
+        document.write("<a href=" + langRef(langSwap()) + ">" + "<button type = 'button' class='language text-translate' data-translate-key='lang-swap'></button></a>")
+    </script>
+
 </div>
+
 <div class="main">
     <div class="left-side">
         <div class="user-categories">
-            <button class="dropbtn text-translate" data-translate-key="dropdown-button"></button>
+            <!--button class="dropbtn text-translate" data-translate-key="dropdown-button"></button-->
             <div class="dropdown-content">
                 <button class="weather dropoption">Weather</button>
                 <button class="calendar dropoption">Calendar</button>
@@ -95,7 +108,7 @@
         <div class="drag-window" id="scroll">
             <div class="weather-options">
                 <!--<div class="weather-option text-translate" data-translate-key="weather">-->
-                <div class="weather-option">Weather
+                <div class="weather-option text-translate" data-translate-key="weather">
                     <div class="hidden-options">
 
                         <div class="icon sunny">
@@ -105,6 +118,7 @@
                         </div>
 
                         <div class="icon cloudy">
+                            <div class="cloud"></div>
                             <div class="cloud"></div>
                         </div>
 
@@ -138,7 +152,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="weather-option">Temperature
+                <div class="weather-option text-translate" data-translate-key="temperature">
                     <div class="hidden-options">
                         <div class="icon sunny">
                             <div class="sun-still">
@@ -147,7 +161,34 @@
                         </div>
                     </div>
                 </div>
-                <div class="weather-option">Text
+                <div class="weather-option text-translate" data-translate-key="text">
+                    <div class="hidden-options">
+                        <div class="icon sunny">
+                            <div class="sun-still">
+                                <div class="rays"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="weather-option text-translate" data-translate-key="time">
+                    <div class="hidden-options">
+                        <div class="icon sunny">
+                            <div class="sun-still">
+                                <div class="rays"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="weather-option text-translate" data-translate-key="date">
+                    <div class="hidden-options">
+                        <div class="icon sunny">
+                            <div class="sun-still">
+                                <div class="rays"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="weather-option text-translate" data-translate-key="weather-graph">
                     <div class="hidden-options">
                         <div class="icon sunny">
                             <div class="sun-still">
@@ -165,40 +206,23 @@
             </div>
         </div>
     </div>
-    <div class="middle-side eventClickable" ondrop="drop(event, this)" ondragover="dragOver(event)">
+    <div class="middle-side eventClickable" id="mirror" ondrop="drop(event, this)" ondragover="dragOver(event)">
+        <div class="undo-div">
+            <button class="undo-button">
+                <i class="fa fa-undo undo-image" aria-hidden="true" style="color:white"></i>
+            </button>
+        </div>
+        <div class="redo-div">
+            <button class="redo-button">
+                <i class="fa fa-repeat undo-image" aria-hidden="true" style="color:white"></i>
+            </button>
+        </div>
 
-        <!--<select id="select_fontfamily"></select>-->
-        <!--<p style="font-size: 20px;">This is the preview of the font selected</p>-->
-        <!--<script type="text/javascript">-->
-        <!--$(document).ready(function() {-->
-
-        <!--$( "#select_fontfamily" ).higooglefonts({-->
-        <!--selectedCallback:function(e){-->
-        <!--console.log(e);-->
-        <!--},-->
-        <!--loadedCallback:function(e){-->
-        <!--console.log(e);-->
-        <!--$("p").css("font-family", e);-->
-        <!--}-->
-        <!--});-->
-
-        <!--});-->
-
-        <!--</script>-->
     </div>
 
-    <div class="right-side">
-        <select class="weather-choose-time">
-            <!--<option selected="selected" value="current-time">Current Time</option>-->
-            <!--<option value="morning">Morning</option>-->
-            <!--<option value="midday">Midday</option>-->
-            <!--<option value="afternoon">Afternoon</option>-->
-            <!--<option value="evening">Evening</option>-->
-        </select>
+    <div class="right-side" >
 
-        <div class="delete-button clickable text-translate" data-translate-key="delete-button"></div>
     </div>
-
 </div>
 </body>
 </html>

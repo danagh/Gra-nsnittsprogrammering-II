@@ -4,6 +4,7 @@ Add and animate an overlay that sweeps through the whole screen. Then remove it 
 smaller overlays that takes up different places of the screen so that they can be moved and animated
 differently.
  */
+
 function createWholeOverlay() {
     for (var i=1; i < 7; i++) {
         var overlayi = document.getElementById("o" + i);
@@ -23,7 +24,7 @@ function createWholeOverlay() {
 
 function addWelcomingMessage() {
     var textbubble = document.createElement('div');
-    textbubble.className ='text-bubble right';
+    textbubble.className ='text-bubble-tutorial right';
     textbubble.style.opacity = "0";
     // textbubble.style.display = "none";
     document.getElementById("o0").appendChild(textbubble);
@@ -62,7 +63,7 @@ function psstMessage() {
     welcomingPar.style.opacity= "0";
     var psstText = "Psst... Click anywhere to continue";
 
-    var textbubble = document.getElementsByClassName('text-bubble')[0];
+    var textbubble = document.getElementsByClassName('text-bubble-tutorial')[0];
 
     var animateBubble = anime({
        targets: textbubble,
@@ -89,7 +90,8 @@ This function takes a message as a input, together with the bubble's size and an
 it accordingly.
  */
 function showNewMessageAndAnimateBubble(message, bubbleHeight, bubbleWidth) {
-    var textbubble = document.getElementsByClassName('text-bubble')[0];
+    var textbubble = document.getElementsByClassName('text-bubble-tutorial')[0];
+
     var textPar = document.getElementsByClassName("welcoming-par")[0];
     textPar.style.opacity = "0";
 
@@ -135,7 +137,7 @@ This animation needs its own function since it moves the text bubble as well
 as changes its' size.
  */
 function showFirstMessage() {
-    var textbubble = document.getElementsByClassName('text-bubble')[0];
+    var textbubble = document.getElementsByClassName('text-bubble-tutorial')[0];
     var textPar = document.getElementsByClassName("welcoming-par")[0];
     var dragNDropMessage = "First of, let's try to add a weather icon to your design. ";
     textPar.innerHTML = dragNDropMessage;
@@ -175,7 +177,7 @@ function tryItOutNow() {
     $('.middle-side').removeClass('eventClickable');
 
 
-    var textbubble = document.getElementsByClassName('text-bubble')[0];
+    var textbubble = document.getElementsByClassName('text-bubble-tutorial')[0];
     var textPar = document.getElementsByClassName("welcoming-par")[0];
     var dragNDropMessage3 = "Try it out now!";
 
@@ -184,8 +186,8 @@ function tryItOutNow() {
 
     var animateBubble = anime({
         targets: textbubble,
-        height: '60px',
-        width: '100px',
+        height: '80px',
+        width: '150px',
         easing: 'easeInOutCubic'
     });
 
@@ -204,8 +206,20 @@ function tryItOutNow() {
         var timeOut = setTimeout(addWeatherAndOpenUpDivs, 2000);
     }
 
+
+    else if(tryItCalls == 2) {
+        var timeOut = setTimeout(function() {
+            anime({
+               targets:textbubble,
+                opacity: 0,
+                easing: 'easeInOutQuart'
+            });
+        }, 2500)
+    }
+
+
     else if (tryItCalls == 3) {
-        var timeOut = setTimeout(openUpRightSideDivs, 2000);
+        var timeOut = setTimeout(openUpOptionsDiv, 2000);
     }
 
 
@@ -217,7 +231,7 @@ try out a specific action.
  */
 function addWeatherAndOpenUpDivs() {
     console.log('addweather');
-    var textbubble = document.getElementsByClassName('text-bubble')[0];
+    var textbubble = document.getElementsByClassName('text-bubble-tutorial')[0];
     textbubble.remove();
     var overlay = document.getElementById('o0');
     overlay.style.display = "none";
@@ -227,20 +241,23 @@ function addWeatherAndOpenUpDivs() {
 
     var animateUpperDiv = anime({
        targets: upperDivLeft,
-        height: '12.5%'
+        height: '6px',
+        easing: 'easeInOutCubic'
     });
 
     var animateLowerDiv = anime({
        targets: lowerDivLeft,
-        top: '18%',
-        height: '82%'
+        top: '82px',
+        height: '100%',
+        easing: 'easeInOutCubic'
     });
 
     var middleDiv = document.getElementById('o4');
 
     var animateMiddleDiv = anime({
        targets: middleDiv,
-        height: '9.9%'
+        height: '0',
+        easing: 'easeInOutCubic'
     });
 }
 
@@ -256,7 +273,7 @@ function afterDroppingWeatherObject() {
     $('.middle-side').addClass('eventClickable');
 
     var textbubble = document.createElement('div');
-    textbubble.className ='text-bubble right';
+    textbubble.className ='text-bubble-tutorial right';
     textbubble.style.opacity = "1  ";
     // textbubble.style.display = "none";
     document.getElementsByClassName("middle-side")[0].appendChild(textbubble);
@@ -267,7 +284,7 @@ function afterDroppingWeatherObject() {
         translateY: 40,
         opacity: 1,
         width: '300px',
-        height: '90px',
+        height: '145px',
         // display: 'block',
         easing: 'easeInOutQuart'
 
@@ -298,19 +315,35 @@ function firstHighlight() {
     });
     $('.middle-side').addClass('eventClickable');
 
-    var textbubble = document.getElementsByClassName('text-bubble')[0];
-    var textPar = document.getElementsByClassName("welcoming-par")[0];
+    console.log("first highlight");
 
-    var dragNDropMessage4 = "Did you see how more options came up on the right side?";
+    // var textbubble = document.createElement('div');
+    // textbubble.className = 'text-bubble-tutorial right';
+    // document.getElementsByClassName('middle-side')[0].appendChild(textbubble);
 
-    textPar.style.opacity = "0";
+    var textbubble = document.getElementsByClassName('text-bubble-tutorial')[0];
+    // var timeout = setTimeout(function () {
+    //     textbubble.style.opacity = "1";
+    // }, 3000);
 
     anime({
         targets: textbubble,
-        height: '110px',
-        width: '150px',
+         translateX: 400,
+         translateY: 500,
+        opacity: 1,
+        height: '130px',
+        width: '200px',
         easing: 'easeInOutQuart'
     });
+
+    // var textPar = document.createElement('p');
+    // textPar.className = "welcoming-par";
+    // textPar.appendChild(textbubble);
+    var textPar = document.getElementsByClassName('welcoming-par')[0];
+
+    var dragNDropMessage4 = "Did you see how more options came up next to the object?";
+
+    textPar.style.opacity = "0";
 
     anime({
         targets: textPar,
@@ -325,14 +358,15 @@ function firstHighlight() {
 This function is called so that the option-side of the screen on the right side is
 "openeed up" and the grey out boxes are removed.
  */
-function openUpRightSideDivs() {
-    var textbubble = document.getElementsByClassName('text-bubble')[0];
+function openUpOptionsDiv() {
+    var textbubble = document.getElementsByClassName('text-bubble-tutorial')[0];
     textbubble.remove();
-    var rightUpper = document.getElementById('o5');
+    var overlay = document.getElementsByClassName('text-bubble-overlay')[0];
 
     var animateUpperDiv = anime({
-        targets: rightUpper,
-        height: '9.9%'
+        targets: overlay,
+        height: '0px',
+        easing: 'easeInOutQuart'
     });
 }
 
@@ -349,7 +383,7 @@ function afterChangeWeatherTime() {
 
 
     var textbubble = document.createElement('div');
-    textbubble.className ='text-bubble right';
+    textbubble.className ='text-bubble-tutorial right';
     textbubble.style.opacity = "1  ";
     // textbubble.style.display = "none";
     document.getElementsByClassName("middle-side")[0].appendChild(textbubble);
@@ -360,14 +394,14 @@ function afterChangeWeatherTime() {
         translateY: 40,
         opacity: 1,
         width: '300px',
-        height: '90px',
+        height: '120px',
         // display: 'block',
         easing: 'easeInOutQuart'
 
     });
     var welcomingPar = document.createElement('p');
     welcomingPar.className = "welcoming-par";
-    var welcomingText = "Good job! You can also change the size of the weather icon by dragging its' corner.";
+    var welcomingText = "Good job! You can also change the size of the weather icon by dragging its' top or left side";
 
     welcomingPar.innerHTML = welcomingText;
     welcomingPar.style.opacity ="0";
@@ -379,6 +413,7 @@ function afterChangeWeatherTime() {
         delay: 1000
     });
 }
+
 
 function tutorialEventHandlers() {
     $(document).on('click', '.cancel-tutorial', function() {
@@ -400,7 +435,7 @@ function tutorialEventHandlers() {
             else if(tutorialClicks == 2) {
                 // showFirstMessageSecond();
                 showNewMessageAndAnimateBubble("You can do this by selecting 'weather' from the left side of the screen," +
-                    " dragging it to the frame in the middle and then dropping it.", '120', null);
+                    " dragging it to the frame in the middle and then dropping it.", '165', null);
             }
 
             else if (tutorialClicks == 3) {
@@ -408,8 +443,10 @@ function tutorialEventHandlers() {
             }
             else if (tutorialClicks == 4) {
                 // showSecondMessage();
+                //console.log("fourth tutorial click");
+                //createAnotherMessage();
                 showNewMessageAndAnimateBubble("You can highlight a weather icon by clicking on it. By" +
-                    " doing so more options comes up on the right side of the screen.", '120', null);
+                    " doing so more options comes up on the right side of the screen.", '150', null);
             }
             else if (tutorialClicks ==5) {
                 tryItOutNow();
@@ -417,7 +454,7 @@ function tutorialEventHandlers() {
             else if (tutorialClicks ==6) {
                 // showSecondMessageSecond();
                 showNewMessageAndAnimateBubble("With the options you can change for which time of the day you want to" +
-                    " show the weather.", '110', '220');
+                    " show the weather.", '150', '220');
             }
             else if (tutorialClicks == 7) {
                 tryItOutNow();
@@ -425,13 +462,13 @@ function tutorialEventHandlers() {
             else if (tutorialClicks == 8) {
                 // showThirdMessage();
                 showNewMessageAndAnimateBubble("Finally, you can delete the weather icon by pressing" +
-                    " the delete-button on the right side of the screen.", '110', '240');
+                    " the delete-button in the options that popped up.", '150', '240');
             }
 
             else if (tutorialClicks == 9) {
                 // showFinalMessage();
                 showNewMessageAndAnimateBubble("That's pretty much it. Now we'll let you explore the endless possibilites" +
-                    " with Lifeganizer!", '110', '240');
+                    " with Lifeganizer!", '160', '240');
             }
             else if (tutorialClicks == 10) {
                 window.location.href = "Creator_hub2.html?lang=en";

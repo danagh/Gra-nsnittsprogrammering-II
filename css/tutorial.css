@@ -1,11 +1,11 @@
- /* =============================================================================
-      HTML, BODY
-    ============================================================================= */
+/* =============================================================================
+     HTML, BODY
+   ============================================================================= */
 
- @font-face {
-     font-family: "FontAwesome";
-     src: url("../fonts/fontawesome-webfont.ttf");
- }
+@font-face {
+    font-family: "FontAwesome";
+    src: url("../fonts/fontawesome-webfont.ttf");
+}
 
 body {
     display: flex;
@@ -201,21 +201,21 @@ body {
     left: 90%;
 }
 
- .language {
-     vertical-align: top;
-     position:fixed;
-     height:40px;
-     margin: 5px 5px 0 0;
-     font-size: 18px;
-     border: none;
-     border-radius: 5px;
-     overflow: hidden;
-     color: white;
-     padding: 0;
-     cursor:pointer;
-     left: 80%;
-     left: calc(100% - 200px);
- }
+.language {
+    vertical-align: top;
+    position:fixed;
+    height:40px;
+    margin: 5px 5px 0 0;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    overflow: hidden;
+    color: white;
+    padding: 0;
+    cursor:pointer;
+    left: 80%;
+    left: calc(100% - 200px);
+}
 
 .header-text {
     color:black;
@@ -231,54 +231,54 @@ body {
     text-decoration: none;
     color: black;
 }
- .undo-div {
-     background-color: transparent;
-     display: inline-block;
-     position: absolute;
-     margin-right: 2vh;
-     float: right;
-     margin-top: 3%;
-     right: 5%;
+.undo-div {
+    background-color: transparent;
+    display: inline-block;
+    position: absolute;
+    margin-right: 2vh;
+    float: right;
+    margin-top: 3%;
+    right: 5%;
 
- }
- .redo-div {
-     display: inline-block;
-     background-color: transparent;
-     position: absolute;
-     margin-right: 2vh;
-     float: right;
-     margin-top: 3%;
-     right: 0;
- }
+}
+.redo-div {
+    display: inline-block;
+    background-color: transparent;
+    position: absolute;
+    margin-right: 2vh;
+    float: right;
+    margin-top: 3%;
+    right: 0;
+}
 
- .undo-button, .redo-button {
-     margin      : 0;
-     padding     : 0;
-     border      : 0;
-     background  : transparent;
-     font-family : inherit;
-     font-size   : 1em;
-     cursor      : pointer;
- }
+.undo-button, .redo-button {
+    margin      : 0;
+    padding     : 0;
+    border      : 0;
+    background  : transparent;
+    font-family : inherit;
+    font-size   : 1em;
+    cursor      : pointer;
+}
 
- .undo-button:active,  .redo-button:active {
-     outline: none;
-     border: 1px solid rgb(81, 204, 164);
+.undo-button:active,  .redo-button:active {
+    outline: none;
+    border: 1px solid rgb(81, 204, 164);
 
- }
+}
 
 .undo-image:hover {
     color: rgb(81, 255, 24);
 }
 
- .undo-button:hover, .redo-button:hover {
-     cursor: pointer;
- }
+.undo-button:hover, .redo-button:hover {
+    cursor: pointer;
+}
 
- .undo-button:focus, .redo-button:focus  {
-     outline:0;
-     /*color: rgb(81, 255, 24);*/
- }
+.undo-button:focus, .redo-button:focus  {
+    outline:0;
+    /*color: rgb(81, 255, 24);*/
+}
 
 .logout {
     color:black;
@@ -327,18 +327,12 @@ body {
 }
 
 .delete-button:focus {
-     outline:0;
+    outline:0;
 }
 
 .weather-choose-time {
-    background-color: #f7f7f7;
-    border: 1px solid #aaa;
-    border-radius: 4px;
-    outline: 0;
-    background-image: -webkit-linear-gradient(top, white 50%, #eeeeee 100%);
-    background-image: -o-linear-gradient(top, white 50%, #eeeeee 100%);
-    background-image: linear-gradient(to bottom, white 50%, #eeeeee 100%);
-
+    margin-left: 15px;
+    margin-top: 15px;
 }
 
 .outer-div {
@@ -475,121 +469,15 @@ body {
     border-radius: 25px;
 }
 
- .text-bubble-tutorial {
-     max-width: 255px;
-     word-wrap: break-word;
-     margin-bottom: 20px;
-     line-height: 24px;
-     display: inline-block;
- }
- .text-bubble-tutorial.right {
-     position: relative;
-     padding: 10px 20px;
-     background: #E5E5EA;
-     border-radius: 25px;
-     color: black;
-     float: left;
- }
-
-
- .text-bubble-tutorial.right:before {
-     content:"";
-     position:absolute;
-     z-index: 0;
-     bottom:-2px;
-     left:-7px;
-     height:20px;
-     border-left:20px solid #E5E5EA;
-     border-bottom-right-radius: 16px 14px;
-     -webkit-transform:translate(0, -2px);
- }
-
- .text-bubble-tutorial.right:after {
-     content:"";
-     position:absolute;
-     z-index:1;
-     bottom:-2px;
-     left:4px;
-     width:26px;
-     height:20px;
-     background: rgba(137, 153, 147, 1);
-     border-bottom-right-radius: 10px;
-     -webkit-transform:translate(-30px, -2px);
- }
-
-
-.text-bubble.left {
-    position:absolute;
-    padding:10px 20px;
-    color:black;
-    background:#E5E5EA;
-    border-radius:25px;
-    float: right;
+.text-bubble-tutorial {
+    max-width: 255px;
+    word-wrap: break-word;
+    margin-bottom: 20px;
+    line-height: 24px;
+    display: inline-block;
 }
-
-.text-bubble.left:before {
-         content:"";
-         position:absolute;
-         z-index:0;
-         bottom:-2px;
-         right:-7px;
-         height:20px;
-         border-right:20px solid #E5E5EA;
-         border-bottom-left-radius: 16px 14px;
-         -webkit-transform:translate(0, -2px);
-     }
-
-.text-bubble.left:after {
-          content:"";
-          position:absolute;
-          z-index:1;
-          bottom:-2px;
-          right:-56px;
-          width:26px;
-          height:20px;
-          background: rgba(137, 153, 147, 1);
-    /*opacity: 1;*/
-          border-bottom-left-radius: 10px;
-          -webkit-transform:translate(-30px, -2px);
-}
-
- .text-bubble.left-top {
-     position:absolute;
-     padding:10px 20px;
-     color:black;
-     background:#E5E5EA;
-     border-radius:25px;
-     float: right;
- }
-
- .text-bubble.left-top:before {
-     content:"";
-     position:absolute;
-     z-index:0;
-     bottom:200px;
-     right:-7px;
-     height:20px;
-     border-right:20px solid #E5E5EA;
-     border-bottom-left-radius: 16px 14px;
-     -webkit-transform:translate(0, -2px);
- }
-
- .text-bubble.left-top:after {
-     content:"";
-     position:absolute;
-     z-index:1;
-     bottom:200px;
-     right:-56px;
-     width:26px;
-     height:20px;
-     background: rgba(137, 153, 147, 1);
-     /*opacity: 1;*/
-     border-bottom-left-radius: 10px;
-     -webkit-transform:translate(-30px, -2px);
- }
-
-.text-bubble.right {
-    position: absolute;
+.text-bubble-tutorial.right {
+    position: relative;
     padding: 10px 20px;
     background: #E5E5EA;
     border-radius: 25px;
@@ -597,64 +485,170 @@ body {
     float: left;
 }
 
+
+.text-bubble-tutorial.right:before {
+    content:"";
+    position:absolute;
+    z-index: 0;
+    bottom:-2px;
+    left:-7px;
+    height:20px;
+    border-left:20px solid #E5E5EA;
+    border-bottom-right-radius: 16px 14px;
+    -webkit-transform:translate(0, -2px);
+}
+
+.text-bubble-tutorial.right:after {
+    content:"";
+    position:absolute;
+    z-index:1;
+    bottom:-2px;
+    left:4px;
+    width:26px;
+    height:20px;
+    background: rgba(137, 153, 147, 1);
+    border-bottom-right-radius: 10px;
+    -webkit-transform:translate(-30px, -2px);
+}
+
+
+.text-bubble.left {
+    position:absolute;
+    /*padding:10px 20px;*/
+    color:black;
+    background:#E5E5EA;
+    border-radius:25px;
+    float: right;
+}
+
+.text-bubble.left:before {
+    content:"";
+    position:absolute;
+    z-index:0;
+    bottom:-2px;
+    right:-7px;
+    height:20px;
+    border-right:20px solid #E5E5EA;
+    border-bottom-left-radius: 16px 14px;
+    -webkit-transform:translate(0, -2px);
+}
+
+.text-bubble.left:after {
+    content:"";
+    position:absolute;
+    z-index:1;
+    bottom:-2px;
+    right:-56px;
+    width:26px;
+    height:20px;
+    background: rgba(137, 153, 147, 1);
+    /*opacity: 1;*/
+    border-bottom-left-radius: 10px;
+    -webkit-transform:translate(-30px, -2px);
+}
+
+.text-bubble.left-top {
+    position:absolute;
+    /*padding:10px 20px;*/
+    color:black;
+    background:#E5E5EA;
+    border-radius:25px;
+    float: right;
+}
+
+.text-bubble.left-top:before {
+    content:"";
+    position:absolute;
+    z-index:0;
+    bottom:200px;
+    right:-7px;
+    height:20px;
+    border-right:20px solid #E5E5EA;
+    border-bottom-left-radius: 16px 14px;
+    -webkit-transform:translate(0, -2px);
+}
+
+.text-bubble.left-top:after {
+    content:"";
+    position:absolute;
+    z-index:1;
+    bottom:200px;
+    right:-56px;
+    width:26px;
+    height:20px;
+    background: rgba(137, 153, 147, 1);
+    /*opacity: 1;*/
+    border-bottom-left-radius: 10px;
+    -webkit-transform:translate(-30px, -2px);
+}
+
+.text-bubble.right {
+    position: absolute;
+    /*padding: 10px 20px;*/
+    background: #E5E5EA;
+    border-radius: 25px;
+    color: black;
+    float: left;
+}
+
 .text-bubble.right:before {
-     content:"";
-     position:absolute;
-     z-index: 0;
-     bottom:-2px;
-     left:-7px;
-     height:20px;
-     border-left:20px solid #E5E5EA;
-     border-bottom-right-radius: 16px 14px;
-     -webkit-transform:translate(0, -2px);
+    content:"";
+    position:absolute;
+    z-index: 0;
+    bottom:-2px;
+    left:-7px;
+    height:20px;
+    border-left:20px solid #E5E5EA;
+    border-bottom-right-radius: 16px 14px;
+    -webkit-transform:translate(0, -2px);
 }
 
 .text-bubble.right:after {
-     content:"";
-     position:absolute;
-     z-index:1;
-     bottom:-2px;
-     left:4px;
-     width:26px;
-     height:20px;
-     background: rgba(137, 153, 147, 1);
-     border-bottom-right-radius: 10px;
-     -webkit-transform:translate(-30px, -2px);
+    content:"";
+    position:absolute;
+    z-index:1;
+    bottom:-2px;
+    left:4px;
+    width:26px;
+    height:20px;
+    background: rgba(137, 153, 147, 1);
+    border-bottom-right-radius: 10px;
+    -webkit-transform:translate(-30px, -2px);
 }
 
- .text-bubble.right-top {
-     position: absolute;
-     padding: 10px 20px;
-     background: #E5E5EA;
-     border-radius: 25px;
-     color: black;
-     float: left;
- }
+.text-bubble.right-top {
+    position: absolute;
+    /*padding: 10px 20px;*/
+    background: #E5E5EA;
+    border-radius: 25px;
+    color: black;
+    float: left;
+}
 
- .text-bubble.right-top:before {
-     content:"";
-     position:absolute;
-     z-index: 0;
-     bottom: 200px;
-     left:-7px;
-     height:20px;
-     border-left:20px solid #E5E5EA;
-     border-bottom-right-radius: 16px 14px;
-     -webkit-transform:translate(0, -2px);
- }
+.text-bubble.right-top:before {
+    content:"";
+    position:absolute;
+    z-index: 0;
+    bottom: 200px;
+    left:-7px;
+    height:20px;
+    border-left:20px solid #E5E5EA;
+    border-bottom-right-radius: 16px 14px;
+    -webkit-transform:translate(0, -2px);
+}
 
- .text-bubble.right-top:after {
-     content:"";
-     position:absolute;
-     z-index:1;
-     bottom:200px;
-     left:4px;
-     width:26px;
-     height:20px;
-     background: rgba(137, 153, 147, 1);
-     border-bottom-right-radius: 10px;
-     -webkit-transform:translate(-30px, -2px);
- }
+.text-bubble.right-top:after {
+    content:"";
+    position:absolute;
+    z-index:1;
+    bottom:200px;
+    left:4px;
+    width:26px;
+    height:20px;
+    background: rgba(137, 153, 147, 1);
+    border-bottom-right-radius: 10px;
+    -webkit-transform:translate(-30px, -2px);
+}
 
 
 .resize-drag {
@@ -673,142 +667,142 @@ body {
 }
 /* show when a object is marked and beeing draged*/
 
- .resize-drag:active{
-     opacity: 0.5;
- }
+.resize-drag:active{
+    opacity: 0.5;
+}
 
 .resize-container {
     width: 100%;
     height: 240px;
 }
 
- /* =============================================================================
-     Checkbox
-    ============================================================================= */
-
- .second-chooser-div {
-     display: none;
-     margin-top: 10px;
- }
- .second-chooser-div-text {
-     display: inline-block
- }
-
- .line-time-container {
-     display: none;
- }
-
- .time-overlay {
-     background-color: rgba(0,0,0,0.4);
-     opacity: 0;
-     position: absolute;
-     top: 12%;
-     bottom: 0;
-     left: 0;
-     right: 0;
-     height: 60%;
-     z-index: 500;
- }
-
- /* =============================================================================
-    Options menu
+/* =============================================================================
+    Checkbox
    ============================================================================= */
 
+.second-chooser-div {
+    display: none;
+    margin-top: 10px;
+}
+.second-chooser-div-text {
+    display: inline-block
+}
 
- /* =============================================================================
-   Media - bör vara längst ner
- ============================================================================= */
+.line-time-container {
+    display: none;
+}
 
- @media all and (max-width: 1000px) {
-     .left-side {
-         width: 0;
-         min-width: 0;
-         overflow: hidden;
-     }
+.time-overlay {
+    background-color: rgba(0,0,0,0.4);
+    opacity: 0;
+    position: absolute;
+    top: 12%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60%;
+    z-index: 500;
+}
 
-     .right-side {
-         width: 0;
-         min-width: 0;
-         overflow: hidden;
-     }
-
-     .middle-side {
-     }
-
-     /* =============================================================================
-     Dropdown
-    ============================================================================= */
-     .drag-window {
-         display: flex;
-         position: absolute;
-         top: 7vh;
-         z-index: 2;
-         height: 30px;
-         width: 30px;
-         background-color: white;
-         margin-left: 2vh;
-     }
-
-     .weather-options {
-         display: none;
-         background-color: white;
-         margin-top: 0;
-     }
-
-     .weather-option {
-         height: 20px;
-     }
-
-     .drag-window:hover {
-         height: 240px;
-         width: 130px;
-         opacity: 0.5;
-         overflow-y: scroll;
-     }
-
-     .drag-window:hover .weather-options {
-         display: flex;
-     }
+/* =============================================================================
+   Options menu
+  ============================================================================= */
 
 
- }
+/* =============================================================================
+  Media - bör vara längst ner
+============================================================================= */
 
- .text-message-field {
-     color: white;
-     background: transparent;
-     border:none;
- }
+@media all and (max-width: 1000px) {
+    .left-side {
+        width: 0;
+        min-width: 0;
+        overflow: hidden;
+    }
 
- .text-message-field:focus {
-     outline: none;
-     border:none;
-     background: transparent;
- }
+    .right-side {
+        width: 0;
+        min-width: 0;
+        overflow: hidden;
+    }
 
- .from-time-input, .end-time-input {
-     border: 2px solid rgb(81, 204, 164);
-     width: 53px;
-     border-radius: 25px;
-     margin-right: 100px;
- }
+    .middle-side {
+    }
 
- .from-time-input:focus, .end-time-input:focus {
-     outline:none;
- }
+    /* =============================================================================
+    Dropdown
+   ============================================================================= */
+    .drag-window {
+        display: flex;
+        position: absolute;
+        top: 7vh;
+        z-index: 2;
+        height: 30px;
+        width: 30px;
+        background-color: white;
+        margin-left: 2vh;
+    }
 
- .from-time-div, .end-time-div {
-     display: inline-block;
-     margin-right: 5px;
- }
+    .weather-options {
+        display: none;
+        background-color: white;
+        margin-top: 0;
+    }
 
- .end-time-div {
-     margin-right: 23px;
- }
+    .weather-option {
+        height: 20px;
+    }
 
- .from-time-div1 {
-     margin-top: 5px;
-     margin-bottom: 10px;
- }
+    .drag-window:hover {
+        height: 240px;
+        width: 130px;
+        opacity: 0.5;
+        overflow-y: scroll;
+    }
+
+    .drag-window:hover .weather-options {
+        display: flex;
+    }
+
+
+}
+
+.text-message-field {
+    color: white;
+    background: transparent;
+    border:none;
+}
+
+.text-message-field:focus {
+    outline: none;
+    border:none;
+    background: transparent;
+}
+
+.from-time-input, .end-time-input {
+    border: 2px solid rgb(81, 204, 164);
+    width: 53px;
+    border-radius: 25px;
+    margin-right: 100px;
+}
+
+.from-time-input:focus, .end-time-input:focus {
+    outline:none;
+}
+
+.from-time-div, .end-time-div {
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.end-time-div {
+    margin-right: 23px;
+}
+
+.from-time-div1 {
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
 
 
 
