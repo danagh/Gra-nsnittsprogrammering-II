@@ -280,7 +280,7 @@ function afterDroppingWeatherObject() {
 
     var animateBubble = anime({
         targets:textbubble,
-        translateX: 400,
+        translateX: 300,
         translateY: 40,
         opacity: 1,
         width: '300px',
@@ -328,7 +328,7 @@ function firstHighlight() {
 
     anime({
         targets: textbubble,
-         translateX: 400,
+         translateX: 350,
          translateY: 500,
         opacity: 1,
         height: '130px',
@@ -390,7 +390,7 @@ function afterChangeWeatherTime() {
 
     var animateBubble = anime({
         targets:textbubble,
-        translateX: 400,
+        translateX: 300,
         translateY: 40,
         opacity: 1,
         width: '300px',

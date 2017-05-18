@@ -392,18 +392,18 @@ body {
     top:50px;
     display:none;
     position: fixed;
-    width: 11.3%;
+    width: 0%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.4);
-    /*z-index: 1000;*/
 }
 
 #o2 {
     top:50px;
     display:none;
     position: fixed;
-    left: 11.3%;
-    width: 13.4%;
+    width: calc(25vw + 7px);
+    max-width: 207px;
+    min-width: 157px;
     height: 43.6%;
     background-color: rgba(0, 0, 0, 0.4);
     /*z-index: 1000;*/
@@ -412,9 +412,10 @@ body {
 #o3 {
     display:none;
     position: fixed;
-    left:11.3%;
+    width: calc(25vw + 7px);
+    max-width: 207px;
+    min-width: 157px;
     top: 50%;
-    width: 13.4%;
     height: 50%;
     background-color: rgba(0, 0, 0, 0.4);
     /*z-index: 1000;*/
@@ -425,7 +426,7 @@ body {
     position: fixed;
     top:50px;
     left: 24.8%;
-    width: 50.5%;
+    width: 0%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.4);
     /*z-index: 1000;*/
@@ -435,8 +436,8 @@ body {
     top:50px;
     display:none;
     position: fixed;
-    left:75.3%;
-    width: 13.5%;
+    left:816px;
+    width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.4);
     /*z-index: 1000;*/
@@ -447,10 +448,9 @@ body {
     display:none;
     position: fixed;
     left:88.8%;
-    width: 11.3%;
+    width: 0%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.4);
-    /*z-index: 1000;*/
 }
 
 
