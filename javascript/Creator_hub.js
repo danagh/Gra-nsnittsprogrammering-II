@@ -64,6 +64,11 @@ function createEventHandlers() {
         }
     };
 
+    $(document).on('click', '.magic', function() {
+        console.log('clicked?');
+        createPremadeMirror();
+    });
+
     $(document).on('click','.weather-option', function() {
         if ($(this).hasClass('clicked')) {
             $(this).removeClass('clicked');
@@ -1054,6 +1059,7 @@ function updateLocalStorage() {
     localStorage.setItem("object-message",JSON.stringify(objectTextMessages));
     localStorage.setItem("seconds",JSON.stringify(showSecondsArray));
 }
+
 
 function checkIfLocalStorageExists() {
     if (mirror === undefined){
