@@ -4,22 +4,24 @@ $(document).ready(function() {
 });
 
 function createEventHandlers() {
-    $(document).on('click', '.about', function(){
-        document.querySelector('#about-id').scrollIntoView({
-                behavior: 'smooth'
-            });
+   // taken from http://stackoverflow.com/questions/18071046/smooth-scroll-to-specific-div-on-click
+   $('.about').click(function () {
+       $('html,body').animate({
+               scrollTop: $(".about-text").offset().top},
+           'slow');
+   });
+
+    $('.login').click(function () {
+        $('html,body').animate({
+                scrollTop: $(".login-div-body").offset().top},
+            'slow');
     });
 
-    $(document).on('click', '.login', function() {
-        document.querySelector('#login-div-id').scrollIntoView({
-            behavior: 'smooth'
-        });
-    });
-
-    $(document).on('click', '.header-text', function() {
-        document.querySelector('#top').scrollIntoView({
-            behavior: 'smooth'
-        });
+    $('.header-text').click(function () {
+        console.log("click");
+        $('html,body').animate({
+                scrollTop: $(".first-main-div").offset().top},
+            'slow');
     });
 
     $(document).on('click', '.pop-up-button', function () {
@@ -55,6 +57,7 @@ function createEventHandlers() {
 function changeHeaderSize() {
     window.addEventListener('scroll', function(e){
         //If an user scrolls more than 300 pixels then add another class to the header-elements that shrinks them
+        var language = document.getElementsByClassName('language')[0];
         var distanceY = window.pageYOffset || document.documentElement.scrollTop,
             shrinkOn = 300,
             header = document.querySelector(".header");
@@ -63,6 +66,14 @@ function changeHeaderSize() {
             $('.header-text').addClass('smaller');
             $('.about').addClass('smaller');
             $('.login').addClass('smaller');
+            // $('.language').addClass('smaller');
+            anime({
+                targets: language,
+                translateY: -25,
+                easing: 'easeInOutQuart',
+                duration: 1.5
+            });
+
             //Remove the shrink-class from the header elements when an user scrolls upwards again.
         } else {
             if ($('.header').hasClass('smaller') && $('.header-text').hasClass('smaller') && $('.about').hasClass('smaller') && $('.login').hasClass('smaller')  ) {
@@ -70,6 +81,12 @@ function changeHeaderSize() {
                 $('.header-text').removeClass('smaller');
                 $('.about').removeClass('smaller');
                 $('.login').removeClass('smaller');
+                anime({
+                    targets: language,
+                    translateY: 2,
+                    easing: 'easeInOutQuart',
+                    duration: 1.5
+                });
             }
         }
     });

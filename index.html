@@ -8,6 +8,7 @@
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"
             integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
             crossorigin="anonymous"></script>
+    <script src="javascript/anime.min.js"></script>
     <script src="javascript/index.js"></script>
     <script src="javascript/translator.js"></script>
 
@@ -27,6 +28,11 @@
         </h1>
         <h1 class="login text-translate" data-translate-key="login"></h1>
     </div>
+
+    <script>
+        document.write("<a href=" + langRef(langSwap()) + ">" + "<button type = 'button' class='language text-translate' data-translate-key='lang-swap'></button></a>")
+    </script>
+
 </div>
 
 
