@@ -811,7 +811,9 @@ body {
  /* =============================================================================
     Options menu
    ============================================================================= */
-
+.hamburger{
+    display: none;
+}
 
  /* =============================================================================
    Media - bör vara längst ner
@@ -836,14 +838,17 @@ body {
      /* =============================================================================
      Dropdown
     ============================================================================= */
+     .hamburger {
+         display: flex;
+     }
      .drag-window {
          display: flex;
          position: absolute;
          top: 7vh;
-         z-index: 2;
+         z-index: 10;
          height: 30px;
          width: 30px;
-         background-color: white;
+         background-image: url(/resources/top_burger.png);
          margin-left: 2vh;
      }
 
@@ -859,7 +864,7 @@ body {
 
      .drag-window:hover {
          height: 240px;
-         width: 130px;
+         width: 160px;
          opacity: 0.5;
          overflow-y: scroll;
      }

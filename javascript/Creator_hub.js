@@ -630,7 +630,7 @@ function showDropDown() {
     var dropdown = document.createElement('select');
     dropdown.className = 'weather-choose-time';
     var currentTimeOption = document.createElement('option');
-    currentTimeOption.value ="current time";
+    currentTimeOption.value ="current-time";
     currentTimeOption.innerHTML = getText("current-time-option");
     var morningOption =  document.createElement('option');
     morningOption.value= "morning";
@@ -846,12 +846,14 @@ function createWeatherStyle(apiResponse, locationTop, locationLeft, divId, weath
     if(weatherTime !== "notExist") {
         weatherStyleDiv.setAttribute('weather-time',weatherTime);
         var timeDifference = calculateDateAndTimeDifference(apiResponse, weatherTime);
+        console.log(timeDifference);
     }
     else {
         weatherStyleDiv.setAttribute('weather-time', "current-time");
         var timeDifference = calculateDateAndTimeDifference(apiResponse, "current-time");
+        console.log(timeDifference);
     }
-
+    console.log('b4 crash: ' + timeDifference);
     var currentWeather = apiResponse.timeSeries[timeDifference].parameters[18].values[0];
 
 
@@ -1161,7 +1163,7 @@ function calculateDateAndTimeDifference(apiResponse, selectedWeatherTime) {
 
     var hoursToNextDay = 24 - approvedHour;
 
-    if(selectedWeatherTime =="current-time") {
+    if(selectedWeatherTime == "current-time") {
         var currentDateAndTime = getDateAndTime();
         var currentHour = currentDateAndTime[0];
         var currentDay = currentDateAndTime[1];
