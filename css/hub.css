@@ -30,7 +30,8 @@ body {
 
 body {
     font-size: 16px;
-    font-family: "FontAwesome";
+    /*font-family: 'Bungee Shade', cursive;*/
+    font-family: 'Julius Sans One', sans-serif;
     line-height: 1.5;
 }
 

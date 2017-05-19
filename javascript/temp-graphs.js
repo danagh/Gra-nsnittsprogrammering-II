@@ -125,29 +125,39 @@ function createLineGraph(apiResponse, graphCanvas, canvasContainer) {
                     scaleLabel: { //add label to x-axis
                         display: true,
                         labelString: getText("time"),
-                        fontColor: "rgba(255,255,255,1)"
+                        fontColor: "rgba(255,255,255,1)",
+                        fontFamily: "Julius Sans One"
                     },
                     display:true,
                     ticks: {
-                        fontColor: "rgba(255,255,255,1)"
+                        fontColor: "rgba(255,255,255,1)",
+                        fontFamily: "Julius Sans One"
                     }
 
                 }],
                 yAxes: [{ //add label to y-axis
                     gridLines: {
                         color: "rgba(255,255,255,0.4)",
-                        zeroLineColor: "rgba(255,255,255,0.4)"
+                        zeroLineColor: "rgba(255,255,255,0.4),",
+                        fontFamily: "Julius Sans One"
                     },
                     scaleLabel: {
                         display: true,
                         labelString: getText("temperature") + '( \u00B0C)',
-                        fontColor: "rgba(255,255,255,1)"
+                        fontColor: "rgba(255,255,255,1)",
+                        fontFamily: "Julius Sans One"
                     },
                     display:true,
                     ticks: {
-                        fontColor: "rgba(255,255,255,1)"
+                        fontColor: "rgba(255,255,255,1)",
+                        fontFamily: "Julius Sans One"
                     }
                 }]
+            }
+        },
+        defaults: {
+            global: {
+                defaultFont: 'Julius Sans One'
             }
         }
     });
