@@ -25,20 +25,29 @@ $(document).ready(function() {
          delete  objectStyleArray[k];
          delete  objectIdArray[k];
 
+     }*/
+     // delStorage();
 
-     }
-*/
-    
     YOURFUNCTION();
    // createLoadingCanvas();
     getLocation();
 
-        checkIfLocalStorageExists();
-        addAttributesToWeatherOptionDiv();
-        createEventHandlers();
+    checkIfLocalStorageExists();
+    addAttributesToWeatherOptionDiv();
+    createEventHandlers();
 
 
 });
+
+function delStorage() {
+    localStorage.clear();
+    for (var k = 0; k < objectIdArray.length; k++) {
+        delete topPositionArray[k];
+        delete leftPositionArray[k];
+        delete  objectStyleArray[k];
+        delete  objectIdArray[k];
+    }
+}
 
 function createEventHandlers() {
 
@@ -65,8 +74,9 @@ function createEventHandlers() {
     };
 
     $(document).on('click', '.magic', function() {
-        console.log('clicked?');
         createPremadeMirror();
+        updateLocalStorage();
+        checkIfLocalStorageExists();
     });
 
     $(document).on('click','.weather-option', function() {
