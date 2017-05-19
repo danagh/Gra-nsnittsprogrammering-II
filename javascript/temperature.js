@@ -80,7 +80,8 @@ function createTemperatureStyle(apiResponse, topPosition, leftPosition, divId, t
         temperatureStyleDiv.style.fontFamily = objectFont;
     }
     else {
-        temperatureStyleDiv.setAttribute('object-font',"noFont");
+        temperatureStyleDiv.style.fontFamily = 'Julius Sans One';
+        temperatureStyleDiv.setAttribute('object-font', "Julius Sans One");
     }
 
     console.log(functionCaller);

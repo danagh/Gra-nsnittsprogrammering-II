@@ -26,7 +26,7 @@ $(document).ready(function() {
          delete  objectIdArray[k];
 
      }*/
-     // delStorage();
+      delStorage();
 
     YOURFUNCTION();
    // createLoadingCanvas();
@@ -675,6 +675,7 @@ change the icon of the whole div itself.
  */
 function switchWeatherTime(selectedValue) {
     var newWeatherTime = selectedValue.value;
+    console.log(newWeatherTime);
     var currentWeatherTime = currentHighlightedObject.getAttribute('weather-time');
     //add the current weather time to the undo array so that it can be changed back.
     addToUndoArray(currentHighlightedObject.id, "changeTime", currentHighlightedObject.getAttribute('top'), currentHighlightedObject.getAttribute('left'), currentHighlightedObject.getAttribute('object-style'), currentWeatherTime, currentHighlightedObject.getAttribute('object-width'), currentHighlightedObject.getAttribute('object-height'), currentHighlightedObject.getAttribute('object-font'));

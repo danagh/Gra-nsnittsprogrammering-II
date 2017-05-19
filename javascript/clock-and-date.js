@@ -53,7 +53,8 @@ function createTimeObject(topPosition, leftPosition, divId, objectStyle, objectT
             clockDiv.style.fontFamily = objectFont;
         }
         else {
-            clockDiv.setAttribute('object-font', "noFont");
+            clockDiv.style.fontFamily = 'Julius Sans One';
+            clockDiv.setAttribute('object-font', "Julius Sans One");
         }
 
         if (objectWidth == "startWidth" && objectHeight == "startHeight") {
@@ -206,7 +207,8 @@ function createDateObject (topPosition, leftPosition, divId, objectStyle, object
             dateDiv.style.fontFamily = objectFont;
         }
         else {
-            dateDiv.setAttribute('object-font', "noFont");
+            dateDiv.style.fontFamily = 'Julius Sans One';
+            dateDiv.setAttribute('object-font', "Julius Sans One");
         }
 
         if (objectWidth == "startWidth" && objectHeight == "startHeight") {
