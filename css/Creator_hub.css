@@ -203,8 +203,8 @@ body {
 }
 
  .language {
-     vertical-align: top;
-     position:fixed;
+     vertical-align: center;
+     position:absolute;
      height:40px;
      margin: 5px 5px 0 0;
      font-size: 18px;
@@ -214,8 +214,7 @@ body {
      color: white;
      padding: 0;
      cursor:pointer;
-     left: 80%;
-     left: calc(100% - 200px);
+     left: calc(100% - 100px);
  }
 
 .header-text {
@@ -293,7 +292,7 @@ body {
     display:inline-block;
     transition: all 0.3s;
     top: 0.5%;
-    left: calc(100% - 100px);
+    left: calc(100% - 250px);
 }
 
 .highlighted {

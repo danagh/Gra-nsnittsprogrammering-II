@@ -142,7 +142,7 @@ input:focus {
     /*height:40px;*/
     margin-top: 5px;
     position: absolute;
-    left: 60%;
+    left: calc(100% - 450px);
     overflow: hidden;
     display:inline-block;
     transition: all 0.3s;
@@ -160,7 +160,7 @@ input:focus {
     /*height:40px;*/
     margin-top: 5px;
     position:absolute;
-    left: 75%;
+    left: calc(100% - 300px);
     overflow: hidden;
     display:inline-block;
     transition: all 0.3s;
@@ -182,7 +182,7 @@ input:focus {
     color: white;
     padding: 0;
     cursor:pointer;
-    left: 90%;
+    left: calc(100% - 150px);
 }
 
 .language.smaller {

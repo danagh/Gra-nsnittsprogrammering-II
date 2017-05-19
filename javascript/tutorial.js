@@ -52,7 +52,7 @@ function addWelcomingMessage() {
         delay: 1000
     });
 
-    // setTimeout(psstMessage, 5000)
+    setTimeout(psstMessage, 4000)
 
 }
 
@@ -66,7 +66,7 @@ function psstMessage() {
     var animateBubble = anime({
        targets: textbubble,
         width: '238px',
-        height: '66px',
+        height: '100px',
         easing: 'easeInOutCubic'
     });
 
