@@ -15,7 +15,7 @@
 
 
 $(document).ready(function() {
-
+/*
      localStorage.clear();
      for (var k = 0; k < objectIdArray.length; k++) {
         delete topPositionArray[k];
@@ -23,7 +23,7 @@ $(document).ready(function() {
          delete  objectStyleArray[k];
          delete  objectIdArray[k];
 
-     }
+     }*/
 
     YOURFUNCTION();
    // createLoadingCanvas();
@@ -526,8 +526,8 @@ interact('.resize-drag')
 
             // update the element's style
             console.log(event.rect.width);
-            if(event.rect.width > 300) {
-                target.style.width = '300px';
+            if(event.rect.width > 600) {
+                target.style.width = '600px';
             }
             else target.style.width  = event.rect.width + 'px';
 
