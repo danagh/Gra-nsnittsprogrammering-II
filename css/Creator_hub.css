@@ -855,6 +855,7 @@ body {
      .weather-options {
          display: none;
          background-color: white;
+         width: 160px;
          margin-top: 0;
      }
 
