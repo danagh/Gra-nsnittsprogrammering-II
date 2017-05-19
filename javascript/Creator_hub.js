@@ -15,7 +15,9 @@
 
 
 $(document).ready(function() {
-/*
+
+    /*
+
      localStorage.clear();
      for (var k = 0; k < objectIdArray.length; k++) {
         delete topPositionArray[k];
@@ -23,8 +25,10 @@ $(document).ready(function() {
          delete  objectStyleArray[k];
          delete  objectIdArray[k];
 
+
      }*/
 
+    
     YOURFUNCTION();
    // createLoadingCanvas();
     getLocation();
@@ -268,7 +272,8 @@ function createOptionsDiv() {
         width: '300px',
         height: '250px',
         // display: 'block',
-        easing: 'easeInOutQuart'
+        easing: 'easeInOutQuart',
+        duration: 300
         /*
         opacity:{
             value: 1,
@@ -279,7 +284,7 @@ function createOptionsDiv() {
 
     var optionsDivTimer = setTimeout(function() { //wait for the animation to complete before adding the options
         addOptionsToOptionsDiv();
-    }, 800);
+    }, 300);
 }
 
 /*
@@ -324,8 +329,10 @@ function removeOptionsDiv() {
             targets:optionsDiv,
             width: '300px',
             height: '0px',
+             opacity: 0,
             // display: 'block',
-            easing: 'easeInOutQuart'
+            easing: 'easeInOutQuart',
+             duration: 300
             /*
              opacity:{
              value: 1,
@@ -336,7 +343,7 @@ function removeOptionsDiv() {
         var optionsDivTimer = setTimeout(function() { //wait for the animation to complete before removing the div
             optionsDiv.style.display = "none";
             optionsDiv.remove();
-        }, 600);
+        }, 200);
 
     }
 }
@@ -1075,7 +1082,7 @@ function checkIfLocalStorageExists() {
 
         WebFontConfig= { //these rows adds the font families to a google call so that they can be shown to the user.
             google: {
-                families: ['Aclonica', 'Acme']
+                families: fontFamilies
             }
         };
 

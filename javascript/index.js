@@ -71,7 +71,7 @@ function changeHeaderSize() {
                 targets: language,
                 translateY: -25,
                 easing: 'easeInOutQuart',
-                duration: 1.5
+                duration: 1
             });
 
             //Remove the shrink-class from the header elements when an user scrolls upwards again.
@@ -85,7 +85,7 @@ function changeHeaderSize() {
                     targets: language,
                     translateY: 2,
                     easing: 'easeInOutQuart',
-                    duration: 1.5
+                    duration: 100
                 });
             }
         }
