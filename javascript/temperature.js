@@ -217,7 +217,8 @@ function createTextMessage(locationTop, locationLeft, divId, messageTime, object
         textMessageDiv.style.fontFamily = objectFont;
     }
     else {
-        textMessageDiv.setAttribute('object-font',"noFont");
+        textMessageDiv.style.fontFamily = 'Julius Sans One';
+        textMessageDiv.setAttribute('object-font', "Julius Sans One");
     }
 
 

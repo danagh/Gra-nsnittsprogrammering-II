@@ -39,7 +39,7 @@ body {
     flex-direction: column;
     margin: 0;
     background: #EEE;
-    font-family:"FontAwesome";
+    font-family: 'Julius Sans One', sans-serif;
 }
 
 .vertical-line {
@@ -109,7 +109,8 @@ input:focus {
     display:inline-block;
     margin-top:0;
     margin-left:5px;
-    font-family: 'Lobster', sans-serif;
+    /*font-family: 'Lobster', sans-serif;*/
+    font-family: 'Bungee Shade', cursive;
     margin-bottom: 0;
     font-size: 50px;
     transition: font-size 0.6s;
@@ -120,7 +121,8 @@ input:focus {
     display:inline-block;
     margin-top:0;
     margin-left:5px;
-    font-family: 'Lobster', sans-serif;
+    /*font-family: 'Lobster', sans-serif;*/
+    font-family: 'Bungee Shade', cursive;
     margin-bottom: 0;
     font-size: 30px;
 }
@@ -216,6 +218,7 @@ input:focus {
     font-weight: bold;
     font-size: medium;
     border-radius: 8px;
+    font-family: 'Julius Sans One', sans-serif;
 }
 
 .username-field, .password-field {
@@ -234,6 +237,7 @@ input:focus {
     color: black;
     font-size:14px;
     border-radius: 8px;
+    font-family: 'Julius Sans One', sans-serif;
 }
 
 .error-login {
@@ -246,6 +250,7 @@ input:focus {
     /*margin-bottom:0px;*/
     padding: 2px 27px;
     text-align: center;
+    font-family: 'Julius Sans One', sans-serif;
 }
 
 /* =============================================================================
@@ -289,6 +294,7 @@ input:focus {
     color: black;
     font-size:14px;
     border-radius: 8px;
+    font-family: 'Julius Sans One', sans-serif;
 }
 
 .register-button {
@@ -306,11 +312,13 @@ input:focus {
     font-weight: bold;
     font-size: medium;
     border-radius: 8px;
+    font-family: 'Julius Sans One', sans-serif;
 }
 
 .error-login, .error-login2 {
     color: red;
     display:none;
+    font-family: 'Julius Sans One', sans-serif;
 }
 
 .login,.about,.pop-up-button:hover {
