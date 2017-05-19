@@ -138,9 +138,11 @@ input:focus {
     font-size: 20px;
     text-decoration: underline;
     /*vertical-align: top;*/
-    position:relative;
+    /*position:relative;*/
     /*height:40px;*/
-    margin: 5px 200px 0 0;
+    margin-top: 5px;
+    position: absolute;
+    left: 60%;
     overflow: hidden;
     display:inline-block;
     transition: all 0.3s;
@@ -154,9 +156,11 @@ input:focus {
     font-size: 20px;
     text-decoration: underline;
     /*vertical-align: top;*/
-    position:relative;
+    /*position:relative;*/
     /*height:40px;*/
-    margin: 5px 300px 0 0;
+    margin-top: 5px;
+    position:absolute;
+    left: 75%;
     overflow: hidden;
     display:inline-block;
     transition: all 0.3s;
@@ -167,10 +171,10 @@ input:focus {
 }
 
 .language {
-    vertical-align: top;
-    position:fixed;
+    vertical-align: center;
+    position:absolute;
     height:40px;
-    margin: 30px 5px 0 0;
+    margin: 30px 50px 0 0;
     font-size: 18px;
     border: none;
     border-radius: 5px;
