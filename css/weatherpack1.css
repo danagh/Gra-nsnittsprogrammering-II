@@ -134,6 +134,11 @@ html *:after { box-sizing: inherit; }
     border-radius: 0.25em;
     box-shadow: 0 5.375em #fff;
 }
+
+.cloud + .sun {
+    margin: -2em 1em;
+}
+
 .rays:before,
 .rays:after {
     content: '';
