@@ -868,7 +868,7 @@ body {
      .drag-window:hover {
          height: 240px;
          width: 200px;
-         opacity: 0.5;
+         opacity: 0.8;
          overflow-y: scroll;
      }
 
