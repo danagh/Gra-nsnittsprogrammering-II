@@ -15,7 +15,7 @@
 
 
 $(document).ready(function() {
-    /*
+
      localStorage.clear();
      for (var k = 0; k < objectIdArray.length; k++) {
         delete topPositionArray[k];
@@ -23,7 +23,7 @@ $(document).ready(function() {
          delete  objectStyleArray[k];
          delete  objectIdArray[k];
 
-     }*/
+     }
 
     YOURFUNCTION();
    // createLoadingCanvas();
@@ -79,7 +79,7 @@ function createEventHandlers() {
         hideInputField();
 
         //The icon should not be unhighlighted if you press specific objects on the screen.
-        if (e.target.classList.contains('text-bubble') || e.target instanceof HTMLButtonElement || e.target instanceof HTMLSelectElement || e.target instanceof HTMLSpanElement || e.target instanceof HTMLInputElement) {
+        if (e.target.classList.contains('text-bubble') || e.target.classList.contains('checkboxTwo') || e.target.classList.contains('line-input-container') || e.target instanceof HTMLLabelElement || e.target instanceof HTMLButtonElement || e.target instanceof HTMLSelectElement || e.target instanceof HTMLSpanElement || e.target instanceof HTMLInputElement || e.target instanceof String) {
             return true;
         }
 
@@ -111,6 +111,7 @@ function createEventHandlers() {
         }
 
         else { //if anywhere else was pressed on the screen then unhighlight an object if it already is highlighted.
+            console.log("click else");
             removeOptionsDiv();
             $('.icon-middle').each(function() {
                 if ($(this).hasClass('highlighted')) { //remove the previous highlighted object

@@ -214,15 +214,20 @@ function showLineGraphTimeChooser() {
     var wholeTimeChooserContainer = document.createElement('div');
     wholeTimeChooserContainer.className = 'line-time-container';
     var checkboxContainer = document.createElement('div');
-    checkboxContainer.className = 'line-check-container';
+    checkboxContainer.className = 'checkboxTwo';
 
     var wholeDayCheckbox = document.createElement('input');
     wholeDayCheckbox.type = "checkbox";
+    wholeDayCheckbox.value = "1";
+    wholeDayCheckbox.id = "checkboxThreeInput";
     wholeDayCheckbox.className = "line-checkbox";
+    var label = document.createElement('label');
+    label.setAttribute('for', 'checkboxThreeInput');
 
     //append everything to the different divs and then to the right side of the page.
-    checkboxContainer.innerHTML = getText('graph-checkbox');
+    wholeTimeChooserContainer.innerHTML = getText('graph-checkbox');
     checkboxContainer.appendChild(wholeDayCheckbox);
+    checkboxContainer.appendChild(label);
     wholeTimeChooserContainer.appendChild(checkboxContainer);
     // inputContainer.appendChild(fromTimeDiv);
     // inputContainer.appendChild(fromTimeInput);

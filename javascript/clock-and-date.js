@@ -129,13 +129,18 @@ Creates and displays a checkbox where the user can choose the show or hide the s
 function showSecondsChooser() {
     var secondChooserDiv = document.createElement('div');
     secondChooserDiv.style.color = 'black';
-    secondChooserDiv.className = 'second-chooser-div';
+    secondChooserDiv.className = 'checkboxTwo';
     var secondChooserDivText = document.createElement('div');
     secondChooserDivText.style.color = 'black';
     secondChooserDivText.className = 'second-chooser-div-text';
+
     var checkbox = document.createElement('input');
     checkbox.type = "checkbox";
+    checkbox.value = "1";
     checkbox.className = 'second-chooser';
+    checkbox.id = "checkboxTwoInput";
+    var label = document.createElement('label');
+    label.setAttribute('for', 'checkboxTwoInput');
 
     var isChecked = currentHighlightedObject.getAttribute('seconds');
     if (isChecked == 'true') {
@@ -143,6 +148,7 @@ function showSecondsChooser() {
     }
     secondChooserDivText.innerHTML = getText('show-seconds');
     secondChooserDiv.appendChild(checkbox);
+    secondChooserDiv.appendChild(label);
     document.getElementsByClassName('text-bubble')[0].appendChild(secondChooserDivText);
     document.getElementsByClassName('text-bubble')[0].appendChild(secondChooserDiv);
     secondChooserDiv.style.display = 'inline-block';
