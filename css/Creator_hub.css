@@ -857,7 +857,7 @@ body {
      .weather-options {
          display: none;
          background-color: white;
-         width: 160px;
+         width: 200px;
          margin-top: 0;
      }
 
@@ -867,7 +867,7 @@ body {
 
      .drag-window:hover {
          height: 240px;
-         width: 160px;
+         width: 200px;
          opacity: 0.5;
          overflow-y: scroll;
      }

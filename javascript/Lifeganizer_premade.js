@@ -11,7 +11,7 @@ var objectStyles=["clock","date","weather","weather","weather","temperature","te
 var objectWidth=["174px","122px","65px","69px","76px","65.9062px","77.0938px","76.0938px","77.0938px","137.969px","154px","454px","85px"];
 var seconds=["true",null,null,null,null,null,null,null,null,null,null,null,null];
 var objectTopPositions=["210.6150752939405px","433.1875px","306.662px","224.234px","55.266px","63.2188px","152.297px","237.188px","321.188px","180.188px","63.1875px","432.515625px","141.188px"];
-var weatherTime=[null,null,"evening","afternoon","morning","morning","midday","afternoon","evening","current-time","midday","whole-day","current-time"];
+var weatherTime=[null,null,"evening","afternoon","morning","morning","midday","afternoon","evening","current-time","current-time","whole-day","midday"];
 
 function callfunction() {
     $('.icon-middle').each(function() {

@@ -26,7 +26,7 @@ $(document).ready(function() {
          delete  objectIdArray[k];
 
      }*/
-      delStorage();
+     // delStorage();
 
     YOURFUNCTION();
    // createLoadingCanvas();
