@@ -79,6 +79,11 @@ function createEventHandlers() {
         checkIfLocalStorageExists();
     });
 
+    /*$(document).on('click', '.clearAll', function() {
+        console.log('local storage cleared');
+        delStorage();
+    });*/
+
     $(document).on('click','.weather-option', function() {
         if ($(this).hasClass('clicked')) {
             $(this).removeClass('clicked');
