@@ -11,7 +11,7 @@
 // var currentHighlightedObject;
 // var objectWidthArray = [];
 // var objectHeightArray = [];
-
+var tutorialCounter = 0;
 
 
 $(document).ready(function() {
@@ -26,8 +26,8 @@ $(document).ready(function() {
          delete  objectIdArray[k];
 
 
-     }*/
-
+     }
+*/
     
     YOURFUNCTION();
    // createLoadingCanvas();
@@ -1076,15 +1076,10 @@ function checkIfLocalStorageExists() {
     var textMessages = JSON.parse(localStorage.getItem('object-message'));
     var showSeconds = JSON.parse(localStorage.getItem('seconds'));
 
-    console.log("object font array: ");
-    console.log(objectFont);
 
     if (objectIds !== null) { //if there is something in the local storage
         // console.log("localStorage exists");
         var fontFamilies = JSON.parse(localStorage.getItem('font-families')); //Do not create the fontfamilies if there is no local storage because it will mess with some other functions.
-        console.log("checkiflocalstorage exists");
-        console.log(fontFamilies);
-
 
         WebFontConfig= { //these rows adds the font families to a google call so that they can be shown to the user.
             google: {
@@ -1122,7 +1117,17 @@ function checkIfLocalStorageExists() {
         }
 
     }
-    else console.log("else");
+    else { console.log("else");
+        /*
+        tutorialCounter++;
+        if (tutorialCounter == 1) {
+            if (lang == "se") {
+                window.location.href = "tutorial.html?lang=se";
+            }
+            else window.location.href = "tutorial.html?lang=en";
+        }
+        */
+    }
 }
 
 function getDateAndTime() {

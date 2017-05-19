@@ -15,6 +15,7 @@ function createEventHandlers() {
         $('html,body').animate({
                 scrollTop: $(".login-div-body").offset().top},
             'slow');
+        $('.username-field').focus();
     });
 
     $('.header-text').click(function () {
@@ -24,20 +25,30 @@ function createEventHandlers() {
             'slow');
     });
 
-    $(document).on('click', '.pop-up-button', function () {
-       $('.pop-up-button').animate({'width':'388px','height':'350px'}, 200);
-       $('.pop-up-button').addClass('clicked');
-       // $('.pop-up-button-text').animate({'height':'300px'}, 500);
-       var hiddenDiv = document.getElementsByClassName('pop-up-register')[0];
-       hiddenDiv.style.display = 'inline-block';
+    $(document).on('click', '.pop-up-button', function (e) {
+        if (e.target instanceof HTMLInputElement || e.target instanceof HTMLButtonElement) {
+            return true;
+        }
+
+        if ($('.pop-up-button').hasClass('clicked')) {
+            closePopUpButton();
+        }
+        else {
+            $('.pop-up-button').animate({'width': '388px', 'height': '350px'}, 200);
+            $('.pop-up-button').addClass('clicked');
+            // $('.pop-up-button-text').animate({'height':'300px'}, 500);
+            var hiddenDiv = document.getElementsByClassName('pop-up-register')[0];
+            hiddenDiv.style.display = 'inline-block';
+
+            setTimeout(function () {
+                $('.create-email-field').focus();
+            }, 300);
+        }
     });
 
     $(document).on('click', '.main-picture', function() {
         if($('.pop-up-button').hasClass('clicked')) {
-            $('.pop-up-button').animate({'width':'316.8px','height':'21.9px'}, 200);
-            var hiddenDiv = document.getElementsByClassName('pop-up-register')[0];
-            hiddenDiv.style.display = 'none';
-            $('.pop-up-button').removeClass('clicked');
+            closePopUpButton();
         }
     });
 
@@ -52,6 +63,15 @@ function createEventHandlers() {
             $('.login-button').click();
         }
     });
+}
+
+function closePopUpButton() {
+    $('.pop-up-button').animate({'width':'316.8px','height':'21.9px'}, 200);
+    var hiddenDiv = document.getElementsByClassName('pop-up-register')[0];
+    setTimeout(function () {
+        hiddenDiv.style.display = 'none';
+    }, 500);
+    $('.pop-up-button').removeClass('clicked');
 }
 
 function changeHeaderSize() {

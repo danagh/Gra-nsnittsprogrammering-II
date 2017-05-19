@@ -160,6 +160,7 @@ body {
     position: relative; /* So .drink-quantity can have position: absolute */
     border: 1px solid rgb(81,204,164);
     cursor: pointer;
+    margin-left: 20px;
 }
 
 .hidden-options {

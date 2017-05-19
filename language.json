@@ -43,6 +43,18 @@
     "en":"The entered passwords did not match",
     "se":"De ifyllda lösenorden matchade inte varandra"
   },
+  "create-email": {
+    "en":"Enter your email",
+    "se":"Fyll i din email"
+  },
+  "create-password": {
+    "en":"Enter your password",
+    "se":"Fyll i ditt lösenord"
+  },
+  "reenter-password": {
+    "en":"Re-enter your password",
+    "se":"Fyll i ditt lösenord igen"
+  },
   "dropdown-button": {
     "en":"Select",
     "se":"Välj"
@@ -190,11 +202,11 @@
   "cancel-tut": {
     "en": "Skip tutorial",
     "se": "Hoppa över "
+  },
+  "overlay-div1": {
+    "en": "Skip tutorial",
+    "se": "Hoppa över "
   }
-
-
-
-
 
 
 }

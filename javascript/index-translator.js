@@ -40,8 +40,6 @@ function getText(arg){
     if (lang != "en" && lang != "se"){
         lang = "en";
     }
-    console.log("lang: "+ lang);
-    console.log(lexicon);
     //return the correct string for that argument and language
     return lexicon[arg][lang];
 }
@@ -108,8 +106,11 @@ function translateText(){
         var arg = div.getAttribute("data-translate-key");
         div.innerHTML = getText(arg);
     }
-    //$('.username-field').attr('placeholder', getText('username'));
-    // $('.password-field').attr('placeholder', getText('password'));
+    $('.create-email-field').attr('placeholder', getText('create-email'));
+    document.getElementsByClassName('create-password-field')[0].setAttribute('placeholder', getText('create-password'));
+    document.getElementsByClassName('create-password-field')[1].setAttribute('placeholder', getText('reenter-password'));
+    $('.username-field').attr('placeholder', getText('create-email'));
+    $('.password-field').attr('placeholder', getText('create-password'));
 }
 
 function getLangSwapImgSrc(){
