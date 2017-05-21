@@ -40,8 +40,6 @@ function getText(arg){
     if (lang != "en" && lang != "se"){
         lang = "en";
     }
-    console.log("lang: "+ lang);
-    console.log(lexicon);
     //return the correct string for that argument and language
     return lexicon[arg][lang];
 }

@@ -2,7 +2,7 @@
 First of all we have to create a canvas to draw the graph on. The only difference between this and the
 other create functions is that a canvas is appended to the div. The canvas is needed to draw the graph on..
  */
-function createGraphCanvas(apiResponse, topPosition, leftPosition, divId, objectStyle, objectTime, objectWidth, objectHeight, objectFont) {
+function createGraphCanvas(apiResponse, topPosition, leftPosition, divId, objectStyle, objectTime, objectWidth, objectHeight, objectFont, functionCaller) {
     var canvasContainer = document.createElement('div');
     canvasContainer.id = divId;
     canvasContainer.className = 'icon-middle resize-drag';
@@ -45,6 +45,10 @@ function createGraphCanvas(apiResponse, topPosition, leftPosition, divId, object
     }
     canvasContainer.appendChild(graphCanvas);
     document.getElementsByClassName('middle-side')[0].appendChild(canvasContainer);
+
+    if (functionCaller == "drop") {
+        addToUndoArray(canvasContainer.id, "addObject", canvasContainer.getAttribute('top'), canvasContainer.getAttribute('left'), canvasContainer.getAttribute('object-style'), objectTime, canvasContainer.getAttribute('object-width'), canvasContainer.getAttribute('object-height'),"noFont", "noMessage");
+    }
 
     createLineGraph(apiResponse, graphCanvas, canvasContainer);
 
@@ -378,7 +382,25 @@ function checkInputFields() {
         //if the user enters values that are outside a clocks hours or if the start value is higher than the end value display an error message. Also display error if the input fields are empty.
         if (fromTimeInputValue > 23 || endTimeInputValue > 23 || fromTimeInputValue > endTimeInputValue ||fromTimeInputValue.length == 0 || endTimeInputValue == 0) {
             currentHighlightedObject.setAttribute('weather-time', 'whole-day');
-            console.log("values entered was outside of time range")
+            console.log("values entered was outside of time range");
+
+            var userMessageDiv = document.getElementsByClassName('user-message-div')[0];
+            userMessageDiv.innerHTML = getText('values-entered');
+
+            anime({
+                targets: userMessageDiv,
+                opacity: 1,
+                easing: 'easeInOutQuart',
+                duration: 1000
+            });
+            setTimeout(function () {
+                anime({
+                    targets: userMessageDiv,
+                    opacity: 0,
+                    easing: 'easeInOutQuart',
+                    duration: 1000
+                });
+            },5000);
         }
 
         //otherwise create a new weather-time attribute value and store it.

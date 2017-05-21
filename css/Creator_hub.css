@@ -82,6 +82,7 @@ body {
     position: relative;
     overflow: auto;
     overflow-y:hidden;
+    /*cursor:default;*/
 }
 
 
@@ -159,7 +160,7 @@ body {
     margin: 10px 10px 10px;
     position: relative; /* So .drink-quantity can have position: absolute */
     border: 1px solid rgb(81,204,164);
-    cursor: pointer;
+    cursor: move;
 }
 
 .hidden-options {
@@ -226,6 +227,7 @@ body {
     font-family: 'Bungee Shade', cursive;
     margin-bottom: 0;
     font-size: 30px;
+    cursor: default;
 }
 
 .header-text a {
@@ -252,6 +254,26 @@ body {
      right: 0;
  }
 
+ .loading-canvas {
+     cursor: progress;
+ }
+
+ .user-message-div {
+     display: block;
+     position: absolute;
+     left: calc(17% - 100px);
+     top: calc(99% - 100px);
+     background-color: #E5E5EA;
+     border: 2px solid rgb(81, 204, 164);
+     opacity: 0;
+     border-radius: 10px;
+     height: 60px;
+     width: 40%;
+     padding-top: 9px;
+     padding-left: 8px;
+     z-index: 50;
+ }
+
  .undo-button, .redo-button {
      margin      : 0;
      padding     : 0;
@@ -260,11 +282,12 @@ body {
      font-family : inherit;
      font-size   : 1em;
      cursor      : pointer;
+     border-radius: 15px
  }
 
  .undo-button:active,  .redo-button:active {
      outline: none;
-     border: 1px solid rgb(81, 204, 164);
+     border: 2px solid rgb(81, 204, 164);
 
  }
 
@@ -516,6 +539,8 @@ body {
     margin-bottom: 20px;
     line-height: 24px;
     display: inline-block;
+    z-index:5;
+    box-shadow: 0 0 1px 2px gray;
 }
 
 .text-bubble-overlay {
@@ -863,6 +888,7 @@ body {
 
      .weather-option {
          height: 20px;
+         cursor: move;
      }
 
      .drag-window:hover {
@@ -898,6 +924,10 @@ body {
      margin-right: 100px;
      font-family: 'Julius Sans One', sans-serif;
      padding-left:5px;
+ }
+
+ .end-time-input {
+     margin-left: 5px;
  }
 
  .from-time-input:focus, .end-time-input:focus {

@@ -9,7 +9,7 @@ var undoWidthArray = [];
 var undoHeightArray = [];
 var undoFontArray = [];
 var undoMessageArray = [];
-var undoSecondsArray = []
+var undoSecondsArray = [];
 var redoIdArray = [];
 var redoActionArray = [];
 var redoTopArray = [];
@@ -20,7 +20,7 @@ var redoWidthArray = [];
 var redoHeightArray = [];
 var redoFontArray = [];
 var redoMessageArray = [];
-var redoSecondsArray = []
+var redoSecondsArray = [];
 
 //This function is called to add the latest action to the undo array
 function addToUndoArray(objectId, objectAction, topPosition, leftPosition, objectStyle, objectTime, objectWidth, objectHeight, objectFont, objectMessage, objectSeconds) {
@@ -41,10 +41,30 @@ function addToUndoArray(objectId, objectAction, topPosition, leftPosition, objec
 
 //This function is called when the undo-button is pressed and it gets the last index of the undo array and its action so that they can be used to undo the latest action
 function checkLatestUndoAction() {
-    var lastIndex = undoActionArray.length - 1; //get the index of the last item in the array
-    var latestAction = undoArray[1][lastIndex]; //get the last item of the array
+    if (undoArray.length == 0 || undoArray[0].length == 0) {
+        var userMessageDiv = document.getElementsByClassName('user-message-div')[0];
+        userMessageDiv.innerHTML = getText('empty-undo');
 
-    completeUndo(lastIndex, latestAction);
+        anime({
+            targets: userMessageDiv,
+            opacity: 1,
+            easing: 'easeInOutQuart',
+            duration: 1000
+        });
+        setTimeout(function () {
+            anime({
+                targets: userMessageDiv,
+                opacity: 0,
+                easing: 'easeInOutQuart',
+                duration: 1000
+            });
+        },5000);
+    }
+    else {
+        var lastIndex = undoActionArray.length - 1; //get the index of the last item in the array
+        var latestAction = undoArray[1][lastIndex]; //get the last item of the array
+        completeUndo(lastIndex, latestAction);
+    }
 
 }
 
@@ -65,7 +85,7 @@ function completeUndo(lastIndex, latestAction) {
 
         var currentObjectStyle = undoArray[4][lastIndex]; //have to know what kind of object it is so that the correct function is called.
 
-        if(currentObjectStyle == "weather" || currentObjectStyle == "temperature") {
+        if(currentObjectStyle == "weather" || currentObjectStyle == "temperature" || currentObjectStyle == "temp-graph") {
             SMHICall(undoArray[2][lastIndex], undoArray[3][lastIndex], undoArray[0][lastIndex], undoArray[5][lastIndex], undoArray[6][lastIndex], undoArray[7][lastIndex], undoArray[4][lastIndex], undoArray[8][lastIndex]);
         }
 
@@ -266,9 +286,30 @@ function addToRedoArray(objectId, objectAction, topPosition, leftPosition, objec
 
 //This function is called when the redo button is pressed and it gets the latest action from the redo list.
 function checkLatestRedoAction() {
-    var lastIndex = redoActionArray.length - 1; //get the index of the last item in the array
-    var latestAction = redoArray[1][lastIndex]; //get the last item of the array
-    completeRedoAction(lastIndex, latestAction);
+    if (redoArray.length == 0 || redoArray[0].length == 0) {
+        var userMessageDiv = document.getElementsByClassName('user-message-div')[0];
+        userMessageDiv.innerHTML = getText('empty-redo');
+
+        anime({
+            targets: userMessageDiv,
+            opacity: 1,
+            easing: 'easeInOutQuart',
+            duration: 1000
+        });
+        setTimeout(function () {
+            anime({
+                targets: userMessageDiv,
+                opacity: 0,
+                easing: 'easeInOutQuart',
+                duration: 1000
+            });
+        },5000);
+    }
+    else {
+        var lastIndex = redoActionArray.length - 1; //get the index of the last item in the array
+        var latestAction = redoArray[1][lastIndex]; //get the last item of the array
+        completeRedoAction(lastIndex, latestAction);
+    }
 
 }
 
@@ -283,7 +324,7 @@ function completeRedoAction(lastIndex, latestAction) {
 
         var currentObjectStyle = redoArray[4][lastIndex]; //have to know what kind of object it is so that the correct function is called.
 
-        if(currentObjectStyle == "weather" || currentObjectStyle == "temperature") {
+        if(currentObjectStyle == "weather" || currentObjectStyle == "temperature" || currentObjectStyle == "temp-graph") {
             SMHICall(redoArray[2][lastIndex], redoArray[3][lastIndex], redoArray[0][lastIndex], redoArray[5][lastIndex], redoArray[6][lastIndex], redoArray[7][lastIndex], redoArray[4][lastIndex], redoArray[8][lastIndex]);
         }
 

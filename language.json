@@ -205,7 +205,23 @@
   },
   "overlay-div1": {
     "en": "Skip tutorial",
-    "se": "Hoppa över "
+    "se": "Hoppa över"
+  },
+  "values-entered": {
+    "en": "Values entered did not match the expected format",
+    "se": "De givna värdena matchade inte med det förväntade  formatet"
+  },
+  "api-fail": {
+    "en": "Something went wrong when we tried to look up the weather forecast. Try again",
+    "se": "Något gick fel när vi försökte leta upp väderprognosen. Försök igen"
+  },
+  "empty-undo": {
+    "en": "There is nothing left to undo",
+    "se": "Det finns ingenting kvar att upphäva"
+  },
+  "empty-redo": {
+    "en": "There is nothing left to redo",
+    "se": "Det finns ingenting kvar att göra om"
   }
 
 

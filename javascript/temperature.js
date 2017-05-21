@@ -260,11 +260,12 @@ function showInputField() {
     inputField.style.fontFamily = currentHighlightedObject.getAttribute('object-font'); //change the font to the correct one.
 
     var font = parseFloat(currentHighlightedObject.getAttribute('object-height'));
-    inputField.style.fontsize = font/3 + 'px';
+    inputField.style.fontSize = font/3 + 'px';
 
     // inputField.style.fontSize = currentHighlightedObject.getAttribute('object-height');
     inputField.style.width = currentHighlightedObject.getAttribute('object-width');
     inputField.style.height = currentHighlightedObject.getAttribute('object-height');
+    inputField.style.paddingBottom = '22px';
     // inputField.style.background = "transparent";
     // inputField.style.color = "white";
     // inputField.style.border = "none";

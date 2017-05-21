@@ -1350,9 +1350,30 @@ function SMHICall(topPosition, leftPosition, divId, objectTime, objectWidth, obj
         }
 
         else if (objectStyle=="temp-graph") {
-            createGraphCanvas(data, topPosition, leftPosition, divId, objectStyle, objectTime, objectWidth, objectHeight, objectFont);
+            createGraphCanvas(data, topPosition, leftPosition, divId, objectStyle, objectTime, objectWidth, objectHeight, objectFont, functionCaller);
         }
-    });
+    })
+        .fail(function () {
+            console.log("SMHI API FAIL");
+
+            var userMessageDiv = document.getElementsByClassName('user-message-div')[0];
+            userMessageDiv.innerHTML = getText('api-fail');
+
+            anime({
+                targets: userMessageDiv,
+                opacity: 1,
+                easing: 'easeInOutQuart',
+                duration: 1000
+            });
+            setTimeout(function () {
+                anime({
+                    targets: userMessageDiv,
+                    opacity: 0,
+                    easing: 'easeInOutQuart',
+                    duration: 1000
+                });
+            },5000);
+        });
 
 }
 
