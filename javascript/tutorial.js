@@ -145,6 +145,8 @@ function showFirstMessage() {
        targets: textbubble,
         translateY: 50,
         translateX: 400,
+        width: '250px',
+        height: '120px',
         easing: 'easeInOutQuart'
     });
 
@@ -185,7 +187,7 @@ function tryItOutNow() {
     var animateBubble = anime({
         targets: textbubble,
         height: '80px',
-        width: '150px',
+        width: '200px',
         easing: 'easeInOutCubic'
     });
 
@@ -282,7 +284,7 @@ function afterDroppingWeatherObject() {
         translateY: 40,
         opacity: 1,
         width: '300px',
-        height: '145px',
+        height: '180px',
         // display: 'block',
         easing: 'easeInOutQuart'
 
@@ -328,7 +330,7 @@ function firstHighlight() {
          translateX: 350,
          translateY: 500,
         opacity: 1,
-        height: '130px',
+        height: '150px',
         width: '200px',
         easing: 'easeInOutQuart'
     });
@@ -391,7 +393,7 @@ function afterChangeWeatherTime() {
         translateY: 40,
         opacity: 1,
         width: '300px',
-        height: '120px',
+        height: '170px',
         // display: 'block',
         easing: 'easeInOutQuart'
 
@@ -431,7 +433,7 @@ function tutorialEventHandlers() {
             }
             else if(tutorialClicks == 2) {
                 // showFirstMessageSecond();
-                showNewMessageAndAnimateBubble(getText("tut-selwe"), '165', null);
+                showNewMessageAndAnimateBubble(getText("tut-selwe"), '200', '300');
             }
 
             else if (tutorialClicks == 3) {
@@ -441,14 +443,14 @@ function tutorialEventHandlers() {
                 // showSecondMessage();
                 //console.log("fourth tutorial click");
                 //createAnotherMessage();
-                showNewMessageAndAnimateBubble(getText("tut-highlight"), '150', null);
+                showNewMessageAndAnimateBubble(getText("tut-highlight"), '200', '300');
             }
             else if (tutorialClicks ==5) {
                 tryItOutNow();
             }
             else if (tutorialClicks ==6) {
                 // showSecondMessageSecond();
-                showNewMessageAndAnimateBubble(getText('tut-options'), '150', '220');
+                showNewMessageAndAnimateBubble(getText('tut-options'), '170', '300');
             }
             else if (tutorialClicks == 7) {
                 tryItOutNow();
@@ -460,7 +462,7 @@ function tutorialEventHandlers() {
 
             else if (tutorialClicks == 9) {
                 // showFinalMessage();
-                showNewMessageAndAnimateBubble(getText("tut-last"), '160', '240');
+                showNewMessageAndAnimateBubble(getText("tut-last"), '170', '240');
             }
             else if (tutorialClicks == 10) {
                 if (lang=="se") {

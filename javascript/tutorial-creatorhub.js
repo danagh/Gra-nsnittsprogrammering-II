@@ -275,7 +275,8 @@ function createOptionsDiv() {
         width: '300px',
         height: '250px',
         // display: 'block',
-        easing: 'easeInOutQuart'
+        easing: 'easeInOutQuart',
+        duration: 300
         /*
          opacity:{
          value: 1,
@@ -354,7 +355,8 @@ function removeOptionsDiv() {
             width: '300px',
             height: '0px',
             // display: 'block',
-            easing: 'easeInOutQuart'
+            easing: 'easeInOutQuart',
+            duration: 300
             /*
              opacity:{
              value: 1,
@@ -365,7 +367,7 @@ function removeOptionsDiv() {
         var optionsDivTimer = setTimeout(function() { //wait for the animation to complete before removing the div
             optionsDiv.style.display = "none";
             optionsDiv.remove();
-        }, 600);
+        }, 200);
 
     }
 }
