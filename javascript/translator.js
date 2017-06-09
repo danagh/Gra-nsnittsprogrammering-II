@@ -10,6 +10,8 @@
  * if used from a javascript file getText(arg) works fine since lexicon is loaded
  *
  * the string to be translated must exist in language.json
+ *
+ * Note that this function is re-used from the first user interface programming course.
  */
 
 //global variable that stores the current language - needed to be accessed from all scripts

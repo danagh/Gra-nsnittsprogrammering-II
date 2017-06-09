@@ -1,4 +1,9 @@
-var tryItCalls = 0;
+/*
+This file handles everything with the tutorial.
+ */
+
+
+var tryItCalls = 0; //a counter is initialized which stores how many times a user has clicked during the tutorial
 /*
 Add and animate an overlay that sweeps through the whole screen. Then remove it and instead add 8
 smaller overlays that takes up different places of the screen so that they can be moved and animated
@@ -6,7 +11,7 @@ differently.
  */
 
 function createWholeOverlay() {
-    for (var i=1; i < 7; i++) {
+    for (var i=1; i < 7; i++) { //display each overlay. We use more than one overlay since they should be able to be opened and closed independently
         var overlayi = document.getElementById("o" + i);
         overlayi.style.display = "block";
     }
@@ -19,7 +24,7 @@ function createWholeOverlay() {
         easing: 'easeInOutQuart'
     });
 
-    var bla = setTimeout(addWelcomingMessage, 1000);
+    var timeoutCounter = setTimeout(addWelcomingMessage, 1000); //wait for one second before showing the first message
 }
 
 function addWelcomingMessage() {
@@ -29,7 +34,7 @@ function addWelcomingMessage() {
     // textbubble.style.display = "none";
     document.getElementById("o0").appendChild(textbubble);
 
-    var animateBubble = anime({
+    var animateBubble = anime({ //animate first text bubble
         targets:textbubble,
         translateX: 120,
         translateY: 50,
@@ -46,16 +51,19 @@ function addWelcomingMessage() {
     welcomingPar.style.opacity ="0";
     textbubble.appendChild(welcomingPar);
 
-    var animateText = anime({
+    var animateText = anime({ //add text to the bubble
         targets:welcomingPar,
         opacity: 1,
         delay: 1000
     });
 
-    setTimeout(psstMessage, 4000)
+    setTimeout(psstMessage, 4000) //wait for 4 seconds then tell the user to click anywhere to continue.
 
 }
 
+/*
+Resizes the text bubble and gives a hint to the user.
+ */
 function psstMessage() {
     var welcomingPar = document.getElementsByClassName("welcoming-par")[0];
     welcomingPar.style.opacity= "0";
@@ -80,12 +88,12 @@ function psstMessage() {
         opacity: 1,
         delay: 1000
     });
-    showFontSelector();
+    // showFontSelector();
 }
 
 /*
 This function takes a message as a input, together with the bubble's size and animates
-it accordingly.
+it accordingly. It is called through out the tutorial.
  */
 function showNewMessageAndAnimateBubble(message, bubbleHeight, bubbleWidth) {
     var textbubble = document.getElementsByClassName('text-bubble-tutorial')[0];
@@ -314,16 +322,7 @@ function firstHighlight() {
     });
     $('.middle-side').addClass('eventClickable');
 
-    console.log("first highlight");
-
-    // var textbubble = document.createElement('div');
-    // textbubble.className = 'text-bubble-tutorial right';
-    // document.getElementsByClassName('middle-side')[0].appendChild(textbubble);
-
     var textbubble = document.getElementsByClassName('text-bubble-tutorial')[0];
-    // var timeout = setTimeout(function () {
-    //     textbubble.style.opacity = "1";
-    // }, 3000);
 
     anime({
         targets: textbubble,
@@ -335,9 +334,6 @@ function firstHighlight() {
         easing: 'easeInOutQuart'
     });
 
-    // var textPar = document.createElement('p');
-    // textPar.className = "welcoming-par";
-    // textPar.appendChild(textbubble);
     var textPar = document.getElementsByClassName('welcoming-par')[0];
 
     var dragNDropMessage4 = getText("tut-high");
@@ -354,8 +350,7 @@ function firstHighlight() {
 
 
 /*
-This function is called so that the option-side of the screen on the right side is
-"openeed up" and the grey out boxes are removed.
+This function is called so that the overlay over the options are removed.
  */
 function openUpOptionsDiv() {
     var textbubble = document.getElementsByClassName('text-bubble-tutorial')[0];
@@ -419,20 +414,18 @@ function tutorialEventHandlers() {
         cancelTutorial();
     });
 
+    /*
+    Depending on the amount of clicks the eventhandler calls different functions and the text bubble adapts accordingly.
+     */
     $(document).on('click', '.overlay, .middle-side', function(e) {
-        // console.log(currentHighlightedObject);
-        // if (e.target.classList.contains('middle-side') || e.target.classList.contains('overlay')) {
-
         if (e.target.classList.contains('eventClickable')) {
             tutorialClicks++;
-            console.log(tutorialClicks);
 
             if(tutorialClicks == 1) {
                 showFirstMessage();
 
             }
             else if(tutorialClicks == 2) {
-                // showFirstMessageSecond();
                 showNewMessageAndAnimateBubble(getText("tut-selwe"), '200', '300');
             }
 
@@ -440,9 +433,6 @@ function tutorialEventHandlers() {
                 tryItOutNow();
             }
             else if (tutorialClicks == 4) {
-                // showSecondMessage();
-                //console.log("fourth tutorial click");
-                //createAnotherMessage();
                 showNewMessageAndAnimateBubble(getText("tut-highlight"), '200', '300');
             }
             else if (tutorialClicks ==5) {
@@ -479,8 +469,12 @@ function tutorialEventHandlers() {
 
 }
 
+/*
+If the canceltutorial button is pressed redirect the user automatically to the main page
+ */
 function cancelTutorial() {
-    /*
-    ADD CODE HERE LATER
-     */
+    if (lang=="se") {
+        window.location.href = "Creator_hub2.html?lang=se";
+    }
+    else window.location.href = "Creator_hub2.html?lang=en";
 }

@@ -1,16 +1,9 @@
-// var dropCalls = 0;
-// var userWidth = window.screen.width;
-// var userHeight = window.screen.height;
-// var topPositionArray = [];
-// var leftPositionArray = [];
-// var objectStyleArray = [];
-// var objectIdArray = [];
-// var weatherTimeArray = [];
-// var userLatitude;
-// var userLongitude;
-// var currentHighlightedObject;
-// var objectWidthArray = [];
-// var objectHeightArray = [];
+/*
+The creatorhub file for the tutorial is a little bit different from the legular creator_hub.js. It needs to handle how many times specific
+actions are done by the user so that it can call the correct tutorial messages for the user. Otherwise it is the same.
+ */
+
+
 var dropCount = 0;
 var highlightCount = 0;
 var changeTimeCount = 0;

@@ -1,5 +1,5 @@
 /**
- * Created by martin on 2017-05-19.
+ * If the Lifeganizer button is pressed we create a premade version of the website.
  */
 var fontFamilies=["Alex Brush","Diplomata","Diplomata"];
 var objectLeftPositions=["412.0057002939405px","469px","23px","23px","23px","115.984px","118px","117px","117px","414px","398px","7px","23px"];
@@ -19,11 +19,7 @@ function callfunction() {
     });
 }
 
-/*
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms))
-}
-*/
+
 
 function createPremadeMirror() {
     callfunction();

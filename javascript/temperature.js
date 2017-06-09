@@ -1,15 +1,13 @@
-// var fontFamilies =[];
-
-$(document).ready(function() {
-    // console.log("temperature " + fontFamilies);
-    // YOURFUNCTION();
-});
+/*
+This file handles the creation of the temperature and text message objects. It also handles all the
+different options that a user can do with these objects.
+ */
 
 /*
 This function loads all the Google fonts so that they can be shown when you choose a different font
 and then reload the page.
  */
-function YOURFUNCTION() {
+function loadGoogleFonts() {
     var wf = document.createElement('script');
     wf.src = ('https:' == document.location.protocol ? 'https' : 'http') + '://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js';
     wf.type = 'text/javascript';
@@ -18,7 +16,10 @@ function YOURFUNCTION() {
     s.parentNode.insertBefore(wf, s);
 }
 
-
+/*
+Create the temperature object and add all the different attributes to it. The difference between the temperature and weather object is that we also have to save the chosen font
+for the temperature.
+ */
 function createTemperatureStyle(apiResponse, topPosition, leftPosition, divId, temperatureTime, objectWidth, objectHeight, objectFont, functionCaller) {
     var temperatureStyleDiv = document.createElement('div');
     temperatureStyleDiv.setAttribute('id', divId);
@@ -127,17 +128,16 @@ function showFontSelector() {
     document.getElementsByClassName('text-bubble')[0].appendChild(selector);
 
     waitForElementToDisplay('select2-select_fontfamily-container', 5000); //wait for the element to appear.
-    //ar selectorText = document.getElementById();
-    //console.log(selectorText);
-    //selectorText.innerHTML = currentHighlightedObject.getAttribute('object-font');
 
 
-    $("#select_fontfamily").higooglefonts({
+    $("#select_fontfamily").higooglefonts({ //This part is taken from the tutorial in the github link above.
 
         loadedCallback:function(e){ //another function that adds the selected font to the object and stores the old font in the undo-array
             // console.log(e);
 
             var currentFontFamily = window.getComputedStyle(currentHighlightedObject).getPropertyValue('font-family');
+
+            //save the previous font to the undo array
             addToUndoArray(currentHighlightedObject.id, "changedFont", currentHighlightedObject.getAttribute('top'), currentHighlightedObject.getAttribute('left'),currentHighlightedObject.getAttribute('object-style'), currentHighlightedObject.getAttribute('weather-time'), currentHighlightedObject.getAttribute('object-width'), currentHighlightedObject.getAttribute('object-height'), currentFontFamily, currentHighlightedObject.getAttribute('text-message'));
             currentHighlightedObject.style.fontFamily = e;
             currentHighlightedObject.setAttribute('object-font',e);
@@ -148,6 +148,9 @@ function showFontSelector() {
 
 }
 
+/*
+When the font change has happened we have to save the new font in the object and display the new font at the same time.
+ */
 function updateObjectFont() {
     console.log("update object font:");
     console.log(fontFamilies2);
@@ -157,7 +160,6 @@ function updateObjectFont() {
     for (var i = 0; i < objectIdArray.length; i++) {
         if (objectIdArray[i] == currentHighlightedObject.id) {
             objectFontArray[i] = currentHighlightedObject.getAttribute('object-font'); //add the selected font to the highlighted object
-            // console.log(objectFontArray);
             updateLocalStorage();
         }
     }
@@ -176,6 +178,10 @@ function hideFontSelector() { //hide the font selector
     }
 }
 
+/*
+Create the text message object and all the attributes that it needs. The difference between this and the other objects is
+that we also need to store the entered message when creating and updating this object.
+ */
 function createTextMessage(locationTop, locationLeft, divId, messageTime, objectWidth, objectHeight, objectStyle, objectFont, textMessage) {
     console.log("object font given");
     console.log(objectFont);
@@ -183,24 +189,18 @@ function createTextMessage(locationTop, locationLeft, divId, messageTime, object
     textMessageDiv.setAttribute('id',divId);
     textMessageDiv.setAttribute('class','icon-middle sunny resize-drag');
     textMessageDiv.style.color = 'white';
-    // textMessageDiv.setAttribute('draggable','true'); //the object has to be able to be moved later on by the user.
-    // textMessageDiv.setAttribute('fromleft','true');
-    // textMessageDiv.addEventListener('dragstart', drag2, false);
 
-
-
-    if (textMessage == "noMessage") {
+    if (textMessage == "noMessage") { //if the user has not written a message in it display a placeholder.
         var placeholder = getText('text-message-placeholder');
         textMessageDiv.innerHTML = placeholder;
         textMessageDiv.setAttribute('text-message', placeholder);
     }
-    else {
+    else { //otherwise show the message.
         textMessageDiv.innerHTML = textMessage;
         textMessageDiv.setAttribute('text-message',textMessage);
     }
 
     document.getElementsByClassName('middle-side')[0].appendChild(textMessageDiv);
-    // textMessageDiv.appendChild(inputField);
 
     var style = window.getComputedStyle(textMessageDiv);
     textMessageDiv.style.top =locationTop;
@@ -223,34 +223,32 @@ function createTextMessage(locationTop, locationLeft, divId, messageTime, object
 
 
     if (objectWidth == "startWidth" && objectHeight=="startHeight") {
-        // console.log("startWidthHeight: " + style.getPropertyValue('width') + " " + style.getPropertyValue('height'));
-        // temperatureStyleDiv.style.width = "100px";
-        // temperatureStyleDiv.style.height = "50px";
         textMessageDiv.setAttribute('object-width', style.getPropertyValue('width'));
         textMessageDiv.setAttribute('object-height',style.getPropertyValue('height'));
     }
     else {
         textMessageDiv.style.width = objectWidth;
         textMessageDiv.style.height = objectHeight;
-        // console.log("objectWidthHeight " + objectWidth + " " + objectHeight);
         textMessageDiv.setAttribute('object-width',objectWidth);
         textMessageDiv.setAttribute('object-height',objectHeight);
     }
 
     var font = parseFloat(textMessageDiv.getAttribute('object-height'));
     textMessageDiv.style.fontSize = font/3 + 'px';
-    // textMessageDiv.style.fontSize = textMessageDiv.getAttribute('object-height') ;
 
     var functionCaller = arguments.callee.caller.name;
-    if (functionCaller == "drop") {
+
+    if (functionCaller == "drop") { //add it to the undo array if it was not called from localstorage.
         addToUndoArray(textMessageDiv.id, "addObject", locationTop, locationLeft, textMessageDiv.getAttribute('object-style'), messageTime, textMessageDiv.getAttribute('object-width'), textMessageDiv.getAttribute('object-height'),textMessageDiv.getAttribute('object-font'), textMessageDiv.getAttribute('text-message'));
     }
 
-  //  textMessageToCss(divId, locationTop, locationLeft, messageTime, objectWidth, objectHeight, textMessageDiv.getAttribute('object-font'), textMessageDiv.getAttribute('text-message'), objectStyle);
 }
 
+/*
+Show the input field if the user clicks on a text message.
+ */
 function showInputField() {
-    currentHighlightedObject.innerHTML =""; //remove the text when it is highlighted
+    currentHighlightedObject.innerHTML =""; //remove the current text when it is highlighted
 
     var inputField = document.createElement('input'); //create an input field
     inputField.className = 'text-message-field';
@@ -262,17 +260,18 @@ function showInputField() {
     var font = parseFloat(currentHighlightedObject.getAttribute('object-height'));
     inputField.style.fontSize = font/3 + 'px';
 
-    // inputField.style.fontSize = currentHighlightedObject.getAttribute('object-height');
     inputField.style.width = currentHighlightedObject.getAttribute('object-width');
     inputField.style.height = currentHighlightedObject.getAttribute('object-height');
     inputField.style.paddingBottom = '22px';
-    // inputField.style.background = "transparent";
-    // inputField.style.color = "white";
-    // inputField.style.border = "none";
+
     currentHighlightedObject.appendChild(inputField);
-    inputField.focus();
+    inputField.focus(); //focus and select the input field for the user.
     inputField.select();
 }
+
+/*
+Hide the input field if the user clicks anywhere else on the screen.
+ */
 function hideInputField() {
 
     var inputField = document.getElementsByClassName('text-message-field')[0];
@@ -294,40 +293,4 @@ function hideInputField() {
         inputField.remove();
     }
 
-}
-
-function updateTextMessageArray(enteredText) {
-    for (var i = 0; i < objectIdArray.length; i++) {
-        if (objectIdArray[i] == currentHighlightedObject.id) {
-            objectTextMessages[i] = enteredText;
-            updateLocalStorage();
-        }
-    }
-}
-
-function textMessageToCss(divId, topPosition, leftPosition, objectTime, objectWidth, objectHeight, objectFont, textMessage, objectStyle) {
-    var index = objectIdArray.indexOf(divId);
-    if (index !== -1) { //if the id is not found in the id-array
-        leftPositionArray[index] = leftPosition;
-        topPositionArray[index] = topPosition;
-    }
-
-    else {
-        objectIdArray.push(divId);
-        leftPositionArray.push(leftPosition);
-        topPositionArray.push(topPosition);
-        objectStyleArray.push(objectStyle);
-        weatherTimeArray.push(objectTime);
-        objectWidthArray.push(objectWidth);
-        objectHeightArray.push(objectHeight);
-        objectFontArray.push(objectFont);
-
-        for (var i= 0; i < objectIdArray.length; i++) {
-            if (objectIdArray[i] == divId) {
-                objectTextMessages[i] = textMessage
-            }
-        }
-    }
-
-    updateLocalStorage();
 }

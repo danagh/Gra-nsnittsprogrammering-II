@@ -1,44 +1,25 @@
-// var dropCalls = 0;
-// var userWidth = window.screen.width;
-// var userHeight = window.screen.height;
-// var topPositionArray = [];
-// var leftPositionArray = [];
-// var objectStyleArray = [];
-// var objectIdArray = [];
-// var weatherTimeArray = [];
-// var userLatitude;
-// var userLongitude;
-// var currentHighlightedObject;
-// var objectWidthArray = [];
-// var objectHeightArray = [];
-var tutorialCounter = 0;
+/*
+This function handles the creation of the weather objects, all the event listeners and the drag and drop actions from the left side to the middle.
+ */
+
+
 
 
 $(document).ready(function() {
 
-    /*
-
-     localStorage.clear();
-     for (var k = 0; k < objectIdArray.length; k++) {
-        delete topPositionArray[k];
-         delete leftPositionArray[k];
-         delete  objectStyleArray[k];
-         delete  objectIdArray[k];
-
-     }*/
      // delStorage();
 
-    YOURFUNCTION();
-   // createLoadingCanvas();
+   createLoadingCanvas();
     getLocation();
 
-    checkIfLocalStorageExists();
-    addAttributesToWeatherOptionDiv();
-    createEventHandlers();
+    // checkIfLocalStorageExists();
+    // addAttributesToWeatherOptionDiv();
+    // createEventHandlers();
 
 
 });
 
+//Function used by us to delete the local storage.
 function delStorage() {
     localStorage.clear();
     for (var k = 0; k < objectIdArray.length; k++) {
@@ -55,8 +36,8 @@ function createEventHandlers() {
         //console.log("leaving page");
         saveAllChanges();
     });
-
-    $(document).on('click', '.dropbtn', function() {
+    /*
+    $(document).on('click', '.dropbtn', function() { /
         if ($('.dropdown-content').hasClass('show')) {
             $('.dropdown-content').removeClass('show');
         }
@@ -72,18 +53,15 @@ function createEventHandlers() {
             }
         }
     };
+    */
 
-    $(document).on('click', '.magic', function() {
+    $(document).on('click', '.magic', function() { //easter egg when clicking on our name in the top left corner
         createPremadeMirror();
         updateLocalStorage();
         checkIfLocalStorageExists();
     });
 
-    /*$(document).on('click', '.clearAll', function() {
-        console.log('local storage cleared');
-        delStorage();
-    });*/
-
+    /*
     $(document).on('click','.weather-option', function() {
         if ($(this).hasClass('clicked')) {
             $(this).removeClass('clicked');
@@ -96,10 +74,10 @@ function createEventHandlers() {
             // $('this .hidden-options').css("display", "block");
         }
     });
+    */
+
     //This eventhandler highlight objects so that more options pops up on the side for the user.
     $('.middle-side').click(function(e){
-        console.log("clicked on:");
-        console.log(e.target);
         hideInputField();
 
         //The icon should not be unhighlighted if you press specific objects on the screen.
@@ -110,7 +88,6 @@ function createEventHandlers() {
         //if a highlighted object exists and it was a temperature graph we have to check the users changes and adapt accordingly.
         if(currentHighlightedObject) {
             if (currentHighlightedObject.getAttribute('object-style') == "temp-graph") {
-                console.log("previous highlighted object was temperature graph");
                 checkInputFields();
             }
         }
@@ -126,8 +103,6 @@ function createEventHandlers() {
         }
 
 
-
-
         if (currentHighlightedObject.classList.contains("icon-middle")) { //if it is a highlightable object
             $('.weather-choose-time option').remove();
             highLightObject();
@@ -135,7 +110,6 @@ function createEventHandlers() {
         }
 
         else { //if anywhere else was pressed on the screen then unhighlight an object if it already is highlighted.
-            console.log("click else");
             removeOptionsDiv();
             $('.icon-middle').each(function() {
                 if ($(this).hasClass('highlighted')) { //remove the previous highlighted object
@@ -144,20 +118,9 @@ function createEventHandlers() {
                 }
             });
         }
-
-
-
-        console.log("current highlighted object ");
-        console.log(currentHighlightedObject);
     });
 
-    /*
-    $( ".weather-choose-time").change(function() { //when an option is clicked in the dropdown menu
-        // var newWeatherTime = $('.weather-choose-time option:selected').text();
-        console.log("changed weather time");
-        switchWeatherTime(this);
-    });
-    */
+
 
     //undo and redo event-listeners
     $(document).on('click', '.undo-button', function() { //undo-button click listener
@@ -367,9 +330,9 @@ function removeOptionsDiv() {
 
     }
 }
-//
-//
-//
+/*
+These functions are our old own made resizers before we chose to use another person's creation.
+ */
 // function hideResizer() {
 //     var resizer = document.getElementsByClassName('resizer')[0];
 //     // resizer.style.display='none';
@@ -424,35 +387,13 @@ function removeOptionsDiv() {
 // }
 
 
-// target elements with the "draggable" class
-
-/*
-interact('.draggable')
-    .draggable({
-        // enable inertial throwing
-        inertia: true,
-        // keep the element within the area of it's parent
-        restrict: {
-            restriction: "parent",
-            endOnly: true,
-            elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
-        },
-        // enable autoScroll
-        autoScroll: true,
-
-        // call this function on every dragmove event
-        onmove: dragMoveListener,
-        // call this function on every dragend event
-        onend: function (event) {
-            console.log("end call");
-        }
-    });
-
-*/
-
 // definierar en variabel för fönstret för spegeln
 var mirror = undefined;
 
+/*
+This function handles the dragging and dropping when a user moves an already created object in the middle of the screen.
+Function taken from http://interactjs.io.
+ */
 function dragMoveListener (event) {
     var target = event.target,
         // keep the dragged position in the data-x/data-y attributes
@@ -496,6 +437,9 @@ function getPreviousPosition(event) {
     return [previousTopPosition, previousLeftPosition];
 }
 
+/*
+The dragging, dropping and resizing of objects in the middle of the screen is used by a third-pary framework found here http://interactjs.io.
+ */
 interact('.resize-drag')
     .draggable({
         // enable inertial throwing
@@ -508,7 +452,7 @@ interact('.resize-drag')
         },
         // enable autoScroll
         autoScroll: true,
-        onstart: function(event) {
+        onstart: function(event) { //save previous position
             previousPosition = getPreviousPosition(event);
             removeOptionsDiv();
         },
@@ -541,7 +485,7 @@ interact('.resize-drag')
             min: { width: -600, height: -600 },
             max: { width:  300, height:  300 }
         },
-        onstart: function(event) {
+        onstart: function(event) { //save previous size
           previousSize = getPreviousSize(event);
           removeOptionsDiv();
         },
@@ -565,10 +509,6 @@ interact('.resize-drag')
 
             target.style.fontSize = event.rect.height/3 + 'px';
 
-
-
-
-
             // translate when resizing from top or left edges
             x += event.deltaRect.left;
             y += event.deltaRect.top;
@@ -578,12 +518,9 @@ interact('.resize-drag')
 
             target.setAttribute('data-xx', x);
             target.setAttribute('data-yy', y);
-            //updateObjectSize(target, event.rect.width + 'px', event.rect.height + 'px');
-            // target.setAttribute('object-width', event.rect.width + 'px');
-            // target.setAttribute('object-height', event.rect.height + 'px');
-            // weatherStyleToCss(target.id, target.getAttribute('top'), target.getAttribute('left'), target.getAttribute('object-style'), target.getAttribute('weather-time'), target.getAttribute('object-width'), target.getAttribute('object-height'),target.getAttribute('object-font'));
+
         },
-        onend: function(event) {
+        onend: function(event) { //when the resizing has ended
             var target = event.target;
             var currentWidth = window.getComputedStyle(target).getPropertyValue('width');
             var currentHeight = window.getComputedStyle(target).getPropertyValue('height');
@@ -594,7 +531,7 @@ interact('.resize-drag')
             addToUndoArray(target.id, "resizedObject", target.getAttribute('top'), target.getAttribute('left'), target.getAttribute('object-style'), target.getAttribute('weather-time'), previousWidth, previousHeight, target.getAttribute('object-font'), "noMessage");
 
             updateObjectSize(target, currentWidth, currentHeight);
-        },
+        }
     });
 
 
@@ -602,17 +539,6 @@ function updateObjectSize(target, newWidth, newHeight) {
     target.setAttribute('object-width', newWidth);
     target.setAttribute('object-height', newHeight);
 
-    /*
-    for (var i = 0; i < objectIdArray.length; i++) {
-        if (objectIdArray[i] == target.id) {
-            objectWidthArray[i] = newWidth;
-            objectHeightArray[i] = newHeight;
-
-            updateLocalStorage();
-            break;
-        }
-    }
-    */
 }
 
 function getPreviousSize(event) {
@@ -624,7 +550,7 @@ function getPreviousSize(event) {
 }
 
 /*
-Creates a dropdown menu together with its content.
+Creates a dropdown menu together with its content. Here a user can choose for which time of the day he/she wants to show the weather/temperature.
  */
 function showDropDown() {
     var dropdown = document.createElement('select');
@@ -687,6 +613,7 @@ function switchWeatherTime(selectedValue) {
     removeOptionsDiv(); //remove the optionsDiv since the object has been unhighlighted.
 }
 
+//The delete button has to be added to each object's options.
 function showDeleteButton() {
     var deleteDiv = document.createElement('div');
     deleteDiv.className = 'delete-div';
@@ -697,9 +624,7 @@ function showDeleteButton() {
     document.getElementsByClassName('text-bubble')[0].appendChild(deleteDiv);
     deleteDiv.appendChild(deleteButton);
 
-    deleteDiv.addEventListener('click', function() {
-        // console.log(highlightedObject.id);
-        // console.log(objectIdArray);
+    deleteDiv.addEventListener('click', function() { //if the button is clicked remove the object and all the otpions.
         addToUndoArray(currentHighlightedObject.id, "deleteObject", currentHighlightedObject.getAttribute('top'), currentHighlightedObject.getAttribute('left'), currentHighlightedObject.getAttribute('object-style'), currentHighlightedObject.getAttribute('weather-time'), currentHighlightedObject.getAttribute('object-width'), currentHighlightedObject.getAttribute('object-height'), currentHighlightedObject.getAttribute('object-font'));
         deleteObject(currentHighlightedObject.id);
         removeOptionsDiv();
@@ -725,7 +650,7 @@ function deleteObject(objectId) {
 }
 
 /*
-This function adds a specific ID to each object on the left side of the screen so that when an user
+This function adds a specific ID to each object on the left side of the screen so that when a user
 drops an object to the middle we can check which object exactly it was and render it accordingly.
  */
 function addAttributesToWeatherOptionDiv() {
@@ -758,10 +683,7 @@ function drag_leave(ev) {
 
 }
 /*
-We use two different drag events - one when you drag something from the left side of the screen and one when
-you drag an already dragged object. The difference is that when you drag an already dragged object it has an attribute called
-fromleft, which equals true. This makes it so that it doesn't create a new element when dropped. In the second drag function we also
-give another attribute with the id of the selected element, so that the correct element is moved.
+When a user drags an object from the left to the middle we have to send the information about where the element was dropped and what kind of element should be rendered.
  */
 
 function drag(ev) {
@@ -785,7 +707,6 @@ function dragOver(e) {
 /*
 When an option is dropped the function first checks if it has been already dragged from the left side or not.
 If it has been dragged from the left side we do not have to create a new element and instead just move the element that is dropped.
-If the element is dragged from the left we first check which option it is and then create the correct icon.
  */
 function drop(ev, target) {
     if (mirror === undefined){
@@ -798,6 +719,7 @@ function drop(ev, target) {
     var dropCallsString = dropCalls.toString(); //change the id into a string so that it can be parsed.
     var offset = ev.dataTransfer.getData("text/plain").split(','); //put the data into an array and split at a comma-sign.
 
+    //Depending on the dropped object's ID create a different object.
    if (offset[2] == 0) {
         console.log("drop else if");
         var locationLeft = ev.pageX - mirror.getBoundingClientRect().left - 50 + 'px';
@@ -837,34 +759,32 @@ function drop(ev, target) {
 
 }
 
+//The creation of the weather object.
+// It has to get the specific weather from the SMHI-API.
+// It also needs the left and top position to be rendered on the correct position.
+//It needs an ID so that it is unique.
+//It needs to know for which time of the day it should display the weather.
+//It needs to store its' height
+//Some of these attributes might shift depending on the object created but the position, id, size and what kind of object it is will always be saved.
 function createWeatherStyle(apiResponse, locationTop, locationLeft, divId, weatherTime, objectWidth, objectHeight, functionCaller) {
     // var weatherStyleDiv = document.createElement('img');
     var weatherStyleDiv = document.createElement('div');
     weatherStyleDiv.setAttribute('id', divId); //give an id so that we can choose the correct object to be dragged.
 
-    var dropdown = document.getElementsByClassName('weather-choose-time')[0];
+    // var dropdown = document.getElementsByClassName('weather-choose-time')[0];
     // var weatherTime ="notExist";
-    if(weatherTime !== "notExist") {
+    if(weatherTime !== "notExist") { //create the object for the current time if it is dropped from the left side.
         weatherStyleDiv.setAttribute('weather-time',weatherTime);
         var timeDifference = calculateDateAndTimeDifference(apiResponse, weatherTime);
-        console.log(timeDifference);
     }
     else {
         weatherStyleDiv.setAttribute('weather-time', "current-time");
         var timeDifference = calculateDateAndTimeDifference(apiResponse, "current-time");
-        console.log(timeDifference);
     }
-    console.log('b4 crash: ' + timeDifference);
     var currentWeather = apiResponse.timeSeries[timeDifference].parameters[18].values[0];
 
-
-
     weatherStyleDiv.setAttribute('class','icon-middle sunny resize-drag');
-    // weatherStyleDiv.setAttribute('draggable','true'); //the object has to be able to be moved later on by the user.
-    // weatherStyleDiv.setAttribute('fromleft','true');
-    // weatherStyleDiv.addEventListener('dragstart', drag2, false);
 
-    //currentWeather = 4; //test another else if-statement
     if (currentWeather == 1 || currentWeather == 2) { //sunny
         // console.log("is correct");
         var sun = document.createElement('div');
@@ -872,10 +792,7 @@ function createWeatherStyle(apiResponse, locationTop, locationLeft, divId, weath
 
         var rays = document.createElement('div');
         rays.className = 'rays';
-        // var sun = document.createElement('img');
-        // sun.addEventListener('dragstart', drag2, false);
-        //weatherStyleDiv.src="weathericons/simple_weather_icon_01.png";
-        // weatherStyleDiv.style.content="url(weathericons/simple_weather_icon_01.png)";
+
         weatherStyleDiv.appendChild(sun);
         sun.appendChild(rays);
     }
@@ -1001,43 +918,6 @@ function createWeatherStyle(apiResponse, locationTop, locationLeft, divId, weath
 
 }
 
-/*
-This function is called each time something is dropped. It takes the id of the dropped div together with its' position and style and
-saves it into local storage. This way when the user is logged in again we can take the values from local storage and create a session
-that was equal to the one the person exited from.
- */
-
-function weatherStyleToCss(draggedId, topPosition, leftPosition, objectStyle, selectedTime, objectWidth, objectHeight, objectFont) {
-    //
-    // var topInt = topPosition.replace(/\D/g,''); //Make the pixel value into an integer
-    // var leftInt = leftPosition.replace(/\D/g,'');
-    // var topPercent = (topInt - userHeight)/userHeight;
-    // topPercent.toString(); //Change it back to a string and add a percent-sign.
-    // topPercent += '%';
-    // var leftPercent = (leftInt - userWidth)/userWidth;
-    // leftPercent.toString();
-    // leftPercent += '%';
-
-    var index = objectIdArray.indexOf(draggedId);
-    if (index !== -1) { //if the id is not found in the id-array
-        leftPositionArray[index] = leftPosition;
-        topPositionArray[index] = topPosition;
-    }
-
-    else {
-        objectIdArray.push(draggedId);
-        leftPositionArray.push(leftPosition);
-        topPositionArray.push(topPosition);
-        objectStyleArray.push(objectStyle);
-        weatherTimeArray.push(selectedTime);
-        objectWidthArray.push(objectWidth);
-        objectHeightArray.push(objectHeight);
-        objectFontArray.push(objectFont);
-    }
-
-    updateLocalStorage()
-
-}
 
 /*
 This function saves all the user's changes. It is only done when the user leaves the website to
@@ -1078,6 +958,10 @@ function updateLocalStorage() {
     localStorage.setItem("seconds",JSON.stringify(showSecondsArray));
 }
 
+/*
+This function checks if the local storage exists when we re-enter the webiste. If it exists it creates every object with its selected options so that the user
+can start where he/she left off.
+ */
 
 function checkIfLocalStorageExists() {
     if (mirror === undefined){
@@ -1135,19 +1019,12 @@ function checkIfLocalStorageExists() {
         }
 
     }
-    else { console.log("else");
-        /*
-        tutorialCounter++;
-        if (tutorialCounter == 1) {
-            if (lang == "se") {
-                window.location.href = "tutorial.html?lang=se";
-            }
-            else window.location.href = "tutorial.html?lang=en";
-        }
-        */
+    else { console.log("else"); //nothing will happen otherwise.
+
     }
 }
 
+//function that is called to get the current date and time
 function getDateAndTime() {
     var currentTime = new Date();
     var hours = currentTime.getHours();
@@ -1178,7 +1055,7 @@ function calculateDateAndTimeDifference(apiResponse, selectedWeatherTime) {
     }
 
     else if(selectedWeatherTime == "morning") {
-        if( approvedHour > "08") {
+        if( approvedHour > "08") { //depending on what time it is show the weather for today or tomorrow.
             var morningHoursNeeded =  hoursToNextDay + 9;
             return morningHoursNeeded;
         }
@@ -1223,7 +1100,8 @@ function calculateDateAndTimeDifference(apiResponse, selectedWeatherTime) {
     }
 
 }
-/*
+
+//This function creates a loading canvas so that we can get the geolocation data from the user before continuing.
 function createLoadingCanvas() {
     var loadingCanvas = document.createElement('div');
     loadingCanvas.className = "loading-canvas";
@@ -1245,6 +1123,7 @@ function createLoadingCanvas() {
 
 }
 
+//After 4-5 seconds remove the canvas.
 function hideLoadingCanvas() {
     var loadingCanvas = document.getElementsByClassName('loading-canvas')[0];
     anime({
@@ -1258,7 +1137,7 @@ function hideLoadingCanvas() {
     }, 800);
 
 }
-*/
+
 
 /*
 The getlocation and showposition functions are taken from http://stackoverflow.com/questions/2577305/get-gps-location-from-the-web-browser
@@ -1275,7 +1154,7 @@ function getLocation() {
     }
 }
 /*
-The function works but it is very slow in getting the coordinates and the API will therefore give an error message.
+The function works but it is very slow in getting the coordinates. That is why the loading canvas is needed.
  */
 function showPosition(position) {
         userLatitude = position.coords.latitude;
@@ -1283,23 +1162,25 @@ function showPosition(position) {
         userLatitude = userLatitude.toFixed(4); //take only the four first decimals.
         userLongitude = userLongitude.toFixed(4);
 
-    /*
+
     hideLoadingCanvas();
-    checkIfLocalStorageExists(); //The timeouts are not working correctly and this has to be fixed later on in the project.
+    checkIfLocalStorageExists(); //Call all the other functions that the website is using.
     addAttributesToWeatherOptionDiv();
+    loadGoogleFonts();
     createEventHandlers();
-    */
+
 
 }
 
+/*
+Link to the smhi-api: http://opendata.smhi.se/apidocs/metfcst/index.html
+The function gets the data from the api so that we can use it in different parts of the website.
+ */
 function SMHICall(topPosition, leftPosition, divId, objectTime, objectWidth, objectHeight, objectStyle, objectFont) {
     if (userLongitude == undefined && userLatitude == undefined) {
         userLongitude = "17.6389";
         userLatitude = "59.8586";
     }
-
-    console.log("user lat: " + userLatitude);
-    console.log("user long: " + userLongitude);
 
     var functionCaller = arguments.callee.caller.name;
     // var endPoint = "http://opendata-download-metfcst.smhi.se/api/category/pmp2g/version/2/geotype/point/lon/17.6389/lat/59.8586/data.json";
@@ -1331,17 +1212,6 @@ function SMHICall(topPosition, leftPosition, divId, objectTime, objectWidth, obj
         The approved time can also have happened a day before so we also have to check the approved day by checking index 8 and 9 of the response.
          */
 
-
-        console.log(data);//.timeSeries[1].parameters[18].values);
-        // var localTime = getDateAndTime(data);
-        // var currentHour = localTime[0];
-        // var currentDate = localTime[1];
-        // var timeDifference = calculateDateAndTimeDifference(data, currentHour, currentDate);
-        // console.log(timeDifference);
-
-        // createWeatherStyle(data.timeSeries[timeDifference].parameters[18].values[0], topPosition, leftPosition, divId);
-        // if(arguments.callee.caller.name == "checkIfLocalStorageExi")
-
         if (objectStyle =="weather") {
             createWeatherStyle(data, topPosition, leftPosition, divId, objectTime, objectWidth, objectHeight, functionCaller);
         }
@@ -1353,7 +1223,7 @@ function SMHICall(topPosition, leftPosition, divId, objectTime, objectWidth, obj
             createGraphCanvas(data, topPosition, leftPosition, divId, objectStyle, objectTime, objectWidth, objectHeight, objectFont, functionCaller);
         }
     })
-        .fail(function () {
+        .fail(function () { //If the api-failed show an error message to the user.
             console.log("SMHI API FAIL");
 
             var userMessageDiv = document.getElementsByClassName('user-message-div')[0];

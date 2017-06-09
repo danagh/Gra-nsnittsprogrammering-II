@@ -212,8 +212,8 @@
     "se": "De givna värdena matchade inte med det förväntade  formatet"
   },
   "api-fail": {
-    "en": "Something went wrong when we tried to look up the weather forecast. Try again",
-    "se": "Något gick fel när vi försökte leta upp väderprognosen. Försök igen"
+    "en": "Something went wrong when we tried to look up the weather forecast. Please try again",
+    "se": "Något gick fel när vi försökte leta upp väderprognosen. Var god och försök igen"
   },
   "empty-undo": {
     "en": "There is nothing left to undo",

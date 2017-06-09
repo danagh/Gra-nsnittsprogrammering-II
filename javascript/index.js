@@ -1,3 +1,13 @@
+/*
+This file us used for everything in the first page of our website. Mostly it just consists of different eventhandlers
+to be able to adapt appropriately to the users actions.
+ */
+
+/*
+All the animations that are used can be founc with the anime-tag. These are made by a third party framework which can be found here:
+ http://animejs.com/
+ */
+
 $(document).ready(function() {
     changeHeaderSize();
     createEventHandlers();
@@ -5,7 +15,8 @@ $(document).ready(function() {
 
 function createEventHandlers() {
    // taken from http://stackoverflow.com/questions/18071046/smooth-scroll-to-specific-div-on-click
-   $('.about').click(function () {
+   //Used to scroll down to the appropriate location on the page when the different buttons on the header is clicked.
+    $('.about').click(function () {
        $('html,body').animate({
                scrollTop: $(".about-text").offset().top},
            'slow');
@@ -25,15 +36,16 @@ function createEventHandlers() {
             'slow');
     });
 
+    //When the "Start-here" button is pressed it should open to give more fields for the user to register an user.
     $(document).on('click', '.pop-up-button', function (e) {
         if (e.target instanceof HTMLInputElement || e.target instanceof HTMLButtonElement) {
-            return true;
+            return true; //don't close the button if different elements on the button is pressed
         }
 
         if ($('.pop-up-button').hasClass('clicked')) {
             closePopUpButton();
         }
-        else {
+        else { //the animation of the button
             $('.pop-up-button').animate({'width': '388px', 'height': '350px'}, 200);
             $('.pop-up-button').addClass('clicked');
             // $('.pop-up-button-text').animate({'height':'300px'}, 500);
@@ -46,18 +58,21 @@ function createEventHandlers() {
         }
     });
 
+    //if the main picture is pressed close down the registration button
     $(document).on('click', '.main-picture', function() {
         if($('.pop-up-button').hasClass('clicked')) {
             closePopUpButton();
         }
     });
 
+    //eventhandler for handling the login-event.
     $(document).on('click', '.login-button', function () {
         var enteredEmail = document.getElementsByClassName('username-field')[0].value;
         var enteredPassword = document.getElementsByClassName('password-field')[0].value;
         verifyEmailAndPassword(enteredEmail, enteredPassword);
     });
 
+    //if the return button is pressed the login-button should be clicked automatically.
     $(document).keydown(function(event) { //if the return-button is pressed instead
         if(event.keyCode == 13) {
             $('.login-button').click();
@@ -65,6 +80,7 @@ function createEventHandlers() {
     });
 }
 
+//handling the closing of the button. we use a function since more than one event calls it.
 function closePopUpButton() {
     $('.pop-up-button').animate({'width':'316.8px','height':'21.9px'}, 200);
     var hiddenDiv = document.getElementsByClassName('pop-up-register')[0];
@@ -74,6 +90,9 @@ function closePopUpButton() {
     $('.pop-up-button').removeClass('clicked');
 }
 
+/*
+The header of our page should become smaller or larger depending on if the user scrolls down or up.
+ */
 function changeHeaderSize() {
     window.addEventListener('scroll', function(e){
         //If an user scrolls more than 300 pixels then add another class to the header-elements that shrinks them
@@ -112,6 +131,8 @@ function changeHeaderSize() {
     });
 }
 
+//depending on if the login infroamtion is entered correctly login to the next page.
+//note that this is not a good implementation and would be completely changed for the "real life version" of the website.
 function verifyEmailAndPassword(enteredEmail, enteredPassword) {
     $.getJSON("./accounts.json", function(data) {
        var accounts = data;

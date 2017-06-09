@@ -294,7 +294,7 @@ input:focus {
     color: black;
     font-size:14px;
     border-radius: 8px;
-    font-family: 'Julius Sans One', sans-serif;
+    font-family: sans-serif;
 }
 
 .register-button {

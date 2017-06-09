@@ -10,6 +10,8 @@
  * if used from a javascript file getText(arg) works fine since lexicon is loaded
  *
  * the string to be translated must exist in language.json
+ *
+ * The index part of the application needs its own translator since we need to change placeholders in inputfields.
  */
 
 //global variable that stores the current language - needed to be accessed from all scripts

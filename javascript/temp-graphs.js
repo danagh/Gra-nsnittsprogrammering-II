@@ -1,6 +1,11 @@
 /*
+Function that handles the creation and options of the temperature graphs.
+ */
+
+/*
 First of all we have to create a canvas to draw the graph on. The only difference between this and the
-other create functions is that a canvas is appended to the div. The canvas is needed to draw the graph on..
+other create functions is that a canvas is appended to the div. The canvas is needed to draw the graph on.
+The file is also used to handle all the different options that the user can do with a temperature graph.
  */
 function createGraphCanvas(apiResponse, topPosition, leftPosition, divId, objectStyle, objectTime, objectWidth, objectHeight, objectFont, functionCaller) {
     var canvasContainer = document.createElement('div');
@@ -46,7 +51,7 @@ function createGraphCanvas(apiResponse, topPosition, leftPosition, divId, object
     canvasContainer.appendChild(graphCanvas);
     document.getElementsByClassName('middle-side')[0].appendChild(canvasContainer);
 
-    if (functionCaller == "drop") {
+    if (functionCaller == "drop") { //if it is not drawn from local storage add it to the undo array.
         addToUndoArray(canvasContainer.id, "addObject", canvasContainer.getAttribute('top'), canvasContainer.getAttribute('left'), canvasContainer.getAttribute('object-style'), objectTime, canvasContainer.getAttribute('object-width'), canvasContainer.getAttribute('object-height'),"noFont", "noMessage");
     }
 
@@ -57,7 +62,8 @@ function createGraphCanvas(apiResponse, topPosition, leftPosition, divId, object
 }
 
 /*
-THis function creates the whole line graph by getting the time span that the user has chosen and then calls another function to draw the graph.
+This function creates the whole line graph by getting the time span that the user has chosen and then calls another function to draw the graph.
+The creation of the temperature graphs is used by http://www.chartjs.org.
  */
 function createLineGraph(apiResponse, graphCanvas, canvasContainer) {
     //get the time span for which we want to show the graph
@@ -71,9 +77,6 @@ function createLineGraph(apiResponse, graphCanvas, canvasContainer) {
         temperatureArray[i] = apiResponse.timeSeries[temperatureIndex].parameters[1].values[0];
         temperatureTimeArray[i] = apiResponse.timeSeries[temperatureIndex].validTime[11] + apiResponse.timeSeries[temperatureIndex].validTime[12] + ":00";
     }
-
-    console.log(temperatureArray);
-    console.log(temperatureTimeArray);
 
     //initiate all the data for the line graph
     var data = {
@@ -167,6 +170,10 @@ function createLineGraph(apiResponse, graphCanvas, canvasContainer) {
     });
 }
 
+/*
+Function used to get the first hour of the day from SMHI and then get all the data points until the 23rd hour of the same day.
+Also used to gain different time spans depending on what the user has chosen for the temperature graph.
+ */
 function calculateIndexesForTimeSpan(apiResponse, givenTimeSpan) {
     var approvedDay = apiResponse.approvedTime[8] + apiResponse.approvedTime[9];
 
@@ -189,7 +196,7 @@ function calculateIndexesForTimeSpan(apiResponse, givenTimeSpan) {
     }
 
     else {
-        //split the given times into a start- and end time
+        //split the given times into a start- and end-time
         var indexOfSplit = givenTimeSpan.indexOf("-");
         var startTime = givenTimeSpan.substr(0,indexOfSplit);
         var endTime = givenTimeSpan.substr(indexOfSplit + 1, givenTimeSpan.length);
@@ -243,23 +250,17 @@ function showLineGraphTimeChooser() {
     checkboxContainer.appendChild(wholeDayCheckbox);
     checkboxContainer.appendChild(label);
     wholeTimeChooserContainer.appendChild(checkboxContainer);
-    // inputContainer.appendChild(fromTimeDiv);
-    // inputContainer.appendChild(fromTimeInput);
-    // inputContainer.appendChild(endTimeDiv);
-    // inputContainer.appendChild(endTimeInput);
-    // wholeTimeChooserContainer.appendChild(inputContainer);
+
     document.getElementsByClassName('text-bubble')[0].appendChild(wholeTimeChooserContainer);
     wholeTimeChooserContainer.style.display = "inline-block";
 
     //automatically fill the checkbox if the user has chosen to show the graph for the whole day.
-   //also add an overlay to the input fields so that they cannot be pressed.
+   //also hide everything from with the inputs so that they cannot be clicked by the user.
     if (currentHighlightedObject.getAttribute('weather-time') == "whole-day") {
         wholeDayCheckbox.setAttribute('checked', 'checked');
-        //showOrHideInputOverlay();
-        //disable the input fields
-        //fromTimeInput.setAttribute('disabled', 'true');
-        //endTimeInput.setAttribute('disabled', 'true');
+
     }
+
     //if the user has specified a time span
     else {
         showOrHideInputOverlay();
@@ -275,14 +276,14 @@ function showLineGraphTimeChooser() {
 
 /*
 Depending on the weather-time attribute and the "show whole day"-checkbox this function will
-grey out the input field or make them clickable
+hide the input fields or make them clickable
  */
 function showOrHideInputOverlay() {
 
     var inputContainer = document.getElementsByClassName('line-input-container')[0];
 
     if (inputContainer) {
-        //animate the removal of the overlay
+        //animate the removal of the input fields
         anime({
             targets: inputContainer,
             opacity: 0,
@@ -294,7 +295,7 @@ function showOrHideInputOverlay() {
         }, 500);
 
     }
-    else {
+    else { //create the different elements, add them to the div and animate the appearance of them.
         var inputContainer = document.createElement('div');
         inputContainer.className = 'line-input-container';
         inputContainer.style.opacity = "0";
@@ -344,6 +345,7 @@ function showOrHideInputOverlay() {
 /*
 Function that checks the input length when specifying for which time period they want the graph.
 The function will not let the user write more than two characters since it only takes whole hours as input.
+Taken from https://stackoverflow.com/questions/22086823/limit-number-of-characters-in-input-type-number
  */
 function checkInputFieldLength(inputField) {
     var inputFieldLength = inputField.value.length;
@@ -355,15 +357,6 @@ function checkInputFieldLength(inputField) {
         var inputFieldValue = inputField.value;
         inputFieldValue = inputFieldValue.substring(0, inputFieldValue.length - 1);
         inputField.value = inputFieldValue;
-    }
-}
-
-//this function hides everything on the right side screen.
-function hideLineGraphTimeChooser() {
-    var wholeTimeChooserContainer = document.getElementsByClassName('line-time-container')[0];
-    if (wholeTimeChooserContainer) {
-        wholeTimeChooserContainer.style.display = 'none';
-        wholeTimeChooserContainer.remove();
     }
 }
 
@@ -387,7 +380,7 @@ function checkInputFields() {
             var userMessageDiv = document.getElementsByClassName('user-message-div')[0];
             userMessageDiv.innerHTML = getText('values-entered');
 
-            anime({
+            anime({ //animate the error message to the user.
                 targets: userMessageDiv,
                 opacity: 1,
                 easing: 'easeInOutQuart',
@@ -403,7 +396,7 @@ function checkInputFields() {
             },5000);
         }
 
-        //otherwise create a new weather-time attribute value and store it.
+        //otherwise create a new weather-time attribute value and store it and also create the new graph while the old graph is removed.
         else {
             var attributeValue = fromTimeInputValue + "-" + endTimeInputValue;
             currentHighlightedObject.setAttribute('weather-time', attributeValue);
@@ -414,7 +407,7 @@ function checkInputFields() {
 }
 
 /*
-function that gets the input values from the choose start and end time input fields when a temperature graph is highlighted.
+function that gets the input values from the choose start and end time input fields when a temperature graph is highlighted and returns it to the caller-function so that they can be used to update the graph.
  */
 function getInputValues(fromTimeInput, endTimeInput) {
     var fromTimeInputValue = fromTimeInput.value;

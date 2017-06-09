@@ -1,5 +1,17 @@
+/*
+This file handles the creation and all options for the clock and date elements.
+ */
 
-function createTimeObject(topPosition, leftPosition, divId, objectStyle, objectTime, objectWidth, objectHeight, objectFont, secondShower) {
+/*
+Create a clock object and add the current time to it.
+The creation of the clock and how it handles time is taken from http://www.elated.com/articles/creating-a-javascript-clock/
+ */
+/*
+The difference in this object is that it stores an second-chooser attribute so that it knows if the clock should show the seconds ticking or not.
+Furthermore this attribute has to be stored so that the checkbox is checked/unchecked depending on the user's choice.
+This element also has to store the selected font.
+ */
+function createTimeObject(topPosition, leftPosition, divId, objectStyle, objectTime, objectWidth, objectHeight, objectFont, secondChooser) {
     var today = new Date();
     var hr = today.getHours();
     var min = today.getMinutes();
@@ -9,7 +21,7 @@ function createTimeObject(topPosition, leftPosition, divId, objectStyle, objectT
     min = checkTime(min);
     sec = checkTime(sec);
 
-
+    //When the function is recalled just update the innerHTML and not the whole element.
     if(document.getElementsByClassName('clock')[0]) {
         var clockDiv = document.getElementsByClassName('clock')[0];
         var showSeconds = clockDiv.getAttribute('seconds');
@@ -21,16 +33,16 @@ function createTimeObject(topPosition, leftPosition, divId, objectStyle, objectT
         //console.log("updated");
 
     }
+    //goes into this else-statement the first time the element is created.
     else {
         var clockDiv = document.createElement('div');
         clockDiv.style.color = 'white';
         clockDiv.setAttribute('id', divId);
         clockDiv.setAttribute('class', 'icon-middle sunny resize-drag clock');
-        //clockDiv.setAttribute('class', 'white');
 
-        clockDiv.setAttribute('seconds', secondShower);
+        clockDiv.setAttribute('seconds', secondChooser);
 
-        if (secondShower == 'true') { //depending on the user's choice do or don't show the seconds
+        if (secondChooser == 'true') { //depending on the user's choice do or don't show the seconds
             clockDiv.innerHTML = hr + ":" + min + ":" + sec ;
         }
         else clockDiv.innerHTML = hr + ":" + min ;
@@ -144,7 +156,7 @@ function showSecondsChooser() {
     label.setAttribute('for', 'checkboxTwoInput');
 
     var isChecked = currentHighlightedObject.getAttribute('seconds');
-    if (isChecked == 'true') {
+    if (isChecked == 'true') { //make the checkbox checked depending on the objects property.
         checkbox.setAttribute('checked', 'checked');
     }
     secondChooserDivText.innerHTML = getText('show-seconds');
@@ -155,9 +167,19 @@ function showSecondsChooser() {
     secondChooserDiv.style.display = 'inline-block';
 }
 
-var lang = getParameterByName("lang");
+var lang = getParameterByName("lang"); //initiate a language parameter
+
+/*
+This function creates a date-object. It uses the same attributes as the temperature object.
+ */
+/*
+The creation of the date object is taken from http://www.elated.com/articles/creating-a-javascript-clock/
+ */
 function createDateObject (topPosition, leftPosition, divId, objectStyle, objectTime, objectWidth, objectHeight, objectFont) {
     var today = new Date();
+    /*
+    Create arrays for both swedish and english months and days so that depending on the chosen language display different names.
+     */
     var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     var sweMonths = ['Januari', 'Februari', 'Mars', 'April', 'Maj', 'Juni', 'Juli', 'Augusti', 'September', 'Oktober', 'November', 'December'];
@@ -175,6 +197,7 @@ function createDateObject (topPosition, leftPosition, divId, objectStyle, object
         var curMonth = months[today.getMonth()];
     }
 
+    //do not create the whole object again if it is already created.
     if(document.getElementsByClassName('date')[0]) {
         var dateDiv = document.getElementsByClassName('date')[0];
         dateDiv.innerHTML = curWeekDay+", "+curDay+" "+curMonth+" "+curYear;
@@ -182,7 +205,6 @@ function createDateObject (topPosition, leftPosition, divId, objectStyle, object
 
     }
     else {
-
         var dateDiv = document.createElement('div');
         dateDiv.style.color = 'white';
         dateDiv.setAttribute('id', divId);
@@ -232,15 +254,15 @@ function createDateObject (topPosition, leftPosition, divId, objectStyle, object
         document.getElementsByClassName('middle-side')[0].appendChild(dateDiv);
 
         var functionCaller = arguments.callee.caller.name;
+
+        //Add the action to the undo array if it was added from the left side
         if (functionCaller == "drop") {
-            console.log("if");
             addToUndoArray(dateDiv.id, "addObject", topPosition, leftPosition, dateDiv.getAttribute('object-style'), objectTime, dateDiv.getAttribute('object-width'), dateDiv.getAttribute('object-height'),dateDiv.getAttribute('object-font'), "noMessage");
         }
 
-      //  weatherStyleToCss(divId, topPosition, leftPosition, dateDiv.getAttribute('object-style'), "no-time", dateDiv.getAttribute('object-width'), dateDiv.getAttribute('object-height'),dateDiv.getAttribute('object-font'));
-
     }
 
+    //create a timer that updates the date every minute.
     dateTimer = setTimeout(function() {createDateObject(dateDiv.getAttribute('top'),dateDiv.getAttribute('left'),dateDiv.id,dateDiv.getAttribute('object-style'),"no-time",dateDiv.getAttribute('object-width'),dateDiv.getAttribute('object-height'),dateDiv.getAttribute('object-font')) }, 60000);
 
 }

@@ -1,4 +1,8 @@
-//initialize all the different arrays that will be used
+/*
+This file handles all the undo-redo actions that a user can perform and that the arrays are constantly updated depending on a user's actions.
+ */
+
+//initialize all the different arrays that will be used by the file
 var undoIdArray = [];
 var undoActionArray = [];
 var undoTopArray = [];
@@ -22,7 +26,7 @@ var redoFontArray = [];
 var redoMessageArray = [];
 var redoSecondsArray = [];
 
-//This function is called to add the latest action to the undo array
+//This function is called to add the latest action to the different arrays so that we thereafter update the whole undoarray.
 function addToUndoArray(objectId, objectAction, topPosition, leftPosition, objectStyle, objectTime, objectWidth, objectHeight, objectFont, objectMessage, objectSeconds) {
     undoIdArray.push(objectId);
     undoActionArray.push(objectAction);
@@ -41,7 +45,7 @@ function addToUndoArray(objectId, objectAction, topPosition, leftPosition, objec
 
 //This function is called when the undo-button is pressed and it gets the last index of the undo array and its action so that they can be used to undo the latest action
 function checkLatestUndoAction() {
-    if (undoArray.length == 0 || undoArray[0].length == 0) {
+    if (undoArray.length == 0 || undoArray[0].length == 0) { //if the undo array is empty then animate an error message to the user
         var userMessageDiv = document.getElementsByClassName('user-message-div')[0];
         userMessageDiv.innerHTML = getText('empty-undo');
 
@@ -69,7 +73,7 @@ function checkLatestUndoAction() {
 }
 
 /*
- This function checks the latest user action and then generates the correct undo action.
+ This function checks the latest user action and then generates and performs the correct undo action.
  */
 function completeUndo(lastIndex, latestAction) {
     if (latestAction == "addObject") { //if the latest action was to add an object remove the same object.
@@ -80,7 +84,7 @@ function completeUndo(lastIndex, latestAction) {
         deleteObject(undoArray[0][lastIndex]);
     }
 
-    else if (latestAction == "deleteObject") {
+    else if (latestAction == "deleteObject") { //if the latest action was to delete an object add the object.
         addToRedoArray(undoArray[0][lastIndex], undoArray[1][lastIndex], undoArray[2][lastIndex], undoArray[3][lastIndex], undoArray[4][lastIndex], undoArray[5][lastIndex], undoArray[6][lastIndex], undoArray[7][lastIndex], undoArray[8][lastIndex], undoArray[9][lastIndex]);
 
         var currentObjectStyle = undoArray[4][lastIndex]; //have to know what kind of object it is so that the correct function is called.
@@ -102,27 +106,27 @@ function completeUndo(lastIndex, latestAction) {
         }
     }
 
-    else if (latestAction == "movedObject") {
+    else if (latestAction == "movedObject") { //move back the object to the previous position
         moveBackObject(undoArray[2][lastIndex], undoArray[3][lastIndex], undoArray[0][lastIndex]);
     }
 
-    else if (latestAction == "resizedObject") {
+    else if (latestAction == "resizedObject") { //resize object to the previous size
         resizeObject(undoArray[0][lastIndex], undoArray[6][lastIndex], undoArray[7][lastIndex]);
     }
 
-    else if (latestAction == "changedFont") {
+    else if (latestAction == "changedFont") { //change the font
         changeBackFont(undoArray[0][lastIndex], undoArray[8][lastIndex])
     }
 
-    else if (latestAction == "changeTime" ) {
+    else if (latestAction == "changeTime" ) { //change the time period for the specific object
         changeBackTime(undoArray[0][lastIndex], undoArray[5][lastIndex])
     }
 
-    else if (latestAction == "changeText") {
+    else if (latestAction == "changeText") { //change the written text in a text message
         changeTextBack(undoArray[0][lastIndex], undoArray[9][lastIndex])
     }
 
-    else if (latestAction == "changeSeconds") {
+    else if (latestAction == "changeSeconds") { //remove or add the seconds to a time object.
         changeSecondsBack(undoArray[0][lastIndex], undoArray[10][lastIndex]);
     }
 
@@ -268,6 +272,9 @@ function updateUndoArray() {
     undoArray[10] = undoSecondsArray;
 }
 
+/*
+This function is called from the different undo actions so that the reverse action is stored in a redo array.
+ */
 function addToRedoArray(objectId, objectAction, topPosition, leftPosition, objectStyle, objectTime, objectWidth, objectHeight, objectFont, objectMessage, objectSeconds) {
     redoIdArray.push(objectId);
     redoActionArray.push(objectAction);
@@ -290,7 +297,7 @@ function checkLatestRedoAction() {
         var userMessageDiv = document.getElementsByClassName('user-message-div')[0];
         userMessageDiv.innerHTML = getText('empty-redo');
 
-        anime({
+        anime({ //animate an error message if the array is empty
             targets: userMessageDiv,
             opacity: 1,
             easing: 'easeInOutQuart',
@@ -314,7 +321,7 @@ function checkLatestRedoAction() {
 }
 
 /*
-This function checks the latest user action and then generates the correct redo action.
+This function checks the latest user action and then generates the correct redo action. It behaves the opposite with the actions than the undo-counterpart.
  */
 function completeRedoAction(lastIndex, latestAction) {
 
@@ -397,14 +404,3 @@ function updateRedoArray() {
     console.log(redoArray);
 }
 
-/*
-Because we will have to find the index of a specific object many times in our code it is easier
-to just call a function that returns the sought after index.
- */
-function getIndexOfCurrentObject(objectId) {
-    for (var i = 0; i < objectIdArray.length; i++) {
-        if (objectIdArray[i] == objectId) {
-            return i;
-        }
-    }
-}
